@@ -12,20 +12,20 @@
   <div class="momentum reveal" style="--d:.06s">
     <div>
       <div class="eyebrow" style="color:var(--ok);display:flex;align-items:center;gap:6px"><span class="pill--dot" style="color:var(--ok)"></span>Your creator momentum</div>
-      <h3>Public LinkedIn posts are being imported</h3>
+      <h3 data-live="momentum_title">Public LinkedIn posts are being imported</h3>
       <p>The profile is ready. Post history and reach will appear after the public-data job completes.</p>
     </div>
     <div>
       <div class="pct">0%<span>of published collaborations include performance data</span></div>
-      <span class="pill" style="margin-top:10px;background:#fff"><span class="spin" style="width:12px;height:12px;border:2px solid var(--blue-100);border-top-color:var(--blue);border-radius:50%;display:inline-block"></span>Import in progress</span>
+      <span class="pill" data-momentum-pill style="margin-top:10px;background:#fff"><span class="spin" style="width:12px;height:12px;border:2px solid var(--blue-100);border-top-color:var(--blue);border-radius:50%;display:inline-block"></span>Import in progress</span>
     </div>
   </div>
 
   <div class="kpis reveal" style="--d:.1s;margin-top:16px">
-    <div class="kpi is-hoverable"><div class="kpi__k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></svg>Public posts</div><div class="kpi__v">0</div><div class="kpi__s">Original LinkedIn posts found</div></div>
-    <div class="kpi is-hoverable"><div class="kpi__k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>Public post reach</div><div class="kpi__v pending-pulse">Pending</div><div class="kpi__s">Waiting for public post data</div></div>
-    <div class="kpi is-hoverable"><div class="kpi__k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5M4 15l4-4 3 3 6-7"/></svg>Public engagements</div><div class="kpi__v">0</div><div class="kpi__s">Reactions, comments and reposts</div></div>
-    <div class="kpi is-hoverable"><div class="kpi__k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M17 11a3 3 0 1 0-2-5"/></svg>LinkedIn followers</div><div class="kpi__v pending-pulse">Pending</div><div class="kpi__s">Imported from the public profile</div></div>
+    <div class="kpi is-hoverable"><div class="kpi__k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></svg>Public posts</div><div class="kpi__v" data-live="posts">0</div><div class="kpi__s">Original LinkedIn posts found</div></div>
+    <div class="kpi is-hoverable"><div class="kpi__k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>Public post reach</div><div class="kpi__v pending-pulse" data-live="reach" data-live-sub="Estimated from recent public posts">Pending</div><div class="kpi__s">Waiting for public post data</div></div>
+    <div class="kpi is-hoverable"><div class="kpi__k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5M4 15l4-4 3 3 6-7"/></svg>Public engagements</div><div class="kpi__v" data-live="engagements">0</div><div class="kpi__s">Reactions, comments and reposts</div></div>
+    <div class="kpi is-hoverable"><div class="kpi__k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M17 11a3 3 0 1 0-2-5"/></svg>LinkedIn followers</div><div class="kpi__v pending-pulse" data-live="followers">Pending</div><div class="kpi__s">Imported from the public profile</div></div>
   </div>
 
   <div class="grid-2 reveal" style="--d:.16s;margin-top:16px">
@@ -39,10 +39,10 @@
     <div class="card">
       <div class="card__head"><div><div class="section-title">Your opportunity journey</div><div class="section-sub">From applications to completed work.</div></div></div>
       <div class="stat-list">
-        <div><span>LinkedIn followers</span><b>0</b></div>
-        <div><span>Public posts</span><b>0</b></div>
-        <div><span>Posts with reach data</span><b>0</b></div>
-        <div><span>Public engagements</span><b>0</b></div>
+        <div><span>LinkedIn followers</span><b data-live="followers">0</b></div>
+        <div><span>Public posts</span><b data-live="posts">0</b></div>
+        <div><span>Posts with reach data</span><b data-live="posts_with_reach">0</b></div>
+        <div><span>Public engagements</span><b data-live="engagements">0</b></div>
       </div>
     </div>
   </div>

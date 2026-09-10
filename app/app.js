@@ -127,6 +127,44 @@
     el.innerHTML = map[t] || map.blank;
   });
 
+  /* ---- fill live metrics on the workspace pages ([data-live]) ---- */
+  if (LIVE) {
+    const niceN = (n) => {
+      n = Math.round(n);
+      if (n >= 1e6) return (n / 1e6).toFixed(n % 1e6 ? 1 : 0) + "M";
+      if (n >= 1e3) return (n / 1e3).toFixed(n % 1e3 >= 100 ? 1 : 0) + "K";
+      return "" + n;
+    };
+    const r = LIVE.raw?.linkedin || {};
+    const posts = r.posts || [];
+    const der = r.score?.derived || {};
+    const nPosts = posts.length || der.num_posts_counted || 0;
+    const reactions = der.total_likes != null ? der.total_likes : posts.reduce((a, p) => a + (p.likes || 0), 0);
+    const comments = posts.reduce((a, p) => a + (p.comments || 0), 0);
+    const engagements = reactions + comments;
+    const reach = LIVE.typical_impressions_per_post != null ? Math.round(LIVE.typical_impressions_per_post * Math.max(nPosts, 1)) : null;
+    const M = {
+      followers: LIVE.followers != null ? LIVE.followers_display : null,
+      posts: nPosts ? String(nPosts) : null,
+      engagements: engagements ? niceN(engagements) : (nPosts ? "0" : null),
+      reach: reach != null ? niceN(reach) : null,
+      posts_with_reach: nPosts ? String(nPosts) : "0",
+      connections: LIVE.connections != null ? niceN(LIVE.connections) : null,
+      score: LIVE.presence_score != null ? LIVE.presence_score + " / 100" : null,
+      momentum_title: "Public profile analyzed" + (LIVE.grade ? ` — presence ${LIVE.presence_score}/100 (${LIVE.grade})` : ""),
+    };
+    $$("[data-live]").forEach((el) => {
+      const v = M[el.dataset.live];
+      if (v == null) return;
+      el.textContent = v;
+      el.classList.remove("pending-pulse", "is-loading");
+      const sub = el.dataset.liveSub, kpiS = el.closest(".kpi")?.querySelector(".kpi__s");
+      if (sub && kpiS) kpiS.textContent = sub;
+    });
+    const mp = $("[data-momentum-pill]");
+    if (mp) mp.innerHTML = '<span class="pill--dot" style="color:var(--ok)"></span>Analyzed';
+  }
+
   /* ---- password show/hide ---------------------------------------- */
   $$(".pw__toggle").forEach((btn) => {
     const inp = btn.parentElement.querySelector("input[type=password],input[type=text]");
