@@ -1,0 +1,31 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Messages — Naano</title>
+<link rel="icon" href="https://naano.com/lp/naano-logo-nav.png"><link rel="stylesheet" href="app.css">
+</head><body>
+<main class="page" data-page="messages.html">
+  <div class="page__head reveal"><h1>Messages</h1><p>Select a conversation</p></div>
+
+  <div class="msg reveal" style="--d:.06s">
+    <div class="msg__list">
+      <input class="msg__search" placeholder="Search conversations">
+      <div class="msg__conv is-on">
+        <span class="avatar ai" style="background:#101116"><svg viewBox="0 0 32 32" width="16"><path d="M3 20 15 5l3 7-10 12z" fill="#fff"/><path d="M14 22 24 9l5 13z" fill="#fff"/></svg></span>
+        <div style="flex:1"><div style="display:flex;justify-content:space-between"><b>NaanoBot</b><span>Now</span></div>
+          <span>A question or need help? Start here.</span></div>
+        <span class="badge-count" style="background:var(--blue);color:#fff;align-self:center">1</span>
+      </div>
+      <p class="msg__hint">No conversations yet — the thread opens with your first Booking.</p>
+    </div>
+    <div class="msg__pane">
+      <div class="msg__panehead"><b>Messages</b><span>Select a conversation</span></div>
+      <div class="msg__body">No conversations yet.</div>
+      <div class="msg__compose">
+        <input placeholder="Write a message…">
+        <button aria-label="Send"><svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4z"/></svg></button>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="app.js"></script>
+</body></html>

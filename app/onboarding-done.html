@@ -1,0 +1,29 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Here is your Marketplace card — Naano</title>
+<link rel="icon" href="https://naano.com/lp/naano-logo-nav.png"><link rel="stylesheet" href="app.css">
+<style>
+  .reveal-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:60px 20px;background:linear-gradient(180deg,#fff,var(--bg-2));text-align:center}
+  .reveal-wrap h1{font-size:30px;font-weight:800;color:var(--ink);letter-spacing:-.02em}
+  .reveal-wrap>p{color:var(--muted);max-width:420px;margin:8px 0 30px}
+  .reveal-wrap .btn{margin-top:34px;width:min(360px,90vw)}
+  .flip-hint{margin-top:12px;font-size:12px;color:var(--faint)}
+</style>
+</head><body>
+<div class="reveal-wrap">
+  <h1 class="reveal">Here is your Marketplace card</h1>
+  <p class="reveal" style="--d:.06s">Tap it to flip it over. You will be able to customize it in the profile coming next.</p>
+
+  <div class="mcard-flip float" data-flip role="button" tabindex="0" aria-label="Flip card">
+    <div class="mcard-flip__inner">
+      <div class="mcard-flip__face" data-mcard="final"></div>
+      <div class="mcard-flip__face mcard-flip__face--back" data-mcard="perf"></div>
+    </div>
+  </div>
+  <div class="flip-hint reveal" style="--d:.2s">Tap to flip</div>
+
+  <button class="btn btn--primary reveal" style="--d:.26s" onclick="location.href='overview.html?tour=1'">Continue to my profile</button>
+</div>
+<script src="app.js"></script>
+</body></html>

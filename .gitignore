@@ -1,0 +1,11 @@
+node_modules/
+.vercel
+.env
+.env.local
+.env*.local
+*.log
+.DS_Store
+Thumbs.db
+
+# 77 MB of extracted walkthrough frames — regenerate with scripts/extract-frames.py
+docs/frames/

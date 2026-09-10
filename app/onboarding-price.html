@@ -1,0 +1,47 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Set your price per post — Step 4 of 4</title>
+<link rel="icon" href="https://naano.com/lp/naano-logo-nav.png"><link rel="stylesheet" href="app.css">
+</head><body>
+<main class="onb">
+  <section class="onb__side">
+    <div class="auth__top">
+      <a href="../index.html" aria-label="Naano home"><svg viewBox="0 0 32 32" width="30" height="30"><path d="M3 20 15 5l3 7-10 12z" fill="#101116"/><path d="M14 22 24 9l5 13z" fill="#101116"/><circle cx="12" cy="23" r="2.4" fill="#2d61f5"/></svg></a>
+      <span class="auth__lang"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>EN</span>
+    </div>
+    <div class="onb__form">
+      <a class="onb-back reveal" href="onboarding-card.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>Edit my industries</a>
+      <div class="step-label reveal" style="--d:.04s">STEP 4 OF 4</div>
+      <h1 class="reveal" style="--d:.08s">Complete your creator card</h1>
+
+      <div class="price-set reveal" style="--d:.12s;margin-top:16px">
+        <div class="eyebrow">Set your price per post</div>
+        <p>We do not have enough data yet to make a reliable recommendation. Choose the rate that works for you.</p>
+        <div class="price-set__val">€<span id="p">240</span> <small>/ post</small></div>
+        <div style="display:flex;gap:8px;justify-content:center;margin-top:14px">
+          <button class="btn btn--ghost btn--sm" onclick="step(-20)">−</button>
+          <button class="btn btn--ghost btn--sm" onclick="step(20)">+</button>
+        </div>
+      </div>
+      <p class="field__help reveal" style="--d:.16s;margin-top:10px">This is your net price per post. You can change it at any time from your Naano profile.</p>
+
+      <div class="onb-cta reveal" style="--d:.2s">
+        <button class="btn btn--primary btn--block" onclick="location.href='onboarding-professional.html'">Create my marketplace profile</button>
+        <button class="btn btn--ghost btn--block">Add a bundle (optional)</button>
+      </div>
+    </div>
+  </section>
+  <aside class="onb__aside">
+    <div class="eyebrow eyebrow--blue">Your Marketplace card</div>
+    <h2>Build a card brands can trust.</h2>
+    <p>It updates live with your profile, analytics, positioning and price.</p>
+    <div class="float" data-mcard="priced"></div>
+  </aside>
+</main>
+<script src="app.js"></script>
+<script>
+  var price = 240;
+  function step(d){ price = Math.max(20, price + d); document.getElementById("p").textContent = price;
+    var c = document.querySelector('[data-mcard] .mcard__stat:last-child b'); if (c) c.textContent = "€" + price; }
+</script>
+</body></html>

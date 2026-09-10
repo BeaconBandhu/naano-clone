@@ -1,0 +1,11 @@
+{
+  "name": "naano-clone",
+  "private": true,
+  "type": "module",
+  "description": "High-fidelity Naano clone — marketing site + creator app + LinkedIn/X scrape → Marketplace card.",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "dev": "node server/serve.mjs",
+    "serve": "node server/serve.mjs"
+  }
+}

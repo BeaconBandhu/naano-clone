@@ -1,0 +1,63 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Marketplace — Naano</title>
+<link rel="icon" href="https://naano.com/lp/naano-logo-nav.png"><link rel="stylesheet" href="app.css">
+<style>
+  body{background:linear-gradient(180deg,#dbeafe,#eef4ff 40%,var(--bg))}
+  .mp-wrap{padding:28px clamp(16px,4vw,54px) 80px}
+  .mp-top{display:flex;align-items:center;gap:10px;margin-bottom:18px;font-weight:800;color:var(--ink)}
+  .mp-body{display:grid;grid-template-columns:60px 1fr}
+</style>
+</head><body>
+<div class="mp-wrap">
+  <div class="mp-top reveal"><svg viewBox="0 0 32 32" width="26"><path d="M3 20 15 5l3 7-10 12z" fill="#101116"/><path d="M14 22 24 9l5 13z" fill="#101116"/><circle cx="12" cy="23" r="2.4" fill="#2d61f5"/></svg>naano</div>
+
+  <div class="mp-frame reveal" style="--d:.06s">
+    <div class="mp-urlbar">
+      <span class="dots"><i></i><i></i><i></i></span>
+      <span class="url"><svg viewBox="0 0 24 24" width="12" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> naano.co/marketplace</span>
+    </div>
+    <div class="mp-body">
+      <nav class="mp-rail">
+        <a href="overview.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/></svg></a>
+        <a href="#" class="is-on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 9h18l-1.5 10.5a2 2 0 0 1-2 1.5H6.5a2 2 0 0 1-2-1.5zM3 9l2-5h14l2 5"/></svg></a>
+        <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M8.6 3.6 5 5v6c0 5 3.5 7.5 7 8.4 3.5-.9 7-3.4 7-8.4V5l-3.6-1.4a6 6 0 0 0-4.8 0z"/></svg></a>
+        <a href="collaborations.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="m12 3 9 5-9 5-9-5zM3 13l9 5 9-5"/></svg></a>
+        <a href="messages.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M21 12a8 8 0 0 1-11.3 7.3L3 21l1.7-6.7A8 8 0 1 1 21 12z"/></svg></a>
+        <a href="card.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="12" r="2"/><path d="M13 10h5M13 14h5"/></svg></a>
+      </nav>
+      <div class="mp-grid" id="grid"></div>
+    </div>
+  </div>
+</div>
+<script src="app.js"></script>
+<script>
+  var CR=[
+    ["1","Aymane Junior","AI · SaaS","Germany","🇩🇪","Building intelligent systems that turn data into impact. Turning complex problems into smart…",97,"14.1K","18.7K","€360",0],
+    ["2","Emma Guetta","AI · Media / Content","France","🇫🇷","",96,"7.8K","25.6K","€480",0],
+    ["3","Augustin Rudigoz","Productivity · Fintech","France","🇫🇷","Entrepreneurs, opérateurs investisseurs. Reprise de PME françaises aux côtés de leur…",92,"14K","11.2K","€960",0],
+    ["4","Raghav Jerath","Growth / GTM · Software","France","🇫🇷","International Business School graduate, experience working at a YC company, AI/…",90,"2.4K","2.1K","€84",0],
+    ["5","Daniel Meisen","Growth / GTM · Agencies / Consulting","Germany","🇩🇪","",89,"5.9K","2.8K","€120",0],
+    ["6","Pierre Davadan","SaaS · AI","France","🇫🇷","VC Analyst Open CNP",89,"4.2K","2.2K","€84",1]
+  ];
+  var C=["#2d61f5","#ec1e63","#1f8f5f","#7a4dd6","#e8951f","#0a66c2"];
+  document.getElementById("grid").innerHTML=CR.map(function(c,i){var ini=c[1].split(" ").map(function(w){return w[0]}).join("");
+  return '<article class="mp-card reveal-scroll">'+
+    '<div class="mp-card__top">'+
+      '<span class="mp-card__num">'+c[0]+'</span>'+
+      '<span class="mp-card__pick"></span>'+
+      '<span class="mp-card__book"><span class="btn btn--ghost">Book</span>'+
+        '<span class="mp-card__star '+(c[10]?'on':'')+'"><svg viewBox="0 0 24 24" width="14" fill="currentColor"><path d="m12 3 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 18l-5.9 3 1.2-6.5L2.5 9.9 9 9z"/></svg></span>'+
+      '</span>'+
+    '</div>'+
+    '<div class="mp-card__body">'+
+      '<span class="mp-av ai" style="background:'+C[i%C.length]+';color:#fff;font-weight:800">'+ini+'</span>'+
+      '<div class="mp-card__name">'+c[1]+'</div>'+
+      '<div class="mp-card__cat">'+c[2]+'</div>'+
+      '<span class="flag-chip">'+c[4]+' '+c[3]+'</span>'+
+      '<p class="mp-card__bio">'+(c[5]||'&nbsp;')+'</p>'+
+      '<div class="mp-match"><span>MATCHING</span><span class="bar"><i style="width:'+c[6]+'%"></i></span><b>'+c[6]+'/100</b></div>'+
+      '<div class="mp-card__stats"><div><b>'+c[7]+'</b><span>Followers</span></div><div><b>'+c[8]+'</b><span>Median views</span></div><div><b>'+c[9]+'</b><span>Post cost</span></div></div>'+
+    '</div></article>'}).join("");
+</script>
+</body></html>

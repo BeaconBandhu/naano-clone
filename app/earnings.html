@@ -1,0 +1,74 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Earnings — Naano</title>
+<link rel="icon" href="https://naano.com/lp/naano-logo-nav.png"><link rel="stylesheet" href="app.css">
+</head><body>
+<main class="page" data-page="earnings.html">
+  <div class="page__head page__head--row reveal">
+    <div><h1>Earnings</h1><p>Track revenue from your paid collaborations and withdraw available funds.</p></div>
+    <span class="pill pill--dot" style="color:var(--blue)">Paid collaborations</span>
+  </div>
+
+  <div class="kpis reveal" style="--d:.06s;grid-template-columns:repeat(3,1fr)">
+    <div class="kpi is-hoverable" style="background:linear-gradient(120deg,#eef4ff,#f8fbff)">
+      <div class="kpi__k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5M4 15l4-4 3 3 6-7"/></svg>Total earned</div>
+      <div class="kpi__v">€0</div><div class="kpi__s">0 paid collaborations · €0 average</div>
+    </div>
+    <div class="kpi is-hoverable"><div class="kpi__k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h10l-3-3M17 17H7l3 3"/></svg>In transit</div>
+      <div class="kpi__v">€0</div><div class="kpi__s">International transfers usually arrive within 1–7 days, depending on the destination and banking network.</div></div>
+    <div class="kpi is-hoverable"><div class="kpi__k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>Available now</div>
+      <div class="kpi__v">€0</div><div class="kpi__s">Ready to withdraw to your selected payout method.</div></div>
+  </div>
+
+  <div class="grid-2 grid-2--lr reveal" style="--d:.1s;margin-top:18px">
+    <div class="panel">
+      <div class="card__head"><div><div class="section-title">Earnings over time</div><div class="section-sub">Net collaboration earnings from the last six months.</div></div><span class="section-sub">€0 over 6 months</span></div>
+      <div class="earn-chart">
+        <div class="col"><em>€0</em><i></i><span>Apr</span></div>
+        <div class="col"><em>€0</em><i></i><span>May</span></div>
+        <div class="col"><em>€0</em><i></i><span>Jun</span></div>
+        <div class="col"><em>€0</em><i></i><span>Jul</span></div>
+        <div class="col"><em>€0</em><i></i><span>Aug</span></div>
+        <div class="col"><em>€0</em><i></i><span>Sept</span></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="card__head"><div><div class="section-title">Withdraw earnings</div><div class="section-sub">Choose where your available balance should be sent.</div></div></div>
+      <div class="field__label">Payout method</div>
+      <div class="stack" style="gap:10px" data-radio-group>
+        <label class="payout-method" data-radio="bank">
+          <b><svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M4 10h16M12 3 3 8h18zM6 10v11M10 10v11M14 10v11M18 10v11"/></svg>Bank transfer</b>
+          <p>No account holder on file · No bank details on file</p>
+          <span class="btn btn--ghost btn--sm">Edit</span>
+        </label>
+        <label class="payout-method is-on" data-radio="stripe">
+          <b><svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>Stripe</b>
+          <p>Status: Not connected · Instant transfer to your connected Stripe account.</p>
+          <span class="btn btn--ghost btn--sm">Connect Stripe</span>
+        </label>
+      </div>
+      <div style="display:flex;gap:8px;margin:14px 0 10px">
+        <input class="input" placeholder="€  Amount">
+        <button class="btn btn--ghost">Withdraw all</button>
+      </div>
+      <button class="btn btn--primary btn--block is-disabled">Confirm withdrawal</button>
+      <div class="banner banner--info" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 10h8M8 14h5"/></svg><div class="banner__body">No earnings are currently waiting for release.</div></div>
+    </div>
+  </div>
+
+  <div class="panel reveal" style="--d:.16s;margin-top:18px">
+    <div class="card__head"><div><div class="section-title">Recent activity</div><div class="section-sub">Collaboration earnings, withdrawals and invoices in one place.</div></div></div>
+    <div class="tabs" data-tabs>
+      <button class="tab is-on" data-tab="a">Earnings and withdrawals</button>
+      <button class="tab" data-tab="b">Awaiting release <span class="badge-count">0</span></button>
+      <button class="tab" data-tab="c">Invoices <span class="badge-count">0</span></button>
+    </div>
+    <table class="table" style="margin-top:6px">
+      <thead><tr><th>Date</th><th>Type</th><th>Detail</th><th>Amount</th><th>Status</th><th>Invoice</th></tr></thead>
+      <tbody><tr><td class="table__empty" colspan="6">No movements yet. Your first payment will appear here.</td></tr></tbody>
+    </table>
+  </div>
+</main>
+<script src="app.js"></script>
+</body></html>

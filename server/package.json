@@ -1,0 +1,9 @@
+{
+  "name": "naano-clone-server",
+  "private": true,
+  "type": "module",
+  "description": "Local dev server for the Naano clone — static hosting + /api/evaluate (LinkedIn + X scrape → Marketplace card).",
+  "scripts": {
+    "serve": "node serve.mjs"
+  }
+}

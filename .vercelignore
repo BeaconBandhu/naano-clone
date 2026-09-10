@@ -1,0 +1,6 @@
+# kept in the repo, not needed in the deployment
+docs/
+scripts/
+server/
+.claude/
+*.mp4

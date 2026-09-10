@@ -1,0 +1,79 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Complete your creator card — Step 3 of 4</title>
+<link rel="icon" href="https://naano.com/lp/naano-logo-nav.png"><link rel="stylesheet" href="app.css">
+</head><body>
+<main class="onb">
+  <section class="onb__side">
+    <div class="auth__top">
+      <a href="../index.html" aria-label="Naano home"><svg viewBox="0 0 32 32" width="30" height="30"><path d="M3 20 15 5l3 7-10 12z" fill="#101116"/><path d="M14 22 24 9l5 13z" fill="#101116"/><circle cx="12" cy="23" r="2.4" fill="#2d61f5"/></svg></a>
+      <span class="auth__lang"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>EN</span>
+    </div>
+    <div class="onb__form">
+      <div class="step-label reveal">STEP 3 OF 4</div>
+      <h1 class="reveal" style="--d:.04s">Complete your creator card</h1>
+
+      <div class="banner banner--warn reveal" style="--d:.08s;margin:14px 0 20px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 2 18a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+        <div class="banner__body"><b>LinkedIn import is temporarily paused.</b>You can continue with a Basic card.
+          <a class="btn btn--ghost btn--sm" href="onboarding-linkedin.html">Check the URL and try again</a></div>
+      </div>
+
+      <div class="reveal" style="--d:.12s">
+        <div class="field">
+          <span class="field__label">Your country</span>
+          <p class="field__help" style="margin:0 0 7px">Confirm your country before continuing.</p>
+          <select class="select" id="country">
+            <option value="">Select your country</option>
+            <option>India</option><option>United States</option><option>United Kingdom</option>
+            <option>France</option><option>Germany</option><option>Canada</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <span class="field__label">Your industries <span style="text-transform:none;font-weight:600;color:var(--faint)">(pick up to 3)</span></span>
+          <p class="field__help" style="margin:0 0 10px">Choose up to 3 industries to help relevant brands find your card.</p>
+          <div class="chips" data-chips data-max="3" id="inds">
+            <button type="button" class="chip">B2B</button><button type="button" class="chip">B2C</button>
+            <button type="button" class="chip">AI</button><button type="button" class="chip">SaaS</button>
+            <button type="button" class="chip">Software</button><button type="button" class="chip">Sales</button>
+            <button type="button" class="chip">Marketing</button><button type="button" class="chip">SEO</button>
+            <button type="button" class="chip">Outreach</button><button type="button" class="chip">CRM</button>
+            <button type="button" class="chip">Creative</button><button type="button" class="chip">Productivity</button>
+            <button type="button" class="chip">Fintech</button><button type="button" class="chip">HealthTech</button>
+            <button type="button" class="chip">EdTech</button><button type="button" class="chip">Cybersecurity</button>
+            <button type="button" class="chip">Growth / GTM</button><button type="button" class="chip">HR</button>
+            <button type="button" class="chip">E-commerce</button><button type="button" class="chip">Developer Tools</button>
+            <button type="button" class="chip">Data / Analytics</button><button type="button" class="chip">Customer Support</button>
+            <button type="button" class="chip">Design</button><button type="button" class="chip">Real Estate / PropTech</button>
+            <button type="button" class="chip">LegalTech</button>
+          </div>
+        </div>
+
+        <p class="field__err" id="gate">Select your country and at least one industry to continue.</p>
+        <button class="btn btn--primary btn--block is-disabled" id="cont" onclick="location.href='onboarding-price.html'">Continue</button>
+      </div>
+    </div>
+  </section>
+  <aside class="onb__aside">
+    <div class="eyebrow eyebrow--blue">Your Marketplace card</div>
+    <h2>Build a card brands can trust.</h2>
+    <p>It updates live with your profile, analytics, positioning and price.</p>
+    <div class="float" data-mcard="perf"></div>
+  </aside>
+</main>
+<script src="app.js"></script>
+<script>
+  (function () {
+    var c = document.getElementById("country"), inds = document.getElementById("inds"),
+        cont = document.getElementById("cont"), gate = document.getElementById("gate");
+    function check() {
+      var ok = c.value && inds.querySelectorAll(".chip.is-on").length > 0;
+      cont.classList.toggle("is-disabled", !ok);
+      gate.hidden = ok;
+    }
+    c.addEventListener("change", check);
+    inds.addEventListener("chipchange", check);
+  })();
+</script>
+</body></html>

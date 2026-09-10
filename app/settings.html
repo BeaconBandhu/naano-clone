@@ -1,0 +1,43 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Settings — Naano</title>
+<link rel="icon" href="https://naano.com/lp/naano-logo-nav.png"><link rel="stylesheet" href="app.css">
+</head><body>
+<main class="page" data-page="settings.html">
+  <div class="page__head reveal"><h1>Settings</h1><p>Manage your account, profile data and payout preferences.</p></div>
+
+  <div class="stack reveal" style="--d:.06s;max-width:720px">
+    <div class="panel">
+      <div class="section-title" style="margin-bottom:14px">Profile</div>
+      <label class="field"><span class="field__label">Display name</span><input class="input" value="Aranya Bandhu"></label>
+      <label class="field"><span class="field__label">Public LinkedIn profile URL</span><input class="input" value="https://www.linkedin.com/in/aranyabandhu/"></label>
+      <div class="field"><span class="field__label">Industries</span>
+        <div class="chips"><button class="chip is-on">B2B</button><button class="chip is-on t-purple">AI</button><button class="chip is-on t-green">Software</button></div></div>
+      <button class="btn btn--ghost btn--sm">Re-check my follower count</button>
+    </div>
+
+    <div class="panel">
+      <div class="section-title" style="margin-bottom:14px">Account</div>
+      <label class="field"><span class="field__label">Email</span><input class="input" value="aranyabandhu2004@gmail.com"></label>
+      <div class="field"><span class="field__label">Country</span><select class="select"><option>India</option></select></div>
+      <div class="field"><span class="field__label">Language</span>
+        <span class="lang"><button class="is-on">EN</button><button>FR</button></span></div>
+    </div>
+
+    <div class="panel">
+      <div class="section-title" style="margin-bottom:6px">Notifications</div>
+      <label class="check"><input type="checkbox" checked>Brand invitations and collaboration updates</label>
+      <label class="check"><input type="checkbox" checked>Payout and invoice activity</label>
+      <label class="check"><input type="checkbox">Community digest and product news</label>
+    </div>
+
+    <div class="panel" style="border-color:#f3d6d3">
+      <div class="section-title" style="margin-bottom:6px;color:var(--err)">Danger zone</div>
+      <p class="section-sub" style="margin-bottom:12px">Pause your Marketplace card or delete your account.</p>
+      <div class="btn-row"><button class="btn btn--ghost btn--sm">Pause my card</button><button class="btn btn--ghost btn--sm" style="color:var(--err);border-color:#f0c9c6">Delete account</button></div>
+    </div>
+    <p class="section-sub">Full Settings layout not shown in the walkthrough — this is a faithful placeholder (see docs/naano-notes.md §5 CRW-10).</p>
+  </div>
+</main>
+<script src="app.js"></script>
+</body></html>
