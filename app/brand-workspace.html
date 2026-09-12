@@ -1,0 +1,45 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brand workspace — Naano</title>
+<link rel="icon" href="https://naano.com/lp/naano-logo-nav.png"><link rel="stylesheet" href="app.css">
+</head><body>
+<main class="page" style="max-width:640px;margin:0 auto;padding:60px 20px">
+  <div class="page__head">
+    <div class="page__eyebrow">Brand workspace</div>
+    <h1 id="hi">You're set up.</h1>
+    <p>The full brand dashboard (AI creator matching, the marketplace grid, campaigns, collaborations) isn't built in this clone yet — it's tracked as open work in <code>docs/naano-notes.md</code>, not faked here. What's actually wired up:</p>
+  </div>
+
+  <div class="card" style="margin-top:8px">
+    <div class="brand-profile" id="profile-block" hidden>
+      <img id="rv-logo" alt="">
+      <div><h3 id="rv-name"></h3><p id="rv-domain" class="u-muted"></p></div>
+    </div>
+    <p class="u-muted" style="font-size:13px" id="no-profile">No brand profile in this session yet — go back and analyze a website first.</p>
+    <div class="btn-row" style="margin-top:14px">
+      <a class="btn btn--primary" href="billing.html">Go to Billing →</a>
+      <a class="btn btn--ghost" href="onboarding-company-website.html">Re-run brand onboarding</a>
+    </div>
+  </div>
+
+  <div class="banner banner--info" style="margin-top:16px">
+    <div class="banner__body"><b>Why this page exists</b>Without it, "Continue to AI Matching" had nowhere real to go and was landing on <code>marketplace.html</code> — a creator-facing mockup ("here's your card in the marketplace"), not a brand page. That looked like the two dashboards were merged. This is an honest placeholder instead.</div>
+  </div>
+</main>
+<script>
+(() => {
+  try {
+    const p = JSON.parse(sessionStorage.getItem("naano_brand_profile") || "null");
+    if (p) {
+      document.getElementById("profile-block").hidden = false;
+      document.getElementById("no-profile").hidden = true;
+      document.getElementById("hi").textContent = `You're set up, ${p.name || "there"}.`;
+      document.getElementById("rv-logo").src = p.logo || "";
+      document.getElementById("rv-logo").onerror = () => { document.getElementById("rv-logo").style.visibility = "hidden"; };
+      document.getElementById("rv-name").textContent = p.name || p.domain || "";
+      document.getElementById("rv-domain").textContent = p.domain || "";
+    }
+  } catch {}
+})();
+</script>
+</body></html>
