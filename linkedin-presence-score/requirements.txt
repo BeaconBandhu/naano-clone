@@ -1,0 +1,3 @@
+# Everything this tool needs.
+apify-client>=1.7      # hosted LinkedIn scraping (no browser, no cookies)
+python-dotenv>=1.0.0   # reads APIFY_TOKEN from .env
