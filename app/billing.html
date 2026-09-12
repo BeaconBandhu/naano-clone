@@ -33,21 +33,38 @@
 <div class="modal-overlay" id="add-budget-overlay" hidden>
   <div class="modal">
     <div class="modal__head">
-      <h3 style="margin:0">Add budget</h3>
+      <span class="chip is-on" style="pointer-events:none;font-size:11px;padding:3px 9px">🔒 SECURE PAYMENT</span>
       <button class="modal__close" id="close-add-budget" aria-label="Close">×</button>
     </div>
-    <p class="u-muted" style="font-size:13px;margin:4px 0 0">Charged in test mode via Stripe Checkout (sandbox) — use card <code>4242 4242 4242 4242</code>, any future date/CVC.</p>
+    <h3 style="margin:10px 0 2px">Add budget</h3>
+    <p class="u-muted" style="font-size:13px;margin:0 0 14px">One-time deposit to your Naano balance. Use it across all campaigns — no subscription. <em>(sandbox — card <code>4242 4242 4242 4242</code>, any future date/CVC)</em></p>
+
+    <div class="field__label" style="margin-bottom:8px">Choose an amount</div>
     <div class="amount-grid" style="grid-template-columns:repeat(3,1fr)">
       <button class="chip is-on" data-plan="topup_100" data-amount="10000">€100</button>
       <button class="chip" data-plan="topup_200" data-amount="20000">€200</button>
       <button class="chip" data-plan="topup_300" data-amount="30000">€300</button>
     </div>
     <label class="field">
-      <span class="field__label">Or enter a custom amount (€) — not a saved plan, priced on the fly</span>
+      <span class="field__label">Custom amount (€)</span>
       <input class="input" id="custom-amount" type="number" min="1" step="1" placeholder="e.g. 150">
     </label>
+    <p class="u-muted" style="font-size:12px;margin:-6px 0 14px">Minimum €100 · credited right after payment</p>
+
+    <div class="wallet-head" style="border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 0;margin-bottom:14px">
+      <div><div class="u-muted" style="font-size:11px">You will credit</div><b id="will-credit">€100</b></div>
+      <div style="text-align:right"><div class="u-muted" style="font-size:11px">Current balance</div><b id="current-balance">€0</b></div>
+    </div>
+
+    <ul style="list-style:none;margin:0 0 16px;padding:0;display:flex;flex-direction:column;gap:8px;font-size:12.5px;color:var(--text)">
+      <li>💳 <b>Card payment</b> — entered only on Stripe's secure checkout (PCI DSS).</li>
+      <li>🔁 <b>No subscription</b> — funds stay in your Naano balance until used.</li>
+      <li>⏱ <b>Pay on delivery</b> — creators are charged only after the post is delivered.</li>
+    </ul>
+
     <div class="banner banner--info" id="add-budget-error" hidden></div>
-    <button class="btn btn--primary btn--block" id="go-checkout" style="margin-top:6px">Continue to payment →</button>
+    <button class="btn btn--primary btn--block" id="go-checkout">Add €100</button>
+    <p class="u-faint" style="font-size:11px;text-align:center;margin:10px 0 0">🔒 End-to-end encrypted · powered by Stripe</p>
   </div>
 </div>
 
@@ -91,9 +108,17 @@
 
   // ---- Add budget modal --------------------------------------------------
   const overlay = $("#add-budget-overlay");
-  let selectedCents = 10000;
+  const MIN_CENTS = 10000; // €100 — smallest real Price tier configured (see PRICE_CATALOG)
+  let selectedCents = MIN_CENTS;
   let selectedPlan = "topup_100"; // Stripe Price ID via PRICE_CATALOG; null once a custom amount is typed
-  $("#open-add-budget").addEventListener("click", () => { overlay.hidden = false; });
+
+  function refreshSummary() {
+    $("#will-credit").textContent = fmt(selectedCents);
+    $("#current-balance").textContent = fmt(loadWallet().balanceCents);
+    $("#go-checkout").textContent = `Add ${fmt(selectedCents)}`;
+  }
+
+  $("#open-add-budget").addEventListener("click", () => { overlay.hidden = false; refreshSummary(); });
   $("#close-add-budget").addEventListener("click", () => { overlay.hidden = true; });
   overlay.addEventListener("click", (e) => { if (e.target === overlay) overlay.hidden = true; });
 
@@ -103,19 +128,21 @@
     selectedCents = Number(chip.dataset.amount);
     selectedPlan = chip.dataset.plan;
     $("#custom-amount").value = "";
+    refreshSummary();
   }));
   $("#custom-amount").addEventListener("input", (e) => {
     $$(".amount-grid .chip").forEach((c) => c.classList.remove("is-on"));
     selectedPlan = null; // custom amounts don't match a saved Price, priced ad hoc
     const euros = Number(e.target.value);
     selectedCents = Number.isFinite(euros) && euros > 0 ? Math.round(euros * 100) : 0;
+    refreshSummary();
   });
 
   $("#go-checkout").addEventListener("click", async () => {
     const errBox = $("#add-budget-error");
     errBox.hidden = true;
-    if (!selectedCents || selectedCents < 100) {
-      errBox.textContent = "Enter an amount of at least €1.";
+    if (!selectedCents || selectedCents < MIN_CENTS) {
+      errBox.textContent = `Enter an amount of at least ${fmt(MIN_CENTS)}.`;
       errBox.hidden = false;
       return;
     }
@@ -140,7 +167,7 @@
     } catch (e) {
       errBox.textContent = e.message + " (needs STRIPE_SECRET_KEY set to a test-mode key — see .env.example)";
       errBox.hidden = false;
-      btn.disabled = false; btn.textContent = "Continue to payment →";
+      btn.disabled = false; btn.textContent = `Add ${fmt(selectedCents)}`;
     }
   });
 
