@@ -158,8 +158,8 @@ export async function scrapeX(profileUrl, postUrls) {
 }
 
 /* -------------------------------------------- evaluate → Marketplace card */
-const STOP = new Set(("a an the and or but of to in on for with as at by from is are was were be been being this that these those i my me we our you your it its their his her they he she them us not no yes do does did have has had will would can could should may might must about over under into out up down more most very just so than then also via amp rt http https com www").split(/\s+/));
-const TOPIC_MAP = [
+export const STOP = new Set(("a an the and or but of to in on for with as at by from is are was were be been being this that these those i my me we our you your it its their his her they he she them us not no yes do does did have has had will would can could should may might must about over under into out up down more most very just so than then also via amp rt http https com www").split(/\s+/));
+export const TOPIC_MAP = [
   [/\b(b2b)\b/i, "B2B"], [/\b(b2c)\b/i, "B2C"],
   [/\b(a\.?i\.?|artificial intelligence|llm|ml|machine learning|genai|agents?)\b/i, "AI"],
   [/\bsaas\b/i, "SaaS"], [/\b(software|engineer(ing)?|developer|devtools?|api)\b/i, "Software"],

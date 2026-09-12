@@ -65,8 +65,10 @@
 ### agent:marketing-polish
 - **Scope / IDs:** `index.html` + `pages/*` (`MKT-*`). Reconcile against §2 (0:00–0:54).
 
-### agent:brand-side  *(blocked — needs assets)*
-- **Scope / IDs:** `BRD-01` (marketplace grid, design #2) + everything brand. Waiting on a brand walkthrough/designs (see §8).
+### agent:brand-side  *(partially unblocked 2026-09-13)*
+- **Scope / IDs:** `BRD-01` (marketplace grid, design #2) + everything brand.
+- First brand walkthrough landed 2026-09-13 — see `docs/naano-notes.md` §7/§8. Built so far: the website-scrape onboarding step (`onboarding-company-website.html` + `api/scrape-company.mjs`) and Billing/Stripe (`billing.html` + `api/create-checkout-session.mjs` + `api/checkout-session.mjs`).
+- Still open / not built: brand Overview dashboard, campaign-launch picker, AI creator-finder chat, `All creators` grid, brand-side Collaborations, and a brand `cmp:AppShell` rail (current rail is creator-only) — re-sample the video for these before building.
 
 ## Coordination
 - **Order:** Wave 0 → Wave 1 in parallel → `agent:qa`.

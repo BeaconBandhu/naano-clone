@@ -569,3 +569,40 @@ h1,h2,h3,h4,p{margin:0}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   .reveal,.reveal-in,.auth__form>*,.mcard,.auth__promo>div{opacity:1}
 }
+
+/* brand onboarding — "Reading your brand..." checklist (agent:brand-side) */
+.brand-scan{display:flex;flex-direction:column;gap:14px;margin:28px 0}
+.brand-scan__item{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--faint)}
+.brand-scan__dot{width:20px;height:20px;flex-shrink:0;border-radius:50%;border:2px solid var(--line-2);
+  display:grid;place-items:center;transition:border-color .2s,background .2s}
+.brand-scan__item.is-active{color:var(--text)}
+.brand-scan__item.is-active .brand-scan__dot{border-color:var(--blue)}
+.brand-scan__item.is-active .brand-scan__dot::after{content:"";width:8px;height:8px;border-radius:50%;
+  background:var(--blue);animation:barSlide 1s ease-in-out infinite alternate}
+.brand-scan__item.is-done{color:var(--ink)}
+.brand-scan__item.is-done .brand-scan__dot{border-color:var(--ok,#1a9c63);background:var(--ok,#1a9c63)}
+.brand-scan__item.is-done .brand-scan__dot::after{content:"✓";color:#fff;font-size:11px;font-weight:800}
+
+/* brand profile preview — logo + editable value prop / ICP */
+.brand-profile{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px}
+.brand-profile img{width:48px;height:48px;border-radius:12px;border:1px solid var(--line-2);object-fit:cover;background:#fff}
+.brand-profile h3{margin:0 0 3px;font-size:16px}
+.brand-profile p{margin:0;font-size:13px;color:var(--muted)}
+textarea.input{resize:vertical;min-height:76px;font-family:inherit}
+.chip.chip--removable{padding-right:8px}
+.chip.chip--removable button{border:0;background:none;color:inherit;margin-left:6px;cursor:pointer;font-size:13px;line-height:1}
+
+/* simple modal overlay — Add budget */
+.modal-overlay{position:fixed;inset:0;background:rgba(16,17,22,.45);display:flex;align-items:center;
+  justify-content:center;padding:20px;z-index:80}
+.modal-overlay[hidden]{display:none}
+.modal{background:#fff;border-radius:var(--r-card,16px);padding:24px;width:100%;max-width:400px;
+  box-shadow:0 24px 60px rgba(16,17,22,.25)}
+.modal__head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.modal__close{border:0;background:none;font-size:20px;line-height:1;cursor:pointer;color:var(--muted)}
+.amount-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0}
+.amount-grid .chip{text-align:center;justify-content:center}
+
+/* billing / wallet */
+.wallet-balance{font-size:40px;font-weight:750;letter-spacing:-.02em;margin:6px 0 18px}
+.wallet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
