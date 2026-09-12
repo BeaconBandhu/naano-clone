@@ -9,3 +9,7 @@ Thumbs.db
 
 # 77 MB of extracted walkthrough frames — regenerate with scripts/extract-frames.py
 docs/frames/
+
+# agent-capture hook internals — NOT the logs themselves (.agent-logs/ ships with the repo)
+.claude/hooks/.model-cache.json
+.claude/hooks/.debug-last-payload.json
