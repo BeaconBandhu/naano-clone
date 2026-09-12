@@ -37,15 +37,14 @@
       <button class="modal__close" id="close-add-budget" aria-label="Close">×</button>
     </div>
     <p class="u-muted" style="font-size:13px;margin:4px 0 0">Charged in test mode via Stripe Checkout (sandbox) — use card <code>4242 4242 4242 4242</code>, any future date/CVC.</p>
-    <div class="amount-grid">
-      <button class="chip" data-amount="10000">€100</button>
-      <button class="chip" data-amount="25000">€250</button>
-      <button class="chip is-on" data-amount="50000">€500</button>
-      <button class="chip" data-amount="100000">€1,000</button>
+    <div class="amount-grid" style="grid-template-columns:repeat(3,1fr)">
+      <button class="chip is-on" data-plan="topup_100" data-amount="10000">€100</button>
+      <button class="chip" data-plan="topup_200" data-amount="20000">€200</button>
+      <button class="chip" data-plan="topup_300" data-amount="30000">€300</button>
     </div>
     <label class="field">
-      <span class="field__label">Or enter a custom amount (€)</span>
-      <input class="input" id="custom-amount" type="number" min="1" step="1" placeholder="500">
+      <span class="field__label">Or enter a custom amount (€) — not a saved plan, priced on the fly</span>
+      <input class="input" id="custom-amount" type="number" min="1" step="1" placeholder="e.g. 150">
     </label>
     <div class="banner banner--info" id="add-budget-error" hidden></div>
     <button class="btn btn--primary btn--block" id="go-checkout" style="margin-top:6px">Continue to payment →</button>
@@ -92,7 +91,8 @@
 
   // ---- Add budget modal --------------------------------------------------
   const overlay = $("#add-budget-overlay");
-  let selectedCents = 50000;
+  let selectedCents = 10000;
+  let selectedPlan = "topup_100"; // Stripe Price ID via PRICE_CATALOG; null once a custom amount is typed
   $("#open-add-budget").addEventListener("click", () => { overlay.hidden = false; });
   $("#close-add-budget").addEventListener("click", () => { overlay.hidden = true; });
   overlay.addEventListener("click", (e) => { if (e.target === overlay) overlay.hidden = true; });
@@ -101,10 +101,12 @@
     $$(".amount-grid .chip").forEach((c) => c.classList.remove("is-on"));
     chip.classList.add("is-on");
     selectedCents = Number(chip.dataset.amount);
+    selectedPlan = chip.dataset.plan;
     $("#custom-amount").value = "";
   }));
   $("#custom-amount").addEventListener("input", (e) => {
     $$(".amount-grid .chip").forEach((c) => c.classList.remove("is-on"));
+    selectedPlan = null; // custom amounts don't match a saved Price, priced ad hoc
     const euros = Number(e.target.value);
     selectedCents = Number.isFinite(euros) && euros > 0 ? Math.round(euros * 100) : 0;
   });
@@ -121,12 +123,13 @@
     btn.disabled = true; btn.textContent = "Redirecting to Stripe…";
     try {
       const origin = location.origin + location.pathname;
+      const payload = selectedPlan
+        ? { plan: selectedPlan } // real Stripe Price ID, set in .env (see PRICE_CATALOG)
+        : { amountCents: selectedCents, currency: "eur", description: "Naano campaign wallet top-up (custom amount)" };
       const res = await fetch("/api/create-checkout-session", {
         method: "POST", headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          amountCents: selectedCents,
-          currency: "eur",
-          description: "Naano campaign wallet top-up",
+          ...payload,
           successUrl: `${origin}?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
           cancelUrl: `${origin}?checkout=cancel`,
         }),

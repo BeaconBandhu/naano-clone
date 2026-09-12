@@ -65,8 +65,48 @@ async function stripeRequest(path, { method = "GET", body } = {}) {
   return json;
 }
 
-/** Create a hosted Checkout Session (full-page redirect, "Powered by Stripe"). */
+/* Fixed Price IDs created in the Stripe sandbox dashboard, one env var each.
+ * `mode` must match how each Price was created in Stripe (one-time vs
+ * recurring) — get this wrong and Stripe rejects the session outright. Wallet
+ * top-ups are one-time; Starter/Pro/Business are monthly plans, so "subscription". */
+export const PRICE_CATALOG = {
+  topup_100: { env: "STRIPE_PRICE_TOPUP_100", mode: "payment", label: "€100 top-up" },
+  topup_200: { env: "STRIPE_PRICE_TOPUP_200", mode: "payment", label: "€200 top-up" },
+  topup_300: { env: "STRIPE_PRICE_TOPUP_300", mode: "payment", label: "€300 top-up" },
+  starter: { env: "STRIPE_PRICE_STARTER", mode: "subscription", label: "Starter plan" },
+  pro: { env: "STRIPE_PRICE_PRO", mode: "subscription", label: "Pro plan" },
+  business: { env: "STRIPE_PRICE_BUSINESS", mode: "subscription", label: "Business plan" },
+};
+
+export function resolvePlan(key) {
+  const entry = PRICE_CATALOG[key];
+  if (!entry) {
+    throw Object.assign(
+      new Error(`Unknown plan key "${key}". Valid: ${Object.keys(PRICE_CATALOG).join(", ")}`),
+      { status: 400 }
+    );
+  }
+  const priceId = process.env[entry.env];
+  if (!priceId) {
+    throw Object.assign(new Error(`${entry.env} not set — add it to .env.`), { status: 400 });
+  }
+  return { priceId, mode: entry.mode, label: entry.label };
+}
+
+/** Create a hosted Checkout Session (full-page redirect, "Powered by Stripe").
+ *
+ * Pass ONE of:
+ *   - `plan`: a PRICE_CATALOG key ("topup_100", "pro", ...) — preferred, uses
+ *     the real Price object created in the Stripe dashboard.
+ *   - `priceId` (+ optional `mode`, default "payment") — a raw Stripe Price ID.
+ *   - `amountCents` (+ optional `currency`, `description`) — ad-hoc one-time
+ *     amount for a custom top-up that doesn't match a preset tier. Stripe
+ *     creates the Price on the fly; it won't show up as a saved Product.
+ */
 export async function createCheckoutSession({
+  plan,
+  priceId,
+  mode,
   amountCents,
   currency = "eur",
   description = "Naano wallet top-up",
@@ -74,29 +114,39 @@ export async function createCheckoutSession({
   cancelUrl,
   customerEmail,
 }) {
-  if (!Number.isFinite(amountCents) || amountCents < 100) {
-    throw Object.assign(new Error("amountCents must be a number >= 100 (minimum charge is 1.00)."), { status: 400 });
-  }
   if (!successUrl || !cancelUrl) {
     throw Object.assign(new Error("successUrl and cancelUrl are required."), { status: 400 });
   }
+
+  let lineItem, sessionMode;
+  if (plan) {
+    const resolved = resolvePlan(plan);
+    lineItem = { price: resolved.priceId, quantity: 1 };
+    sessionMode = resolved.mode;
+  } else if (priceId) {
+    lineItem = { price: priceId, quantity: 1 };
+    sessionMode = mode || "payment";
+  } else if (Number.isFinite(amountCents) && amountCents >= 100) {
+    lineItem = {
+      price_data: { currency, product_data: { name: description }, unit_amount: Math.round(amountCents) },
+      quantity: 1,
+    };
+    sessionMode = "payment";
+  } else {
+    throw Object.assign(
+      new Error("Provide `plan` (catalog key), `priceId`, or `amountCents` (>= 100)."),
+      { status: 400 }
+    );
+  }
+
   return stripeRequest("/checkout/sessions", {
     method: "POST",
     body: {
-      mode: "payment",
+      mode: sessionMode,
       success_url: successUrl,
       cancel_url: cancelUrl,
       customer_email: customerEmail,
-      line_items: [
-        {
-          price_data: {
-            currency,
-            product_data: { name: description },
-            unit_amount: Math.round(amountCents),
-          },
-          quantity: 1,
-        },
-      ],
+      line_items: [lineItem],
     },
   });
 }

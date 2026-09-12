@@ -25,7 +25,10 @@ export default async function handler(req, res) {
   }
   try {
     const session = await createCheckoutSession({
-      amountCents: Number(body?.amountCents),
+      plan: body?.plan,
+      priceId: body?.priceId,
+      mode: body?.mode,
+      amountCents: body?.amountCents != null ? Number(body.amountCents) : undefined,
       currency: body?.currency || "eur",
       description: body?.description,
       customerEmail: body?.customerEmail,
