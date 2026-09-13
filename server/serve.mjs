@@ -26,8 +26,14 @@ try {
     if (m && process.env[m[1]] === undefined) process.env[m[1]] = m[2].replace(/^["']|["']$/g, "");
   }
 } catch { /* no .env — fine */ }
-const MIME = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript",
-  ".mjs": "text/javascript", ".json": "application/json", ".svg": "image/svg+xml",
+// charset=utf-8 on the text types: without it, a client that respects HTTP's
+// charset-sniffing rules (e.g. Python's `requests`) defaults text/* to
+// ISO-8859-1 per spec, silently mangling this repo's UTF-8 content (curly
+// quotes, "€", em dashes) for anything that fetches these pages rather than
+// rendering them in a browser (browsers guess right anyway via <meta
+// charset>, which is why this was invisible in normal use).
+const MIME = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8",
+  ".mjs": "text/javascript; charset=utf-8", ".json": "application/json; charset=utf-8", ".svg": "image/svg+xml",
   ".png": "image/png", ".jpg": "image/jpeg", ".ico": "image/x-icon", ".map": "application/json" };
 
 const json = (res, code, obj) =>
