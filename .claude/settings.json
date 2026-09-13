@@ -2,22 +2,20 @@
   "hooks": {
     "UserPromptSubmit": [
       {
-        "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "node .claude/hooks/capture-prompt.cjs"
+            "command": "node .claude/hooks/capture-prompt.mjs"
           }
         ]
       }
     ],
     "Stop": [
       {
-        "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "node .claude/hooks/capture-response.cjs"
+            "command": "node .claude/hooks/capture-response.mjs"
           }
         ]
       }

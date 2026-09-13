@@ -1,0 +1,198 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Your website — Naano for brands</title>
+<link rel="icon" href="https://naano.com/lp/naano-logo-nav.png"><link rel="stylesheet" href="app.css">
+</head><body>
+<main class="onb">
+  <section class="onb__side">
+    <div class="auth__top">
+      <a href="../index.html" aria-label="Naano home"><svg viewBox="0 0 32 32" width="30" height="30"><path d="M3 20 15 5l3 7-10 12z" fill="#101116"/><path d="M14 22 24 9l5 13z" fill="#101116"/><circle cx="12" cy="23" r="2.4" fill="#2d61f5"/></svg></a>
+      <span class="auth__lang"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>EN</span>
+    </div>
+
+    <div class="onb__form">
+      <!-- state 1: URL input -->
+      <div id="s-input">
+        <div class="step-progress" aria-hidden="true"><span class="is-on"></span><span></span><span></span></div>
+        <div class="step-label">Step 1 of 3</div>
+        <h1>Your website</h1>
+        <p>We'll read your site to understand the product and your 3 main ICPs. This usually takes 20–40 seconds.</p>
+        <label class="field">
+          <span class="field__label">Your website</span>
+          <input class="input" id="site-url" placeholder="https://yourcompany.com" value="naano.com" autocomplete="url">
+        </label>
+        <div class="banner banner--info" id="scan-error" hidden></div>
+        <button class="btn btn--primary btn--block" id="go" style="margin-top:16px">Analyze my website</button>
+      </div>
+
+      <!-- state 2: scanning -->
+      <div id="s-scan" hidden>
+        <div class="step-progress" aria-hidden="true"><span class="is-on"></span><span></span><span></span></div>
+        <div class="step-label">Step 1 of 3</div>
+        <h1>Reading your brand…</h1>
+        <p>This usually takes 20–40 seconds. We'll only show you the product and 3 ICPs.</p>
+        <div class="brand-scan">
+          <div class="brand-scan__item" data-step="site"><span class="brand-scan__dot"></span>Reading your website…</div>
+          <div class="brand-scan__item" data-step="signals"><span class="brand-scan__dot"></span>Extracting product signals…</div>
+          <div class="brand-scan__item" data-step="icp"><span class="brand-scan__dot"></span>Identifying your ICP…</div>
+          <div class="brand-scan__item" data-step="profile"><span class="brand-scan__dot"></span>Preparing your brand profile…</div>
+        </div>
+      </div>
+
+      <!-- state 3: review -->
+      <div id="s-review" hidden>
+        <div class="step-progress" aria-hidden="true"><span class="is-on"></span><span class="is-on"></span><span></span></div>
+        <div class="step-label">Step 2 of 3</div>
+        <div class="brand-profile">
+          <img id="rv-logo" alt="">
+          <div>
+            <h3>Value prop &amp; ICP</h3>
+            <p id="rv-name"></p>
+          </div>
+        </div>
+        <p class="u-muted" style="font-size:13px;margin-top:-8px">Review these details once. Naano turns them into a brief for your creators.</p>
+
+        <label class="field">
+          <span class="field__label">Value proposition</span>
+          <span class="field__help" style="margin:-4px 0 6px">What the company does, for whom, how — 4 to 6 sentences. Edit if needed.</span>
+          <textarea class="input" id="rv-desc" rows="4"></textarea>
+        </label>
+
+        <div class="field">
+          <span class="field__label">3 ideal customers (ICP)</span>
+          <span class="field__help" style="margin:-4px 0 6px">The audiences your creators need to understand.</span>
+          <div class="icp-grid" id="rv-icps"></div>
+        </div>
+
+        <div class="brief-card">
+          <div class="brief-card__head">
+            <span class="eyebrow eyebrow--blue">Starter creator brief</span>
+            <span class="chip is-on t-green" style="pointer-events:none">✓ Ready</span>
+          </div>
+          <div class="brief-card__title" id="brief-name"></div>
+          <div class="brief-card__cols">
+            <div><span class="field__label">Product</span><p id="brief-product"></p></div>
+            <div><span class="field__label">Audience</span><p id="brief-audience"></p></div>
+          </div>
+          <div class="banner banner--info" style="margin-top:12px">Creators can adapt the angle to their expertise, while keeping every product claim factual.</div>
+          <p class="u-muted" style="font-size:12px;margin:10px 0 0">Every creator you invite will receive this brief. You can edit it later from Campaigns.</p>
+        </div>
+
+        <label class="field" id="rv-socials-wrap" hidden>
+          <span class="field__label">Found on your site</span>
+          <div class="chips" id="rv-socials"></div>
+        </label>
+
+        <div class="btn-row" style="margin-top:8px">
+          <button class="btn btn--ghost" id="back">Back</button>
+          <button class="btn btn--primary" id="continue" style="flex:1">Continue to AI Matching →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="onb__aside">
+    <div class="eyebrow eyebrow--blue">Creators. Brands. Results.</div>
+    <h2>Run LinkedIn creator campaigns that drive real business.</h2>
+    <p>Discover creators, track performance, pay in one click.</p>
+    <p class="u-faint" style="font-size:12px;margin-top:18px">Built for B2B marketing teams</p>
+  </aside>
+</main>
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const sInput = $("#s-input"), sScan = $("#s-scan"), sReview = $("#s-review");
+  const urlField = $("#site-url"), errBox = $("#scan-error");
+
+  function showError(msg) {
+    errBox.textContent = msg;
+    errBox.hidden = false;
+  }
+
+  function step(el, cls) {
+    el.classList.remove("is-active", "is-done");
+    el.classList.add(cls);
+  }
+
+  async function scan() {
+    errBox.hidden = true;
+    sInput.hidden = true; sScan.hidden = false; sReview.hidden = true;
+    const items = [...sScan.querySelectorAll(".brand-scan__item")];
+    items.forEach((el) => el.classList.remove("is-active", "is-done"));
+
+    // Cosmetic pacing so the 4-step checklist reads naturally even on a fast
+    // response; the real fetch runs in parallel and step 4 waits for it.
+    step(items[0], "is-active");
+    const pacing = new Promise((r) => setTimeout(r, 500)).then(() => {
+      step(items[0], "is-done"); step(items[1], "is-active");
+    }).then(() => new Promise((r) => setTimeout(r, 500))).then(() => {
+      step(items[1], "is-done"); step(items[2], "is-active");
+    }).then(() => new Promise((r) => setTimeout(r, 500))).then(() => {
+      step(items[2], "is-done"); step(items[3], "is-active");
+    });
+
+    let data, error;
+    try {
+      const res = await fetch("/api/scrape-company", {
+        method: "POST", headers: { "content-type": "application/json" },
+        body: JSON.stringify({ url: urlField.value }),
+      });
+      data = await res.json();
+      if (!res.ok || data.error) error = data.error || "Could not read that site.";
+    } catch {
+      error = "Card analyzer unavailable — locally run `node server/serve.mjs`; on Vercel the /api/scrape-company function must be deployed.";
+    }
+
+    await pacing;
+    step(items[3], "is-done");
+    await new Promise((r) => setTimeout(r, 300));
+
+    if (error) {
+      sScan.hidden = true; sInput.hidden = false;
+      showError(error);
+      return;
+    }
+    renderReview(data);
+    sScan.hidden = true; sReview.hidden = false;
+  }
+
+  function renderReview(data) {
+    $("#rv-logo").src = data.logo || "";
+    $("#rv-logo").alt = data.name || "";
+    $("#rv-logo").onerror = () => { $("#rv-logo").style.visibility = "hidden"; };
+    $("#rv-name").textContent = data.name || data.domain || "Your company";
+    $("#rv-desc").value = data.valueProp || data.description || data.tagline || "";
+
+    const icps = (data.icps && data.icps.length ? data.icps : []);
+    $("#rv-icps").innerHTML = icps.map((icp) => `
+      <div class="icp-card">
+        <span class="icp-card__num">${icp.rank}</span>
+        <b>${icp.title}</b>
+        <p>${icp.description}</p>
+      </div>`).join("");
+
+    $("#brief-name").textContent = data.name || data.domain || "";
+    $("#brief-product").textContent = data.valueProp || data.description || "";
+    $("#brief-audience").textContent = icps.map((i) => i.title).join(" · ");
+
+    const socials = Object.entries(data.socials || {});
+    const socWrap = $("#rv-socials"), socRow = $("#rv-socials-wrap");
+    if (socials.length) {
+      socRow.hidden = false;
+      socWrap.innerHTML = socials.map(([k, v]) =>
+        `<a class="chip" href="${v}" target="_blank" rel="noopener">${k}</a>`
+      ).join("");
+    } else {
+      socRow.hidden = true;
+    }
+
+    sessionStorage.setItem("naano_brand_profile", JSON.stringify(data));
+  }
+
+  $("#go").addEventListener("click", scan);
+  urlField.addEventListener("keydown", (e) => { if (e.key === "Enter") scan(); });
+  $("#back").addEventListener("click", () => { sReview.hidden = true; sInput.hidden = false; });
+  $("#continue").addEventListener("click", () => { location.href = "brand-workspace.html"; });
+})();
+</script>
+</body></html>

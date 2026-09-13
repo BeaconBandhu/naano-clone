@@ -375,5 +375,4 @@ $$('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList
 const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}}),{threshold:.12}); $$('.fade').forEach(e=>obs.observe(e));
 $$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const h=a.getAttribute('href');if(!h||h.length<2)return;const t=document.querySelector(h);if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}}));
 const nav=$('.nav');if(nav){const sc=()=>nav.classList.toggle('scrolled',window.scrollY>8);sc();addEventListener('scroll',sc,{passive:true});}
-</script>
-</body></html>
+</script><script src="../naano-chat-widget.js" defer></script></body></html>

@@ -1,0 +1,205 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Billing — Naano</title>
+<link rel="icon" href="https://naano.com/lp/naano-logo-nav.png"><link rel="stylesheet" href="app.css">
+</head><body>
+<main class="page" style="max-width:720px;margin:0 auto;padding:40px 20px">
+  <div class="page__head">
+    <div class="page__eyebrow">Brand workspace</div>
+    <h1>Billing</h1>
+    <p>Top up your campaign wallet. Test mode — no real charge goes through.</p>
+  </div>
+
+  <div id="banner-slot"></div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="wallet-head">
+      <div class="section-title">Wallet balance</div>
+      <button class="btn btn--primary btn--sm" id="open-add-budget">Add budget</button>
+    </div>
+    <div class="wallet-balance" id="balance">€0.00</div>
+    <div class="u-muted" style="font-size:13px" id="balance-sub">No budget added yet.</div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="section-title" style="margin-bottom:10px">Recent activity</div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px" id="activity-table">
+      <thead><tr style="text-align:left;color:var(--muted)"><th style="padding:6px 0">Date</th><th>Description</th><th style="text-align:right">Amount</th><th style="text-align:right">Status</th></tr></thead>
+      <tbody id="activity-body"><tr><td colspan="4" class="u-muted" style="padding:14px 0">No movements yet.</td></tr></tbody>
+    </table>
+  </div>
+</main>
+
+<div class="modal-overlay" id="add-budget-overlay" hidden>
+  <div class="modal">
+    <div class="modal__head">
+      <span class="chip is-on" style="pointer-events:none;font-size:11px;padding:3px 9px">🔒 SECURE PAYMENT</span>
+      <button class="modal__close" id="close-add-budget" aria-label="Close">×</button>
+    </div>
+    <h3 style="margin:10px 0 2px">Add budget</h3>
+    <p class="u-muted" style="font-size:13px;margin:0 0 14px">One-time deposit to your Naano balance. Use it across all campaigns — no subscription. <em>(sandbox — card <code>4242 4242 4242 4242</code>, any future date/CVC)</em></p>
+
+    <div class="field__label" style="margin-bottom:8px">Choose an amount</div>
+    <div class="amount-grid" style="grid-template-columns:repeat(3,1fr)">
+      <button class="chip is-on" data-plan="topup_100" data-amount="10000">€100</button>
+      <button class="chip" data-plan="topup_200" data-amount="20000">€200</button>
+      <button class="chip" data-plan="topup_300" data-amount="30000">€300</button>
+    </div>
+    <label class="field">
+      <span class="field__label">Custom amount (€)</span>
+      <input class="input" id="custom-amount" type="number" min="1" step="1" placeholder="e.g. 150">
+    </label>
+    <p class="u-muted" style="font-size:12px;margin:-6px 0 14px">Minimum €100 · credited right after payment</p>
+
+    <div class="wallet-head" style="border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 0;margin-bottom:14px">
+      <div><div class="u-muted" style="font-size:11px">You will credit</div><b id="will-credit">€100</b></div>
+      <div style="text-align:right"><div class="u-muted" style="font-size:11px">Current balance</div><b id="current-balance">€0</b></div>
+    </div>
+
+    <ul style="list-style:none;margin:0 0 16px;padding:0;display:flex;flex-direction:column;gap:8px;font-size:12.5px;color:var(--text)">
+      <li>💳 <b>Card payment</b> — entered only on Stripe's secure checkout (PCI DSS).</li>
+      <li>🔁 <b>No subscription</b> — funds stay in your Naano balance until used.</li>
+      <li>⏱ <b>Pay on delivery</b> — creators are charged only after the post is delivered.</li>
+    </ul>
+
+    <div class="banner banner--info" id="add-budget-error" hidden></div>
+    <button class="btn btn--primary btn--block" id="go-checkout">Add €100</button>
+    <p class="u-faint" style="font-size:11px;text-align:center;margin:10px 0 0">🔒 End-to-end encrypted · powered by Stripe</p>
+  </div>
+</div>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const fmt = (cents) => "€" + (cents / 100).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+  // Demo-only persistence: this repo has no backend database, so the wallet
+  // balance lives in localStorage per browser. A real deployment would credit
+  // the balance server-side from a verified Stripe webhook, not the client.
+  const STORE_KEY = "naano.wallet.v1";
+  function loadWallet() {
+    try { return JSON.parse(localStorage.getItem(STORE_KEY)) || { balanceCents: 0, activity: [] }; }
+    catch { return { balanceCents: 0, activity: [] }; }
+  }
+  function saveWallet(w) { localStorage.setItem(STORE_KEY, JSON.stringify(w)); }
+
+  function render() {
+    const w = loadWallet();
+    $("#balance").textContent = fmt(w.balanceCents);
+    $("#balance-sub").textContent = w.balanceCents ? `${w.activity.length} top-up${w.activity.length === 1 ? "" : "s"} so far.` : "No budget added yet.";
+    const body = $("#activity-body");
+    if (!w.activity.length) {
+      body.innerHTML = '<tr><td colspan="4" class="u-muted" style="padding:14px 0">No movements yet.</td></tr>';
+    } else {
+      body.innerHTML = w.activity.slice().reverse().map((a) => `
+        <tr style="border-top:1px solid var(--line)">
+          <td style="padding:8px 0">${new Date(a.at).toLocaleDateString()}</td>
+          <td>${a.description}</td>
+          <td style="text-align:right">${fmt(a.amountCents)}</td>
+          <td style="text-align:right;color:var(--ok,#1a9c63)">Paid</td>
+        </tr>`).join("");
+    }
+  }
+
+  function banner(kind, html) {
+    $("#banner-slot").innerHTML = `<div class="banner banner--${kind}" style="margin-top:14px">${html}</div>`;
+  }
+
+  // ---- Add budget modal --------------------------------------------------
+  const overlay = $("#add-budget-overlay");
+  const MIN_CENTS = 10000; // €100 — smallest real Price tier configured (see PRICE_CATALOG)
+  let selectedCents = MIN_CENTS;
+  let selectedPlan = "topup_100"; // Stripe Price ID via PRICE_CATALOG; null once a custom amount is typed
+
+  function refreshSummary() {
+    $("#will-credit").textContent = fmt(selectedCents);
+    $("#current-balance").textContent = fmt(loadWallet().balanceCents);
+    $("#go-checkout").textContent = `Add ${fmt(selectedCents)}`;
+  }
+
+  $("#open-add-budget").addEventListener("click", () => { overlay.hidden = false; refreshSummary(); });
+  $("#close-add-budget").addEventListener("click", () => { overlay.hidden = true; });
+  overlay.addEventListener("click", (e) => { if (e.target === overlay) overlay.hidden = true; });
+
+  $$(".amount-grid .chip").forEach((chip) => chip.addEventListener("click", () => {
+    $$(".amount-grid .chip").forEach((c) => c.classList.remove("is-on"));
+    chip.classList.add("is-on");
+    selectedCents = Number(chip.dataset.amount);
+    selectedPlan = chip.dataset.plan;
+    $("#custom-amount").value = "";
+    refreshSummary();
+  }));
+  $("#custom-amount").addEventListener("input", (e) => {
+    $$(".amount-grid .chip").forEach((c) => c.classList.remove("is-on"));
+    selectedPlan = null; // custom amounts don't match a saved Price, priced ad hoc
+    const euros = Number(e.target.value);
+    selectedCents = Number.isFinite(euros) && euros > 0 ? Math.round(euros * 100) : 0;
+    refreshSummary();
+  });
+
+  $("#go-checkout").addEventListener("click", async () => {
+    const errBox = $("#add-budget-error");
+    errBox.hidden = true;
+    if (!selectedCents || selectedCents < MIN_CENTS) {
+      errBox.textContent = `Enter an amount of at least ${fmt(MIN_CENTS)}.`;
+      errBox.hidden = false;
+      return;
+    }
+    const btn = $("#go-checkout");
+    btn.disabled = true; btn.textContent = "Redirecting to Stripe…";
+    try {
+      const origin = location.origin + location.pathname;
+      const payload = selectedPlan
+        ? { plan: selectedPlan } // real Stripe Price ID, set in .env (see PRICE_CATALOG)
+        : { amountCents: selectedCents, currency: "eur", description: "Naano campaign wallet top-up (custom amount)" };
+      const res = await fetch("/api/create-checkout-session", {
+        method: "POST", headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          ...payload,
+          successUrl: `${origin}?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
+          cancelUrl: `${origin}?checkout=cancel`,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) throw new Error(data.error || "Could not start checkout.");
+      location.href = data.url; // hand off to Stripe's hosted Checkout page
+    } catch (e) {
+      errBox.textContent = e.message + " (needs STRIPE_SECRET_KEY set to a test-mode key — see .env.example)";
+      errBox.hidden = false;
+      btn.disabled = false; btn.textContent = `Add ${fmt(selectedCents)}`;
+    }
+  });
+
+  // ---- return from Stripe -------------------------------------------------
+  async function handleReturn() {
+    const params = new URLSearchParams(location.search);
+    const status = params.get("checkout");
+    if (status === "cancel") {
+      banner("info", "Checkout cancelled — no charge was made.");
+    } else if (status === "success") {
+      const sessionId = params.get("session_id");
+      try {
+        const res = await fetch(`/api/checkout-session?id=${encodeURIComponent(sessionId)}`);
+        const data = await res.json();
+        if (res.ok && data.paid) {
+          const w = loadWallet();
+          w.balanceCents += data.amount_total;
+          w.activity.push({ at: Date.now(), description: "Wallet top-up (Stripe test mode)", amountCents: data.amount_total });
+          saveWallet(w);
+          banner("info", `<b>Payment received.</b> ${fmt(data.amount_total)} added to your wallet (test mode).`);
+        } else {
+          banner("warn", "Stripe says this session was not paid — no balance was added.");
+        }
+      } catch (e) {
+        banner("warn", "Could not confirm the payment with Stripe: " + e.message);
+      }
+    }
+    history.replaceState(null, "", location.pathname);
+  }
+
+  render();
+  handleReturn().then(render);
+})();
+</script>
+</body></html>

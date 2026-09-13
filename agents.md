@@ -65,8 +65,11 @@
 ### agent:marketing-polish
 - **Scope / IDs:** `index.html` + `pages/*` (`MKT-*`). Reconcile against §2 (0:00–0:54).
 
-### agent:brand-side  *(partially unblocked 2026-09-13 — see `docs/naano-notes.md` BRD-02)*
-- **Scope / IDs:** `BRD-01` (marketplace grid, design #2), `BRD-02` (brand-agency dashboard, built from a real screen capture, frame-by-frame). Still waiting on assets for: the creator-agency workspace path, the campaign-creation flow, and the non-Dashboard left-rail screens (Campaigns/Creators/Analytics/Messages/Billing) — see `docs/naano-notes.md` §8.
+### agent:brand-side  *(partially unblocked 2026-09-13 — two independent walkthroughs landed)*
+- **Scope / IDs:** `BRD-01` (marketplace grid, design #2), `BRD-billing` (website-scrape onboarding + Billing/Stripe), `BRD-02` (agency-specific brand dashboard). See `docs/naano-notes.md` §7/§8 for both.
+- **Individual-brand signup path** (`create-account.html` → "I'm a brand"): website-scrape onboarding (`onboarding-company-website.html` + `api/scrape-company.mjs`) and Billing/Stripe (`billing.html` + `api/create-checkout-session.mjs` + `api/checkout-session.mjs`) are built. Its "Continue to AI Matching" still lands on `app/brand-workspace.html`, a deliberate honest placeholder — the real brand Overview/campaign-launch/AI-finder/`All creators`/Collaborations screens for *this* path are still open (re-sample that video before building them).
+- **Agency signup path** (`pages/agencies.html` → "Create a brand agency workspace"): a *different* screen capture showed this leads straight to a working operational dashboard — built as `app/brand-overview.html` + `app/brand.js` (its own `cmp:AppShell`-sibling rail, since the shared one is creator-only). This is a distinct persona from the individual-brand path above, not a duplicate of it.
+- Still open for both paths: the creator-agency workspace (`agencies.html`'s "02" path), `+ New campaign`'s flow, and most of the brand-side rail items beyond Dashboard/Marketplace/Billing.
 
 ## Coordination
 - **Order:** Wave 0 → Wave 1 in parallel → `agent:qa`.
