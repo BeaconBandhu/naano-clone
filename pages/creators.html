@@ -1,10 +1,379 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Naano for creators</title><link rel="icon" href="https://naano.com/lp/naano-logo-nav.png"><style>
-:root{--ink:#101116;--muted:#677080;--line:#e6e9ef;--blue:#2d61f5;--blue2:#2f62ff;--cloud:#edf6ff;--max:1180px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:#fff}a{text-decoration:none;color:inherit}.container{width:min(calc(100% - 40px),var(--max));margin:auto}.nav{height:74px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border-bottom:1px solid rgba(16,17,22,.06)}.nav img{width:126px;height:auto}.navlinks{display:flex;align-items:center;gap:28px;font-size:14px}.navlinks a{color:#444b58}.navlinks a:hover{color:#111}.navright{display:flex;align-items:center;gap:10px}.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:9px;padding:12px 18px;font-weight:650;font-size:14px;cursor:pointer;transition:.2s ease}.btn-primary{background:var(--blue);color:#fff;box-shadow:0 6px 18px rgba(45,97,245,.18)}.btn-primary:hover{transform:translateY(-1px);background:#2155e9}.btn-ghost{background:#fff;border:1px solid var(--line)}.btn-ghost:hover{border-color:#cbd0da}.hero{min-height:690px;background:url("https://naano.com/lp/hero-clouds-cotton-blue-v7.png") center/cover;display:flex;align-items:center;text-align:center;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.2),transparent 45%)}.hero .inner{position:relative;z-index:1;max-width:800px;margin:-24px auto 0}.eyebrow{font-weight:700;font-size:15px;letter-spacing:.04em;color:#475163;margin-bottom:18px}.hero h1{font-size:clamp(46px,7vw,80px);line-height:.96;letter-spacing:-.055em;margin:0 0 24px}.hero p{font-size:19px;line-height:1.55;color:#5e6674;max-width:700px;margin:0 auto 30px}.hero-actions{display:flex;gap:10px;justify-content:center}.trusted{padding:26px 0;border-bottom:1px solid var(--line);overflow:hidden}.trusted-label{text-align:center;color:#8b92a1;text-transform:uppercase;letter-spacing:.13em;font-size:11px;font-weight:700;margin-bottom:19px}.marquee{display:flex;gap:48px;align-items:center;justify-content:center;flex-wrap:wrap;opacity:.82}.logo-text{font-size:18px;font-weight:750;color:#26364f}.feature{padding:110px 0}.feature-head{text-align:center;max-width:750px;margin:0 auto 44px}.kicker{text-transform:uppercase;letter-spacing:.13em;font-size:11px;font-weight:800;color:#89919e}.feature h2{font-size:clamp(37px,5vw,60px);line-height:1.02;letter-spacing:-.045em;margin:12px 0 15px}.feature p{font-size:18px;color:#697281;line-height:1.6}.market-wrap{background:#f7fbff;border:1px solid #e0e8f3;border-radius:28px;padding:14px;box-shadow:0 35px 80px rgba(35,70,130,.12);overflow:hidden}.market-wrap img{display:block;width:100%;border-radius:20px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}.stat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;text-align:center}.stat strong{display:block;font-size:34px;letter-spacing:-.05em}.stat span{color:#7b8493;font-size:13px}.journey{padding:120px 0;background:#f9fbfe url("https://naano.com/lp/journey-cloud-current-v1.png") center/cover}.journey-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}.steps{display:grid;gap:10px}.step{border:1px solid var(--line);background:rgba(255,255,255,.84);padding:20px;border-radius:18px;display:grid;grid-template-columns:44px 1fr;gap:16px;transition:.25s}.step.active,.step:hover{border-color:#cdd6e5;box-shadow:0 12px 30px rgba(24,40,70,.08);transform:translateY(-2px)}.num{height:36px;width:36px;border-radius:50%;display:grid;place-items:center;background:#f0f4fa;font-weight:800;font-size:12px}.step h3{margin:2px 0 5px;font-size:18px}.step p{margin:0;color:#727b89;line-height:1.5;font-size:14px}.journey-card{min-height:510px;border-radius:28px;background:#fff;border:1px solid var(--line);padding:30px;box-shadow:0 25px 50px rgba(38,50,75,.08);position:relative;overflow:hidden}.journey-card .cloud{position:absolute;inset:0;background:url("https://naano.com/lp/results-metrics-clouds-v2.png") center/cover;opacity:.4}.ui-card{position:relative;margin:50px auto 0;width:min(480px,100%);border:1px solid #e3e8f0;border-radius:20px;background:#fff;box-shadow:0 18px 40px rgba(0,0,0,.08);padding:22px}.avatars{display:flex;align-items:center}.avatars img{width:48px;height:48px;border-radius:50%;object-fit:cover;border:3px solid white;margin-left:-10px}.avatars img:first-child{margin-left:0}.fitrow{display:flex;justify-content:space-between;margin-top:22px;font-size:13px}.bar{height:8px;background:#edf1f7;border-radius:99px;overflow:hidden;margin-top:8px}.bar span{display:block;height:100%;background:var(--blue);width:92%}.video{padding:110px 0}.video-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}.video-panel{border-radius:28px;min-height:420px;background:#0d111a;position:relative;overflow:hidden}.video-panel img{width:100%;height:100%;object-fit:cover;opacity:.87}.play{position:absolute;inset:0;display:grid;place-items:center}.play button{width:78px;height:78px;border-radius:50%;border:1px solid rgba(255,255,255,.55);background:rgba(255,255,255,.94);font-size:24px;cursor:pointer}.quote{font-size:28px;line-height:1.28;letter-spacing:-.025em}.byline{margin-top:20px;color:#747d8b}.case{padding:110px 0;background:#fbfcfe}.case-card{background:#fff;border:1px solid var(--line);border-radius:28px;padding:34px;display:grid;grid-template-columns:1.1fr .9fr;gap:35px;align-items:center}.case h3{font-size:34px;letter-spacing:-.04em;margin:8px 0 14px}.case p{color:#6b7483;line-height:1.6}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:26px}.metric{border-radius:16px;background:#f6f8fb;padding:17px}.metric b{display:block;font-size:30px}.metric span{font-size:12px;color:#7b8492}.case-img{border-radius:20px;overflow:hidden}.case-img img{display:block;width:100%}.results{padding:120px 0;background:url("https://naano.com/lp/results-metrics-clouds-v2.png") center/cover}.results-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.result{padding:28px;background:rgba(255,255,255,.83);border:1px solid rgba(213,222,235,.8);border-radius:20px;text-align:center;backdrop-filter:blur(8px)}.result b{display:block;font-size:40px;letter-spacing:-.05em}.result span{color:#717b89;font-size:13px}.posts{padding:110px 0}.post-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.post{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#fff}.post-top{padding:18px}.post img{width:100%;aspect-ratio:1/1;object-fit:cover}.post h4{margin:8px 0 5px;font-size:16px}.post p{margin:0;color:#737c8a;font-size:13px;line-height:1.45}.post .small{font-size:11px;color:#9aa2af;margin-bottom:8px}.post-stats{display:flex;gap:18px;padding:12px 18px 18px;color:#727c89;font-size:12px}.pricing{padding:110px 0;background:#fbfcfe}.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:48px}.price-card{border:1px solid var(--line);background:#fff;border-radius:22px;padding:28px}.price-card.featured{border-color:#c8d5ff;box-shadow:0 20px 50px rgba(45,97,245,.1)}.price-card h3{font-size:15px;margin:0 0 12px}.price{font-size:42px;font-weight:800;letter-spacing:-.055em}.price span{font-size:13px;color:#77808e;font-weight:500}.price-card ul{list-style:none;padding:0;margin:22px 0}.price-card li{padding:8px 0;color:#636d7c;font-size:14px;border-bottom:1px solid #f0f2f5}.price-card li:last-child{border-bottom:0}.faq{padding:110px 0}.faq-list{max-width:900px;margin:38px auto 0}.faq-item{border-top:1px solid var(--line)}.faq-q{display:flex;justify-content:space-between;align-items:center;padding:22px 0;font-size:16px;font-weight:700;cursor:pointer}.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;color:#747e8d;line-height:1.65;font-size:14px;padding-right:40px}.faq-item.open .faq-a{max-height:180px;padding-bottom:22px}.plus{font-size:20px;color:#8a92a0}.cta{padding:100px 0}.cta-box{border-radius:30px;padding:64px 34px;text-align:center;background:#10131a;color:white;position:relative;overflow:hidden}.cta-box:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 25%,rgba(72,116,255,.25),transparent 40%)}.cta-box>*{position:relative}.cta h2{font-size:clamp(36px,5vw,58px);letter-spacing:-.05em;margin:8px auto 14px;max-width:760px}.cta p{color:#b9bfca;max-width:670px;margin:0 auto 25px;line-height:1.55}.footer{border-top:1px solid var(--line);padding:50px 0 28px}.footer-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:28px}.footer img{width:118px}.footer h5{text-transform:uppercase;letter-spacing:.08em;font-size:11px;color:#9199a6;margin:0 0 14px}.footer a{display:block;color:#6d7683;font-size:13px;padding:5px 0}.foot-bottom{display:flex;justify-content:space-between;margin-top:40px;padding-top:22px;border-top:1px solid var(--line);color:#939aa6;font-size:12px}.fade{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease}.fade.in{opacity:1;transform:none}@media(max-width:900px){.navlinks{display:none}.nav{padding:0 10px}.navright .btn-ghost{display:none}.hero{min-height:620px}.hero h1{font-size:54px}.stats,.results-grid,.post-grid{grid-template-columns:repeat(2,1fr)}.journey-grid,.video-grid,.case-card,.pricing-grid{grid-template-columns:1fr}.journey{padding:85px 0}.journey-card{min-height:420px}.footer-grid{grid-template-columns:1fr 1fr}.container{width:min(calc(100% - 28px),var(--max))}}@media(max-width:560px){.hero h1{font-size:44px}.hero p{font-size:16px}.hero-actions{flex-direction:column;width:100%}.hero-actions .btn{width:100%}.feature,.video,.case,.posts,.pricing,.faq{padding:78px 0}.stats,.results-grid,.post-grid,.metrics{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr}.foot-bottom{flex-direction:column;gap:8px}.quote{font-size:23px}}
-</style></head><body><header class="nav"><div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:20px"><a href="../index.html"><img src="https://naano.com/lp/naano-logo-nav.png" alt="naano"></a><nav class="navlinks"><a href="../index.html#companies">For companies</a><a href="creators.html">For creators</a><a href="agencies.html">For agencies</a><a href="../index.html#how">How it works</a><a href="blog.html">Resources</a></nav><div class="navright"><a class="btn btn-ghost" href="register.html">Sign in</a><a class="btn btn-primary" href="register.html">Sign up</a></div></div></header><section class="feature" style="padding-top:120px"><div class="container"><div class="feature-head"><div class="kicker">NAANO</div><h2>Get paid to post on LinkedIn</h2><p>Choose deals from B2B brands you know, post in your own voice, and get paid quickly. No negotiating, no admin.</p></div><div class="market-wrap"><img src="https://naano.com/lp/marketplace-screenshot-clean-v2.png" alt="Creator marketplace"></div><div class="stats"><div class="stat"><strong>2,000+</strong><span>creators paid</span></div><div class="stat"><strong>€500</strong><span>average per deal</span></div><div class="stat"><strong>24h</strong><span>average payout time</span></div></div></div></section><footer class="footer"><div class="container"><div class="foot-bottom"><span>© 2026 naano. All rights reserved.</span><a href="../index.html">Back to homepage</a></div></div></footer><script>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Join Naano, the B2B LinkedIn creator marketplace. Get matched with B2B brands, publish posts in your own voice, and earn a fixed fee per post — paid within 24h."><title>Get paid for your LinkedIn content: Naano for creators</title><link rel="icon" href="https://naano.com/lp/naano-logo-nav.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Naano?","acceptedAnswer":{"@type":"Answer","text":"Naano is the B2B LinkedIn creator marketplace: B2B brands book creators for sponsored LinkedIn posts at a fixed price per post that you set. Creators from about 1,000 to 500,000 followers use Naano to monetize their LinkedIn audience with deals from B2B brands they already know."}},{"@type":"Question","name":"Is Naano free for creators?","acceptedAnswer":{"@type":"Answer","text":"Yes. Naano is completely free for creators — there is no subscription and no fee taken from your earnings. You keep 100% of what you earn on every deal."}},{"@type":"Question","name":"How much can I earn?","acceptedAnswer":{"@type":"Answer","text":"Creators earn on average €500 per deal, with top deals reaching €1,500 per deal."}},{"@type":"Question","name":"How and when do I get paid?","acceptedAnswer":{"@type":"Answer","text":"You get paid within 24h of your post going live, securely via Stripe or bank transfer. No invoicing, no chasing."}},{"@type":"Question","name":"Do I have to sign an exclusivity contract?","acceptedAnswer":{"@type":"Answer","text":"No exclusivity, no minimum and no lock-in. You pick the deals you want and quit anytime while keeping everything you have earned."}},{"@type":"Question","name":"What kind of brands are on Naano?","acceptedAnswer":{"@type":"Answer","text":"B2B SaaS brands like Lemlist, Folk, Ringover and Gojiberry, plus 20+ more, with new deals every week."}},{"@type":"Question","name":"Do I keep control of my content?","acceptedAnswer":{"@type":"Answer","text":"Yes. You write and publish every post yourself, in your own voice. Your content and your LinkedIn account are always yours."}},{"@type":"Question","name":"How do I join?","acceptedAnswer":{"@type":"Answer","text":"Apply in about 2 minutes, no commitment. Once approved, you can start browsing deals and picking your first collaboration."}}]}</script>
+<style>
+:root{--ink:#101116;--muted:#677080;--line:#e6e9ef;--blue:#2d61f5;--blue2:#2f62ff;--cloud:#edf6ff;--max:1180px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:#fff}a{text-decoration:none;color:inherit}.container{width:min(calc(100% - 40px),var(--max));margin:auto}.nav{height:74px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border-bottom:1px solid rgba(16,17,22,.06)}.nav img{width:126px;height:auto}.navlinks{display:flex;align-items:center;gap:28px;font-size:14px}.navlinks a{color:#444b58}.navlinks a:hover{color:#111}.navright{display:flex;align-items:center;gap:10px}.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:9px;padding:12px 18px;font-weight:650;font-size:14px;cursor:pointer;transition:.2s ease}.btn-primary{background:var(--blue);color:#fff;box-shadow:0 6px 18px rgba(45,97,245,.18)}.btn-primary:hover{transform:translateY(-1px);background:#2155e9}.btn-ghost{background:#fff;border:1px solid var(--line)}.btn-ghost:hover{border-color:#cbd0da}.hero{min-height:690px;background:url("https://naano.com/lp/hero-clouds-cotton-blue-v7.png") center/cover;display:flex;align-items:center;text-align:center;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.2),transparent 45%)}.hero .inner{position:relative;z-index:1;max-width:800px;margin:-24px auto 0}.eyebrow{font-weight:700;font-size:15px;letter-spacing:.04em;color:#475163;margin-bottom:18px}.hero h1{font-size:clamp(46px,7vw,80px);line-height:.96;letter-spacing:-.055em;margin:0 0 24px}.hero p{font-size:19px;line-height:1.55;color:#5e6674;max-width:700px;margin:0 auto 30px}.hero-actions{display:flex;gap:10px;justify-content:center}.trusted{padding:26px 0;border-bottom:1px solid var(--line);overflow:hidden}.trusted-label{text-align:center;color:#8b92a1;text-transform:uppercase;letter-spacing:.13em;font-size:11px;font-weight:700;margin-bottom:19px}.marquee{display:flex;gap:48px;align-items:center;justify-content:center;flex-wrap:wrap;opacity:.82}.logo-text{font-size:18px;font-weight:750;color:#26364f}.feature{padding:110px 0}.feature-head{text-align:center;max-width:750px;margin:0 auto 44px}.kicker{text-transform:uppercase;letter-spacing:.13em;font-size:11px;font-weight:800;color:#89919e}.feature h2{font-size:clamp(37px,5vw,60px);line-height:1.02;letter-spacing:-.045em;margin:12px 0 15px}.feature p{font-size:18px;color:#697281;line-height:1.6}.market-wrap{background:#f7fbff;border:1px solid #e0e8f3;border-radius:28px;padding:14px;box-shadow:0 35px 80px rgba(35,70,130,.12);overflow:hidden}.market-wrap img{display:block;width:100%;border-radius:20px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}.stat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;text-align:center}.stat strong{display:block;font-size:34px;letter-spacing:-.05em}.stat span{color:#7b8493;font-size:13px}.results{padding:120px 0;background:url("https://naano.com/lp/results-metrics-clouds-v2.png") center/cover}.results-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.result{padding:28px;background:rgba(255,255,255,.83);border:1px solid rgba(213,222,235,.8);border-radius:20px;text-align:center;backdrop-filter:blur(8px)}.result b{display:block;font-size:40px;letter-spacing:-.05em}.result span{color:#717b89;font-size:13px}.posts{padding:110px 0}.post-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.post{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#fff}.faq{padding:110px 0}.faq-list{max-width:900px;margin:38px auto 0}.faq-item{border-top:1px solid var(--line)}.faq-q{display:flex;justify-content:space-between;align-items:center;padding:22px 0;font-size:16px;font-weight:700;cursor:pointer}.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;color:#747e8d;line-height:1.65;font-size:14px;padding-right:40px}.faq-item.open .faq-a{max-height:280px;padding-bottom:22px}.plus{font-size:20px;color:#8a92a0;display:inline-block;transition:transform .22s ease}.faq-item.open .plus{transform:rotate(45deg)}.cta{padding:100px 0}.cta-box{border-radius:30px;padding:64px 34px;text-align:center;background:#10131a;color:white;position:relative;overflow:hidden}.cta-box:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 25%,rgba(72,116,255,.25),transparent 40%)}.cta-box>*{position:relative}.cta h2{font-size:clamp(36px,5vw,58px);letter-spacing:-.05em;margin:8px auto 14px;max-width:760px}.cta p{color:#b9bfca;max-width:670px;margin:0 auto 25px;line-height:1.55}.footer{border-top:1px solid var(--line);padding:50px 0 28px}.footer-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:28px}.footer img{width:118px}.footer h5{text-transform:uppercase;letter-spacing:.08em;font-size:11px;color:#9199a6;margin:0 0 14px}.footer a{display:block;color:#6d7683;font-size:13px;padding:5px 0}.foot-bottom{display:flex;justify-content:space-between;margin-top:40px;padding-top:22px;border-top:1px solid var(--line);color:#939aa6;font-size:12px}.fade{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease}.fade.in{opacity:1;transform:none}@media(max-width:900px){.navlinks{display:none}.nav{padding:0 10px}.navright .btn-ghost{display:none}.hero{min-height:620px}.hero h1{font-size:54px}.stats,.results-grid,.post-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr 1fr}.container{width:min(calc(100% - 28px),var(--max))}}@media(max-width:560px){.hero h1{font-size:44px}.hero p{font-size:16px}.hero-actions{flex-direction:column;width:100%}.hero-actions .btn{width:100%}.feature,.posts,.faq{padding:78px 0}.stats,.results-grid,.post-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr}.foot-bottom{flex-direction:column;gap:8px}}
+</style>
+<style>
+/* ==========================================================================
+   Enhancement layer — creators page. Reuses index.html's tokens/shell so the
+   nav/footer/FAQ/hover language stays identical site-wide; everything below
+   is specific to the /creators content (rebuilt from the 2026-09-12 capture
+   `naano.com/creators` + DevTools inspection — see docs/naano-notes.md §7).
+   ========================================================================== */
+:root{--gutter:120px;--shadow-sm:0 4px 14px rgba(20,28,50,.06);--shadow-md:0 18px 44px rgba(24,40,70,.12);--shadow-lg:0 44px 96px rgba(28,50,95,.18)}
+html{scroll-padding-top:96px}html,body{overflow-x:clip}img{max-width:100%;height:auto}::selection{background:rgba(45,97,245,.18)}
+:where(a,button,input,summary,[tabindex]):focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:8px}
+[id]{scroll-margin-top:96px}
+.container{width:min(1400px,calc(100% - var(--gutter)));margin:0 auto}
+@media(max-width:1100px){:root{--gutter:64px}}
+@media(max-width:900px){:root{--gutter:40px}.container{width:min(var(--max),calc(100% - var(--gutter)))}}
+@media(max-width:560px){:root{--gutter:30px}}
+.nav{transition:box-shadow .25s ease,background .25s ease}.nav.scrolled{background:rgba(255,255,255,.95);box-shadow:0 10px 30px rgba(16,17,22,.08)}
+.feature,.posts,.faq{padding-block:clamp(84px,10vw,128px)}
+.cta{padding-block:clamp(80px,9vw,120px)}
+
+/* --- Hero --------------------------------------------------------------- */
+.hero{min-height:100vh;min-height:max(720px,calc(100dvh - 74px));width:100%;flex-direction:column;justify-content:center;padding:40px clamp(20px,6vw,84px) 60px}
+.hero::before{content:"";position:absolute;left:0;right:0;bottom:0;height:46%;background:linear-gradient(180deg,transparent,rgba(255,255,255,.5) 68%,rgba(255,255,255,.74));pointer-events:none}
+.hero>*{position:relative;z-index:1}
+.hero .inner{width:100%;max-width:900px;margin:0 auto}
+.eyebrow{margin:0 0 26px}
+.eyebrow-pill{display:inline-flex;align-items:center;gap:9px;background:#fff;border:1px solid #ebe9e5;border-radius:999px;padding:9px 18px;box-shadow:0 1px 2px rgba(23,24,28,.04);font-size:14px;font-weight:600;color:#475163}
+.eyebrow-pill svg{flex-shrink:0;width:14px;height:14px;color:#f5a623}
+.hero h1{margin:0;font-size:clamp(42px,7.2vw,72px);line-height:1.02;font-weight:600;letter-spacing:-.04em;color:#17181c}
+.hero p{margin:26px auto 0;font-size:clamp(17px,2.2vw,20px)}
+.hero-actions{margin-top:38px;flex-wrap:wrap}
+.btn{transition:transform .18s ease,box-shadow .18s ease,background .18s ease,border-color .18s ease}
+.btn-dark{background:#17181c;color:#fff;border-radius:11px;box-shadow:0 12px 28px rgba(16,17,22,.24)}
+.btn-dark:hover{transform:translateY(-1px);background:#2a2d37;box-shadow:0 16px 34px rgba(16,17,22,.3)}
+.hero-link{display:inline-flex;align-items:center;gap:7px;font-weight:650;font-size:15px;color:var(--ink)}
+.hero-link:hover{color:var(--blue)}
+.hero-link .arr{width:16px;height:16px;transition:transform .18s ease}
+.hero-link:hover .arr{transform:translateX(3px)}
+.hero-fine{margin-top:18px;font-size:13px;color:#7d8592;display:flex;align-items:center;justify-content:center;gap:7px}
+.hero-fine svg{width:13px;height:13px;color:#8b93a1}
+
+/* --- Trust marquee (shared visual language with index.html) ------------- */
+.hero-trust{width:100%;margin-top:46px}
+.marquee{display:block;width:100%;opacity:1;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.naano-trust-track{display:inline-flex;align-items:center;animation:naanoMarquee 24s linear infinite;will-change:transform}
+.marquee:hover .naano-trust-track{animation-play-state:paused}
+@keyframes naanoMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tb-slot{display:flex;align-items:center;justify-content:center;padding:0 34px;flex-shrink:0}
+.tb-logo{display:flex;align-items:center;justify-content:center;width:140px;height:44px}
+.tb-logo img{max-width:140px;object-fit:contain;display:block;filter:grayscale(1);opacity:.5;transition:filter .3s ease,opacity .3s ease}
+.tb-slot:hover .tb-logo img{filter:grayscale(0);opacity:1}
+
+/* --- "Monetize your content on Naano" ----------------------------------- */
+.mz{padding-block:clamp(84px,10vw,120px);background:#fff}
+.mz-head{max-width:640px;margin:0 auto 48px;text-align:center}
+.mz-top{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:820px;margin:0 auto 20px}
+.mz-proof{border:1px solid var(--line);background:#fff;border-radius:22px;padding:22px;box-shadow:var(--shadow-sm);transition:transform .22s ease,box-shadow .22s ease}
+.mz-proof:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.mz-proof-row{display:flex;align-items:center;gap:10px}
+.mz-avatar{width:38px;height:38px;border-radius:50%;background:#e9edf4 center/cover;flex-shrink:0}
+.mz-proof-row b{font-size:14px}
+.mz-proof-row span{display:block;font-size:12px;color:#8a93a2}
+.mz-bars{display:flex;align-items:flex-end;gap:4px;height:34px;margin-top:16px}
+.mz-bars i{flex:1;border-radius:3px 3px 0 0;background:#e5ebf3}
+.mz-bars i.on{background:var(--blue)}
+.mz-proof-foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:12px;color:#8a93a2}
+.mz-proof-foot b{color:var(--ink);font-size:13px}
+.mz-pay-top{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:#1f8f5f}
+.mz-pay-badge{display:inline-flex;align-items:center;gap:5px;background:#e3f5ec;padding:4px 10px;border-radius:999px;font-weight:700}
+.mz-pay-badge svg{width:11px;height:11px}
+.mz-pay-amount{font-size:32px;font-weight:800;letter-spacing:-.04em;margin:14px 0 10px}
+.mz-pay-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.mz-pay-row span{font-size:10.5px;font-weight:700;color:#5b6472;background:#f1f4f8;border-radius:7px;padding:4px 8px}
+.mz-pay-foot{font-size:12px;color:#8a93a2}
+.mz-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1040px;margin:0 auto}
+.mz-tile{border:1px solid var(--line);background:#fff;border-radius:18px;padding:24px;text-align:left;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.mz-tile:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:#d3dcea}
+.mz-tile .ico{width:34px;height:34px;border-radius:10px;background:var(--cloud);color:var(--blue);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.mz-tile .ico svg{width:17px;height:17px}
+.mz-tile h4{margin:0 0 6px;font-size:15.5px;letter-spacing:-.01em}
+.mz-tile p{margin:0;font-size:13.5px;line-height:1.5;color:#7b8493}
+@media(max-width:900px){.mz-top{grid-template-columns:1fr}.mz-tiles{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.mz-tiles{grid-template-columns:1fr}}
+
+/* --- Platform / dashboard ------------------------------------------------ */
+.platform{padding-block:clamp(80px,10vw,128px);background:#fbfcfe}
+.dash{max-width:1080px;margin:52px auto 0;border:1px solid var(--line);border-radius:22px;background:#fff;box-shadow:var(--shadow-lg);padding:26px 28px;overflow:hidden}
+.dash-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:20px}
+.dash-top h3{margin:0;font-size:19px}
+.dash-pill{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:#1f8f5f;background:#e3f5ec;border-radius:999px;padding:6px 12px}
+.dash-pill svg{width:8px;height:8px}
+.dash-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px}
+.dash-stat{border:1px solid var(--line);border-radius:16px;padding:16px}
+.dash-stat span{display:block;font-size:10.5px;font-weight:700;letter-spacing:.06em;color:#9199a6;text-transform:uppercase;margin-bottom:8px}
+.dash-stat b{font-size:22px;letter-spacing:-.03em}
+.dash-table{border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.dash-row{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;font-size:13.5px}
+.dash-row+.dash-row{border-top:1px solid #f0f2f5}
+.dash-row .co{display:flex;align-items:center;gap:9px;font-weight:650}
+.dash-row .logo-dot{width:22px;height:22px;border-radius:6px;background:var(--cloud);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800}
+.dash-status{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px}
+.dash-status.active{color:#1f8f5f;background:#e3f5ec}
+.dash-status.review{color:#a3720f;background:#fdf1de}
+.feat4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1080px;margin:28px auto 0}
+.feat4>div{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}
+.feat4 h4{margin:0 0 6px;font-size:14.5px}
+.feat4 p{margin:0;font-size:13px;line-height:1.5;color:#7b8493}
+@media(max-width:900px){.dash-stats,.feat4{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.dash-stats,.feat4{grid-template-columns:1fr}}
+
+/* --- Single pull-quote --------------------------------------------------- */
+.pull-quote{padding-block:clamp(70px,9vw,110px);text-align:center}
+.pull-quote .stars{display:flex;justify-content:center;gap:4px;color:#f5a623;margin-bottom:22px}
+.pull-quote .stars svg{width:19px;height:19px}
+.pull-quote blockquote{margin:0 auto;max-width:760px;font-size:clamp(22px,3vw,30px);line-height:1.32;letter-spacing:-.02em;font-weight:600;color:#17181c}
+.pull-quote .byline{margin-top:22px;font-size:14px;color:#8a93a2}
+.pull-quote .byline b{color:var(--ink)}
+
+/* --- Real posts (results section) ---------------------------------------- */
+.results-proof-head{text-align:center;margin-bottom:8px}
+.rpost-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin:56px auto 0;max-width:1300px}
+.rpost{border:1px solid var(--line);border-radius:18px;background:#fff;display:flex;flex-direction:column;transition:transform .22s ease,box-shadow .22s ease}
+.rpost:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.rpost-head{display:flex;align-items:center;gap:10px;padding:18px 18px 0}
+.rpost-avatar{width:40px;height:40px;border-radius:50%;background:#e9edf4 center/cover;flex-shrink:0}
+.rpost-name{display:flex;align-items:center;gap:5px;font-weight:700;font-size:14.5px}
+.rpost-name svg{width:14px;height:14px;color:#0a66c2;flex-shrink:0}
+.rpost-role{font-size:12px;color:#8a93a2;margin-top:1px}
+.rpost blockquote{margin:14px 18px;font-size:14.5px;font-weight:600;line-height:1.4;color:#17181c}
+.rpost .rpost-img{margin:0 18px 12px;height:150px;border-radius:12px;background:#f2f4f8 center/cover;overflow:hidden}
+.rpost .rpost-img img{width:100%;height:100%;object-fit:cover;display:block}
+.rpost-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:10px 16px}
+.rpost-metric{display:flex;flex-direction:column;gap:2px}
+.rpost-metric b{font-size:14.5px}
+.rpost-metric span{font-size:10.5px;color:#9199a6}
+.rpost-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid #f0f2f5;font-size:12px}
+.rpost-foot .for{display:flex;align-items:center;gap:5px;color:#9199a6;min-width:0}
+.rpost-foot .for img{height:13px;width:auto}
+.rpost-foot a{display:flex;align-items:center;gap:4px;font-weight:650;color:var(--ink)}
+.rpost-foot a:hover{color:var(--blue)}
+.rpost-foot a svg{width:12px;height:12px}
+@media(max-width:1100px){.rpost-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.rpost-grid{grid-template-columns:1fr}}
+
+.pill-row{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:44px}
+.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fbfcfe;border-radius:999px;padding:9px 17px;font-size:13.5px;font-weight:600;color:#43454c}
+.pill svg{width:15px;height:15px;color:#8a93a2}
+.results-cta{display:flex;flex-direction:column;align-items:center;margin-top:40px}
+.results-cta span{margin-top:14px;font-size:13px;color:#8a93a2}
+
+/* --- Reviews -------------------------------------------------------------- */
+.reviews{padding-block:clamp(80px,10vw,120px);background:#fff}
+.rev-stats{display:flex;align-items:center;justify-content:center;gap:0;margin-top:36px;flex-wrap:wrap}
+.rev-stat{text-align:center;padding:0 30px}
+.rev-stat+.rev-stat{border-left:1px solid var(--line)}
+.rev-stat b{display:block;font-size:32px;font-weight:600;letter-spacing:-.03em}
+.rev-stat span{font-size:13px;color:#8a93a2}
+.rev-grid{column-count:3;column-gap:20px;max-width:1160px;margin:52px auto 0}
+.rev-card{break-inside:avoid;display:inline-block;width:100%;background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;margin-bottom:20px}
+.rev-card .stars{display:flex;gap:2px;color:#f5a623;margin-bottom:12px}
+.rev-card .stars svg{width:14px;height:14px}
+.rev-card p{margin:0 0 18px;font-size:14.5px;line-height:1.55;color:#2c2f36}
+.rev-who{display:flex;align-items:center;gap:10px}
+.rev-avatar{width:34px;height:34px;border-radius:50%;background:#e9edf4 center/cover;flex-shrink:0}
+.rev-who b{display:block;font-size:13.5px}
+.rev-who span{font-size:11.5px;color:#8a93a2}
+@media(max-width:900px){.rev-grid{column-count:2}}
+@media(max-width:560px){.rev-grid{column-count:1}.rev-stat{padding:6px 22px}}
+
+/* --- FAQ ------------------------------------------------------------------ */
+.faq-q{transition:color .18s ease}.faq-q:hover{color:var(--blue)}
+
+/* --- Final "get started" band --------------------------------------------- */
+.get-started{padding-block:clamp(80px,10vw,130px);background:url("https://naano.com/lp/hero-clouds-cotton-blue-v7.png") center/cover;text-align:center}
+.get-started .inner{max-width:820px;margin:0 auto}
+.get-started h2{margin:14px 0 16px;font-size:clamp(34px,5vw,52px);letter-spacing:-.03em;line-height:1.08}
+.get-started p{margin:0 auto;max-width:560px;font-size:17px;line-height:1.55;color:#55575e}
+.get-started .fine{margin-top:16px;font-size:13px;color:#8a93a2}
+.badge-row{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:34px}
+.badge-pill{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 17px;font-size:13.5px;font-weight:600}
+.badge-pill svg{width:14px;height:14px;color:#1f8f5f}
+
+/* --- Footer (5 columns on the creators page) ------------------------------ */
+.footer-grid.wide{grid-template-columns:1.5fr 1fr 1fr 1fr 1.3fr}
+.footer a{transition:color .18s ease}.footer a:hover{color:var(--ink)}
+.foot-tp{display:inline-flex;align-items:center;gap:6px}
+.foot-tp svg{width:13px;height:13px;color:#00b67a}
+@media(max-width:900px){.footer-grid.wide{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.footer-grid.wide{grid-template-columns:1fr}}
+
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}html{scroll-behavior:auto}.fade{opacity:1;transform:none}.marquee{-webkit-mask-image:none;mask-image:none}.naano-trust-track{animation:none;display:flex;flex-wrap:wrap;justify-content:center;width:100%}}
+</style>
+</head><body>
+<header class="nav"><div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:20px"><a href="../index.html"><img src="https://naano.com/lp/naano-logo-nav.png" alt="naano"></a><nav class="navlinks"><a href="../index.html#companies">For companies</a><a href="creators.html">For creators</a><a href="agencies.html">For agencies</a><a href="#platform">How it works</a><a href="blog.html">Resources</a></nav><div class="navright"><a class="btn btn-ghost" href="../app/signin.html">Sign in</a><a class="btn btn-primary" href="../app/create-account.html">Sign up</a></div></div></header>
+
+<section class="hero"><div class="container inner fade">
+<div class="eyebrow"><span class="eyebrow-pill"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg>2,000+ creators paid · 4.8/5 rating</span></div>
+<h1>Get paid to post on LinkedIn</h1>
+<p>Choose deals from B2B brands you know, post in your own voice, and get paid within 24h. No negotiating, no admin. Creators earn <b>€500 on average per deal</b>.</p>
+<div class="hero-actions"><a class="btn btn-dark" href="../app/create-account.html">Start earning <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a><a class="hero-link" href="#platform">See how it works <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
+<div class="hero-fine"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.6-3 8.6-7 10-4-1.4-7-5.4-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>Free to join · No exclusivity · Paid within 24h</div>
+<div class="hero-trust"><div class="marquee"><div class="naano-trust-track">
+<div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-lemlist.png" alt="lemlist" style="max-height:38px"></div></div>
+<div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-attio.jpg" alt="Attio" style="max-height:38px;mix-blend-mode:multiply"></div></div>
+<div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-folk.png" alt="folk" style="max-height:28px"></div></div>
+<div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-ringover.png" alt="Ringover" style="max-height:38px"></div></div>
+<div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-gojiberry.png" alt="gojiberry" style="max-height:30px"></div></div>
+<div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-lagrowthmachine.png" alt="La Growth Machine" style="max-height:32px"></div></div>
+<div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-chatseo.png" alt="ChatSEO" style="max-height:36px"></div></div>
+<div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-abyssale.png" alt="Abyssale" style="max-height:28px;mix-blend-mode:multiply"></div></div>
+<span aria-hidden="true" style="display:contents">
+<div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-lemlist.png" alt="" style="max-height:38px"></div></div>
+<div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-attio.jpg" alt="" style="max-height:38px;mix-blend-mode:multiply"></div></div>
+<div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-folk.png" alt="" style="max-height:28px"></div></div>
+<div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-ringover.png" alt="" style="max-height:38px"></div></div>
+<div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-gojiberry.png" alt="" style="max-height:30px"></div></div>
+<div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-lagrowthmachine.png" alt="" style="max-height:32px"></div></div>
+<div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-chatseo.png" alt="" style="max-height:36px"></div></div>
+<div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-abyssale.png" alt="" style="max-height:28px;mix-blend-mode:multiply"></div></div>
+</span>
+</div></div></div>
+</div></section>
+
+<section id="monetize" class="mz"><div class="container">
+<div class="mz-head fade"><div class="kicker">Naano</div><h2 style="font-size:clamp(30px,4.4vw,44px);line-height:1.06;letter-spacing:-.03em;margin:12px 0 14px">Monetize your content on Naano.</h2><p style="font-size:16px;color:#697281">Accept deals from brands you know, or bring your own onto the platform and get paid faster.</p></div>
+<div class="mz-top">
+<div class="mz-proof fade"><div class="mz-proof-row"><div class="mz-avatar" style="background-image:url('https://naano.com/lp/avatar-e.png')"></div><div><b>Robin Tempe</b><span>B2B SaaS · Product · in LinkedIn</span></div></div><div class="mz-bars"><i style="height:30%"></i><i style="height:44%"></i><i style="height:26%"></i><i class="on" style="height:70%"></i><i class="on" style="height:58%"></i><i style="height:34%"></i></div><div class="mz-proof-foot"><span>97K views · 34K reach</span><b>€800 / post</b></div></div>
+<div class="mz-proof fade"><div class="mz-pay-top"><span class="mz-pay-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Payment received</span><span>Today</span></div><div class="mz-pay-amount">€5,000</div><div class="mz-pay-row"><span>Instant · SEPA</span><span>Attio campaign</span></div><div class="mz-pay-foot">Paid to your account · No invoice, no chasing</div></div>
+</div>
+<div class="mz-tiles">
+<div class="mz-tile fade"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18"/><path d="M8 14h3"/></svg></div><h4>Launch a professional media kit in minutes</h4><p>Turn your LinkedIn profile into a ready-to-share card brands can book from directly.</p></div>
+<div class="mz-tile fade"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h8l-1 8 10-12h-8z"/></svg></div><h4>Instant payment</h4><p>Get paid the moment your post goes live — no invoicing, no waiting on a brand's finance team.</p></div>
+<div class="mz-tile fade"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div><h4>Get sponsored by our network</h4><p>Naano's brand network sources deals for you based on your audience and topics.</p></div>
+<div class="mz-tile fade"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></div><h4>Bring your own deals & earn extra</h4><p>Already talking to a brand? Add the deal to Naano and get handled contracts and payouts, plus a bonus.</p></div>
+<div class="mz-tile fade"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div><h4>Workflows to accelerate collaborations</h4><p>Briefs, drafts and approvals move through one thread so nothing stalls in someone's inbox.</p></div>
+</div>
+</div></section>
+
+<section id="platform" class="platform"><div class="container">
+<div class="feature-head fade"><div class="kicker">The platform</div><h2 style="font-size:clamp(30px,4.4vw,44px)">For creators who don't want the administrative burden.</h2><p style="font-size:16px">Find deals, get paid, and track your performance from one dashboard. No invoicing, no chasing, no spreadsheets.</p></div>
+<div class="dash fade">
+<div class="dash-top"><h3>Welcome back, Thomas 👋</h3><span class="dash-pill"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="12"/></svg>LinkedIn analytics active</span></div>
+<div class="dash-stats"><div class="dash-stat"><span>Total earnings</span><b>€1,413.10</b></div><div class="dash-stat"><span>Active collaborations</span><b>13</b></div><div class="dash-stat"><span>Post views</span><b>1,266</b></div></div>
+<div class="dash-table">
+<div class="dash-row"><span class="co"><span class="logo-dot">G</span>Gojiberry AI</span><span class="dash-status active">Active</span><b>€1,296.90</b></div>
+<div class="dash-row"><span class="co"><span class="logo-dot">N</span>Naano</span><span class="dash-status active">Active</span><b>€51.70</b></div>
+<div class="dash-row"><span class="co"><span class="logo-dot">L</span>Loop</span><span class="dash-status review">In review</span><b>€32.30</b></div>
+</div>
+</div>
+<div class="feat4">
+<div class="fade"><h4>Centralized opportunities</h4><p>Discover brand deals that match your audience.</p></div>
+<div class="fade"><h4>Payments built-in</h4><p>Get paid on time with secure, transparent payouts.</p></div>
+<div class="fade"><h4>Track performance</h4><p>See views, clicks and engagement in real time.</p></div>
+<div class="fade"><h4>Easy delivery</h4><p>Manage deals and deliver content with ease.</p></div>
+</div>
+</div></section>
+
+<section class="pull-quote"><div class="container fade">
+<div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg></div>
+<blockquote>"I was able to select my rate and get paid the moment the post went live."</blockquote>
+<div class="byline"><b>Thomas Higadère</b> · B2B & AI creator · 34K followers</div>
+</div></section>
+
+<section id="results" class="results" style="background:#fff"><div class="container">
+<div class="results-proof-head fade"><div class="kicker" style="display:inline-flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#16a34a;display:inline-block"></span>The results</div></div>
+<div class="results-grid fade">
+<div class="result"><b>2,000+</b><span>Creators earning</span></div>
+<div class="result"><b>€500</b><span>Avg. per deal</span></div>
+<div class="result"><b>5K+</b><span>Posts published</span></div>
+<div class="result"><b>24h</b><span>Avg. payout time</span></div>
+</div>
+<h2 class="fade" style="text-align:center;margin:64px auto 0;max-width:820px;font-size:clamp(30px,4.4vw,44px);letter-spacing:-.03em">Real posts from real creators.</h2>
+
+<div class="rpost-grid">
+<article class="rpost fade">
+<div class="rpost-head"><div class="rpost-avatar" style="background-image:url('https://naano.com/lp/avatar-c.png')"></div><div><div class="rpost-name">Thomas Higadère<svg viewBox="0 0 24 24" fill="currentColor"><rect width="24" height="24" rx="4"/><path fill="#fff" d="M7.2 9.6h4.8v10.2H7.2zm2.4-1.2a2.8 2.8 0 1 1 0-5.6 2.8 2.8 0 0 1 0 5.6zM19.2 19.8h-4.8v-5.3c0-1.35-.03-3.08-1.88-3.08-1.88 0-2.17 1.47-2.17 2.99v5.39H5.55V9.24h4.6"/></svg></div><div class="rpost-role">Creator · B2B & AI · 34K followers</div></div></div>
+<blockquote>"How AI changed our prospecting workflow for wealth managers and private bankers."</blockquote>
+<div class="rpost-img"><img src="https://naano.com/lp/photo-calendar.png" alt="Calendar packed with meetings" loading="lazy"></div>
+<div class="rpost-metrics"><div class="rpost-metric"><b>42.8K</b><span>Impressions</span></div><div class="rpost-metric"><b>312</b><span>Clicks</span></div><div class="rpost-metric"><b>18</b><span>Leads</span></div></div>
+<div class="rpost-foot"><span class="for">For <img src="https://naano.com/lp/logo-lemlist.png" alt="lemlist"></span><a href="https://fr.linkedin.com/posts/thomas-higadere_cgp-banquiers-priv%C3%A9s-g%C3%A9rants-de-fonds-activity-7452932902885015553-UM07" target="_blank" rel="noopener noreferrer">View post <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></div>
+</article>
+
+<article class="rpost fade">
+<div class="rpost-head"><div class="rpost-avatar" style="background-image:url('https://naano.com/lp/avatar-e.png')"></div><div><div class="rpost-name">Robin Tempe<svg viewBox="0 0 24 24" fill="currentColor"><rect width="24" height="24" rx="4"/><path fill="#fff" d="M7.2 9.6h4.8v10.2H7.2zm2.4-1.2a2.8 2.8 0 1 1 0-5.6 2.8 2.8 0 0 1 0 5.6zM19.2 19.8h-4.8v-5.3c0-1.35-.03-3.08-1.88-3.08-1.88 0-2.17 1.47-2.17 2.99v5.39H5.55V9.24h4.6"/></svg></div><div class="rpost-role">Creator · Sales & AI · 12K followers</div></div></div>
+<blockquote>"I run my entire prospecting workflow through an AI. Here is how."</blockquote>
+<div class="rpost-img"><img src="https://naano.com/lp/photo-claude-mcp-leadbay.png" alt="Claude Code + MCP Leadbay" loading="lazy"></div>
+<div class="rpost-metrics"><div class="rpost-metric"><b>9K</b><span>Impressions</span></div><div class="rpost-metric"><b>100</b><span>Clicks</span></div><div class="rpost-metric"><b>50</b><span>Leads</span></div></div>
+<div class="rpost-foot"><span class="for">For <img src="https://naano.com/lp/logo-leadbay.png" alt="Leadbay"></span><a href="https://www.linkedin.com/posts/robin-tempe-je-g%C3%A8re-toute-ma-prospection-en-discutant-share-7479799225610924032-ML4u" target="_blank" rel="noopener noreferrer">View post <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></div>
+</article>
+
+<article class="rpost fade">
+<div class="rpost-head"><div class="rpost-avatar" style="background-image:url('https://naano.com/lp/avatar-b.png')"></div><div><div class="rpost-name">Eric Djavid<svg viewBox="0 0 24 24" fill="currentColor"><rect width="24" height="24" rx="4"/><path fill="#fff" d="M7.2 9.6h4.8v10.2H7.2zm2.4-1.2a2.8 2.8 0 1 1 0-5.6 2.8 2.8 0 0 1 0 5.6zM19.2 19.8h-4.8v-5.3c0-1.35-.03-3.08-1.88-3.08-1.88 0-2.17 1.47-2.17 2.99v5.39H5.55V9.24h4.6"/></svg></div><div class="rpost-role">Sales Leader · B2B · 40K followers</div></div></div>
+<blockquote>"Most sales teams spend 80% of their time on the wrong leads. Here is how I changed that."</blockquote>
+<div class="rpost-img"><img src="https://naano.com/lp/photo-leadbay-app.png" alt="Leadbay app on screen" loading="lazy"></div>
+<div class="rpost-metrics"><div class="rpost-metric"><b>20K</b><span>Impressions</span></div><div class="rpost-metric"><b>350</b><span>Clicks</span></div><div class="rpost-metric"><b>80</b><span>Leads</span></div></div>
+<div class="rpost-foot"><span class="for">For <img src="https://naano.com/lp/logo-leadbay.png" alt="Leadbay"></span><a href="https://www.linkedin.com/posts/eric-djavid-2154b991_la-plupart-des-%C3%A9quipes-sales-passent-80-share-7478351684121997312-MtzH" target="_blank" rel="noopener noreferrer">View post <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></div>
+</article>
+
+<article class="rpost fade">
+<div class="rpost-head"><div class="rpost-avatar" style="background-image:url('https://naano.com/lp/avatar-h.png')"></div><div><div class="rpost-name">Marina Panova<svg viewBox="0 0 24 24" fill="currentColor"><rect width="24" height="24" rx="4"/><path fill="#fff" d="M7.2 9.6h4.8v10.2H7.2zm2.4-1.2a2.8 2.8 0 1 1 0-5.6 2.8 2.8 0 0 1 0 5.6zM19.2 19.8h-4.8v-5.3c0-1.35-.03-3.08-1.88-3.08-1.88 0-2.17 1.47-2.17 2.99v5.39H5.55V9.24h4.6"/></svg></div><div class="rpost-role">Content Creator · B2B · 34K followers</div></div></div>
+<blockquote>"How I build my 30-day LinkedIn content system, the exact playbook."</blockquote>
+<div class="rpost-img"><img src="https://naano.com/lp/photo-marina-laptop.png" alt="Marina working on laptop" loading="lazy"></div>
+<div class="rpost-metrics"><div class="rpost-metric"><b>100K</b><span>Impressions</span></div><div class="rpost-metric"><b>1,600</b><span>Clicks</span></div><div class="rpost-metric"><b>320</b><span>Leads</span></div></div>
+<div class="rpost-foot"><span class="for">For <img src="https://naano.com/lp/logo-abyssale.png" alt="Abyssale"></span><a href="https://www.linkedin.com/posts/marina-panova_how-i-build-my-30-day-linkedin-content-system-activity-7442495515428126721-n28g" target="_blank" rel="noopener noreferrer">View post <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></div>
+</article>
+</div>
+
+<div class="pill-row fade">
+<span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>B2B SaaS</span>
+<span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg>Fintech</span>
+<span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>DevTools</span>
+<span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 7v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-3-5Z"/><path d="M3 7h18"/><path d="M9 11a3 3 0 0 0 6 0"/></svg>E-commerce</span>
+</div>
+<div class="results-cta fade"><a class="btn btn-dark" href="../app/create-account.html">Start earning <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a><span>Free to join. Paid within 24h. Quit anytime.</span></div>
+</div></section>
+
+<section id="reviews" class="reviews"><div class="container">
+<div class="feature-head fade"><div class="kicker">From the community</div><h2 style="font-size:clamp(30px,4.4vw,44px)">What creators say.</h2><p style="font-size:16px">2,000+ creators already getting paid on Naano.</p></div>
+<div class="rev-stats fade"><div class="rev-stat"><b>2,000+</b><span>Creators</span></div><div class="rev-stat"><b>€500</b><span>Avg. per deal</span></div><div class="rev-stat"><b>€1,500</b><span>Top deal</span></div></div>
+<div class="rev-grid">
+<div class="rev-card fade"><div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg></div><p>Naano is the marketplace LinkedIn was missing. The founders truly listen and do everything they can to build something that brings real value to its users.</p><div class="rev-who"><div class="rev-avatar" style="background-image:url('https://naano.com/lp/avatar-d.png')"></div><div><b>Raphael Alfero</b><span>B2B creator · 18K followers</span></div></div></div>
+<div class="rev-card fade"><div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg></div><p>Excellent experience. The platform is simple and efficient, the team ultra-responsive, and results come fast. I recommend it whether you want to grow your name or create content.</p><div class="rev-who"><div class="rev-avatar" style="background-image:url('https://naano.com/lp/avatar-e.png')"></div><div><b>Robin Tempe</b><span>Sales creator · 14K followers</span></div></div></div>
+<div class="rev-card fade"><div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg></div><p>Naano lets me keep making useful content while monetizing my LinkedIn community. We never give up!</p><div class="rev-who"><div class="rev-avatar" style="background-image:url('https://naano.com/lp/avatar-b.png')"></div><div><b>Eric Djavid</b><span>LinkedIn creator · 40K followers</span></div></div></div>
+<div class="rev-card fade"><div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg></div><p>At first I wasn't sure what to expect. But the whole experience was simple and smooth: clear opportunities, an easy platform, everything well guided. A real bridge between creators and brands.</p><div class="rev-who"><div class="rev-avatar" style="background-image:url('https://naano.com/lp/avatar-f.png')"></div><div><b>Aya Dara</b><span>Content creator · 9K followers</span></div></div></div>
+<div class="rev-card fade"><div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg></div><p>Great experience, I love the platform, it helps me every day. I already made money with it from day one.</p><div class="rev-who"><div class="rev-avatar" style="background-image:url('https://naano.com/lp/avatar-c.png')"></div><div><b>Thomas Higadère</b><span>B2B & AI creator · 34K followers</span></div></div></div>
+<div class="rev-card fade"><div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6z"/></svg></div><p>A young team that's ambitious, efficient and driven. Super proactive and always listening. I'd tell every creator to join Naano!</p><div class="rev-who"><div class="rev-avatar" style="background-image:url('https://naano.com/lp/avatar-h.png')"></div><div><b>Nada Ait Ouchene</b><span>Marketing creator · 11K followers</span></div></div></div>
+</div>
+</div></section>
+
+<section id="faq" class="faq"><div class="container">
+<div class="feature-head fade"><div class="kicker">FAQ</div><h2 style="font-size:clamp(30px,4.4vw,44px)">Frequently asked questions.</h2><p style="font-size:16px">Everything you need to know before you start earning.</p></div>
+<div class="faq-list">
+<div class="faq-item fade"><div class="faq-q">What is Naano?<span class="plus">+</span></div><div class="faq-a">Naano is the B2B LinkedIn creator marketplace: B2B brands book creators for sponsored LinkedIn posts at a fixed price per post that you set. Creators from about 1,000 to 500,000 followers use Naano to monetize their LinkedIn audience with deals from B2B brands they already know.</div></div>
+<div class="faq-item fade"><div class="faq-q">Is Naano free for creators?<span class="plus">+</span></div><div class="faq-a">Yes. Naano is completely free for creators — there is no subscription and no fee taken from your earnings. You keep 100% of what you earn on every deal.</div></div>
+<div class="faq-item fade"><div class="faq-q">How much can I earn?<span class="plus">+</span></div><div class="faq-a">Creators earn on average €500 per deal, with top deals reaching €1,500 per deal.</div></div>
+<div class="faq-item fade"><div class="faq-q">How and when do I get paid?<span class="plus">+</span></div><div class="faq-a">You get paid within 24h of your post going live, securely via Stripe or bank transfer. No invoicing, no chasing.</div></div>
+<div class="faq-item fade"><div class="faq-q">Do I have to sign an exclusivity contract?<span class="plus">+</span></div><div class="faq-a">No exclusivity, no minimum and no lock-in. You pick the deals you want and quit anytime while keeping everything you have earned.</div></div>
+<div class="faq-item fade"><div class="faq-q">What kind of brands are on Naano?<span class="plus">+</span></div><div class="faq-a">B2B SaaS brands like Lemlist, Folk, Ringover and Gojiberry, plus 20+ more, with new deals every week.</div></div>
+<div class="faq-item fade"><div class="faq-q">Do I keep control of my content?<span class="plus">+</span></div><div class="faq-a">Yes. You write and publish every post yourself, in your own voice. Your content and your LinkedIn account are always yours.</div></div>
+<div class="faq-item fade"><div class="faq-q">How do I join?<span class="plus">+</span></div><div class="faq-a">Apply in about 2 minutes, no commitment. Once approved, you can start browsing deals and picking your first collaboration.</div></div>
+</div>
+</div></section>
+
+<section class="get-started"><div class="container inner fade">
+<div class="kicker">Ready to earn?</div>
+<h2>You've seen how it works.<br>Now get paid for it.</h2>
+<p>Join 2,000+ creators already getting paid on LinkedIn. It's free, and you keep 100% of what you earn.</p>
+<div style="margin-top:34px"><a class="btn btn-dark" href="../app/create-account.html">Apply now <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
+<div class="fine">Takes 2 minutes. No commitment.</div>
+<div class="badge-row">
+<span class="badge-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>2,000+ creators paid</span>
+<span class="badge-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Paid within 24h</span>
+<span class="badge-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Quit anytime, keep your earnings</span>
+</div>
+</div></section>
+
+<footer class="footer"><div class="container">
+<div class="footer-grid wide">
+<div><img src="https://naano.com/lp/naano-logo-nav.png" alt="naano"><p style="color:#7d8592;line-height:1.6;font-size:13px;max-width:230px;margin-top:22px">Turn your LinkedIn audience into a paid channel.</p><a href="https://www.linkedin.com/company/naanooo/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style="display:inline-flex;margin-top:14px"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0zM7.27 20.1H3.65V9.24h3.62V20.1zM5.46 7.76a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zM20.34 20.1h-3.63v-5.3c0-1.35-.03-3.08-1.88-3.08-1.88 0-2.17 1.47-2.17 2.99v5.39H9.03V9.24h3.48v1.49h.05c.48-.92 1.67-1.88 3.43-1.88 3.67 0 4.35 2.42 4.35 5.56v5.69z"/></svg></a></div>
+<div><h5>Product</h5><a href="#platform">Features</a><a href="../index.html#pricing">Pricing</a><a href="#faq">FAQs</a><a href="blog.html">Blog</a><a href="blog.html">Reports &amp; benchmarks</a><a href="agencies.html">About</a></div>
+<div><h5>Company</h5><a href="#">Help Center</a><a href="#">Privacy</a><a href="#">Terms of Sale &amp; Use</a><h5 style="margin-top:22px">For AI agents</h5><a href="#">llms.txt</a><a href="#">pricing.md</a><a href="blog.html">Reports &amp; data</a></div>
+<div><h5>Press</h5><a href="https://www.xymag.tv/les-videos/interview-de-thomas-marcelle-createur-de-naano/" target="_blank" rel="noopener noreferrer">Interview Thomas Marcelle, Xymag.tv</a><a href="https://foundertrace.fr/25-000e-de-ca-en-2-mois-comment-trois-etudiants-ont-reinvente-la-micro-influence-b2b-avec-naano/" target="_blank" rel="noopener noreferrer">Naano on FounderTrace</a><a href="https://technicalbeep.com/naano-b2b-linkedin-creator-pay-per-click/" target="_blank" rel="noopener noreferrer">Naano on TechnicalBeep</a></div>
+<div><h5>Resources</h5><a href="blog.html">LinkedIn creator marketplace</a><a href="blog.html">Best B2B influencer platforms 2026</a><a href="blog.html">B2B influencer marketing cost</a><a href="blog.html">Launch a LinkedIn creator campaign</a><a href="blog.html">LinkedIn Creator Marketplace in Europe</a><a href="blog.html">How to pay B2B creators</a><a href="blog.html">What is a B2B creator marketplace?</a><a href="blog.html">Creator-led growth for B2B</a><a href="blog.html">Naano vs alternatives</a></div>
+</div>
+<div class="foot-bottom"><span>© 2026 naano. All rights reserved.</span><a class="foot-tp" href="https://fr.trustpilot.com/review/www.naano.xyz" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 7.1h7.1l-5.7 4.6 2.3 7.1L12 16.5l-6.6 4.3 2.3-7.1L2 9.1h7.1z"/></svg>Trustpilot reviews</a></div>
+</div></footer>
+
+<script>
 const $=s=>document.querySelector(s); const $$=s=>[...document.querySelectorAll(s)];
 $$('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
 const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}}),{threshold:.12}); $$('.fade').forEach(e=>obs.observe(e));
-$$('[data-step]').forEach(s=>s.addEventListener('mouseenter',()=>$$('[data-step]').forEach(x=>x.classList.remove('active'))));
-const play=$('.play button'); if(play) play.addEventListener('click',()=>alert('Video testimonial placeholder — connect your preferred video source here.'));
-$$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}}));
-</script></body></html>
+$$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const h=a.getAttribute('href');if(!h||h.length<2)return;const t=document.querySelector(h);if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}}));
+const nav=$('.nav');if(nav){const sc=()=>nav.classList.toggle('scrolled',window.scrollY>8);sc();addEventListener('scroll',sc,{passive:true});}
+</script>
+</body></html>

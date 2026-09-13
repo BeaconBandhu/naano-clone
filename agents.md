@@ -65,8 +65,8 @@
 ### agent:marketing-polish
 - **Scope / IDs:** `index.html` + `pages/*` (`MKT-*`). Reconcile against §2 (0:00–0:54).
 
-### agent:brand-side  *(blocked — needs assets)*
-- **Scope / IDs:** `BRD-01` (marketplace grid, design #2) + everything brand. Waiting on a brand walkthrough/designs (see §8).
+### agent:brand-side  *(partially unblocked 2026-09-13 — see `docs/naano-notes.md` BRD-02)*
+- **Scope / IDs:** `BRD-01` (marketplace grid, design #2), `BRD-02` (brand-agency dashboard, built from a real screen capture, frame-by-frame). Still waiting on assets for: the creator-agency workspace path, the campaign-creation flow, and the non-Dashboard left-rail screens (Campaigns/Creators/Analytics/Messages/Billing) — see `docs/naano-notes.md` §8.
 
 ## Coordination
 - **Order:** Wave 0 → Wave 1 in parallel → `agent:qa`.

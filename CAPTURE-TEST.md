@@ -79,6 +79,39 @@ I've written this up as TEST-8x-capture.md, labeled with your name and today's d
 
 Note: `model: unknown` on both `PROMPT num=1`/`num=2` entries above is a real, left-in-place artifact — the hook payload for `UserPromptSubmit` doesn't include a `model` field on this host, and on the very first prompt of a session there's no transcript history yet to fall back to. Every `RESPONSE` entry (and every `PROMPT` after the first in a session) resolves the model correctly via the transcript fallback described above.
 
+## Known gap — 2026-09-13 session (VSCode native extension, rooted outside the repo)
+
+On 2026-09-13 the assignment brief was re-pasted as the first message of a *new*
+Claude Code session (inside the VSCode native extension), and that prompt was
+**not** captured by the hooks below. Diagnosed rather than assumed:
+
+- That session's transcript is stored under `~/.claude/projects/C--Users-vansh/…`
+  — Claude Code anchored the whole session to `C:\Users\vansh` (the folder it
+  started in), not to `naano-clone`, even though the IDE had `naano-clone/index.html`
+  open and the working directory was later reported as updated to `naano-clone`
+  mid-session.
+- `C:\Users\vansh` has no `.claude/settings.json` of its own, so the hooks
+  committed in `naano-clone/.claude/settings.json` (below) were never wired up
+  for that session. A cwd update mid-session does not retroactively load a
+  different project's hook config.
+- Confirmed empirically: no new file appeared in `.agent-logs/`, and no new
+  session-state file appeared in the hooks' temp state directory for that
+  session's ID, for that prompt.
+- The two sessions verified earlier (`f93f67ae`, `883984c1`) were both started
+  with `naano-clone` as the root from the beginning, which is why they worked —
+  the mechanism itself is proven; this is a session-rooting issue, not a bug in
+  the hook scripts.
+
+Asked the user how to proceed; they chose to continue in that same
+mis-rooted session rather than restart, accepting that this specific prompt
+and this note about it are the only manually-acknowledged gap in the log —
+no fabricated PROMPT/RESPONSE entry was written to `.agent-logs/` to paper
+over it, since an entry that didn't fire on its own would defeat the point of
+automatic capture. Recommendation for future sessions: always start Claude
+Code (or open the VSCode window) with `naano-clone` itself as the workspace
+root, not a parent/home directory, so the committed hooks register from the
+first prompt.
+
 ## What I tried first that didn't work
 
 1. **Piping fake JSON via the Bash tool (Git Bash) to dry-run the scripts**, e.g. `echo '{"cwd":"/c/Users/..."}' | node capture-prompt.cjs`. Git Bash rewrites Windows paths to `/c/Users/...` form; Node on Windows then resolves a leading `/` as the root of the *current* drive, turning `/c/Users/vansh/...` into `C:\c\Users\vansh\...` — a directory that doesn't exist. This silently produced no log file and no error until I checked. Fixed by having the hook scripts use `process.cwd()` (the real spawned-process cwd, always correct) instead of trusting a `cwd` string from the JSON payload, and by re-testing with PowerShell / a real `child_process.spawn` (matching how Claude Code itself invokes hooks) instead of a shell pipe.
