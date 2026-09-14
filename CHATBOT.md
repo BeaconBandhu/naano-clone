@@ -64,6 +64,12 @@ Requires the local dev server running (re-fetches the 5 pages from it) and
 `OPENAI_API_KEY` set. Not automatic — run it again any time the marketing
 copy changes materially, same caveat the old setup had.
 
+`api/_lib/rag.mjs` caches the index in memory after the first `/api/ask`
+call in a given process, so a rebuild while the dev server is already
+running won't be picked up until it restarts — same caveat the old
+project's `server.py` had for its own index cache. Vercel doesn't have
+this problem: a fresh deploy always gets a fresh process.
+
 The widget calls same-origin `/api/ask` by default. To point it at a
 different deployment instead, set `window.NAANO_CHAT_API = "https://..."`
 in an inline `<script>` **before** `naano-chat-widget.js` loads.
