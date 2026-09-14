@@ -9,63 +9,73 @@ assistant does *not* do this (verified live: asked it to write Python file
 I/O code and solve an array problem, and it just did, with no relation to
 the product).
 
-## Backend: a separate project, run alongside this one
+## Backend: native to this repo (`api/ask.mjs` → `api/_lib/rag.mjs`)
 
-The widget calls a RAG (retrieval-augmented generation) server that isn't
-part of this repo — it's a general-purpose local RAG tool (FAISS +
-Sentence-Transformers retrieval, OpenAI-generated answers) living at
-`C:\Users\User\Pictures\RAG` on this machine. Two small changes were made
-there to support this integration cleanly:
+**This changed.** The widget originally called out to a separate Python
+project (FAISS + Sentence-Transformers + torch, run as its own server) — see
+`docs/naano-notes.md`'s chatbot changelog entries for that history. It
+worked, but doesn't fit a Vercel deploy: `torch` alone is ~550MB (past the
+~250MB serverless function limit), `sentence-transformers` needs it just to
+embed a query, and the FAISS index needs a persistent disk a serverless
+function doesn't have.
 
-- **CORS** (`app/server.py`) — the dashboard never needed cross-origin
-  requests; a separate site embedding it as a widget does.
-- **Encoding fix** (`app/documents.py`) — `requests` silently defaults to
-  ISO-8859-1 for any fetched page with no declared charset, which was
-  mangling this repo's UTF-8 ("€" → "â¬"). Fixed alongside it here:
-  `server/serve.mjs` now declares `charset=utf-8` explicitly, which any
-  real browser already inferred correctly (via `<meta charset>`) but a
-  charset-respecting HTTP client like `requests` did not.
-- **`RAG_INDEX_DIR` / `RAG_GENERATION_BACKEND` env overrides** — that
-  project already had an unrelated demo corpus indexed (a NeurIPS paper, a
-  Wikipedia article, etc.). Mixing that into a "this site only" corpus
-  would have let off-topic questions come back "grounded" against
-  *that* content instead — the opposite of the point. These overrides
-  point this integration at its own index and its own generation backend
-  without touching that project's own defaults.
+This version drops all of that and lives entirely in this repo, matching
+how `api/_lib/stripe.mjs` and `api/_lib/scrape.mjs` already talk to their
+respective APIs — plain REST over `fetch`, no SDK:
 
-### Running it
+- **Retrieval** — `api/_lib/rag-index.json`, a small precomputed
+  `{text, source, embedding}` array (~53 chunks from this site's 5 public
+  pages). Searched with brute-force cosine similarity in plain JS
+  (`api/_lib/rag.mjs`) — at this corpus size an ANN index (FAISS/HNSW) buys
+  nothing over a linear scan, so it isn't needed.
+- **Embedding** — OpenAI's `text-embedding-3-small` via `POST
+  /v1/embeddings`, both for indexing (`scripts/build-rag-index.mjs`) and for
+  each query at ask-time.
+- **Generation** — OpenAI's `gpt-5.4-mini` via `POST /v1/chat/completions`,
+  with a system prompt that mirrors the old project's strict-grounding
+  contract: answer only from the retrieved chunks, cite the source filename,
+  or say plainly the documents don't cover it.
+- **Relevance gate** — same idea as the old project's `MIN_RELEVANCE_SCORE`
+  (`0.3`): a nearest-neighbor search always returns *something*, even when
+  nothing in the corpus is actually relevant. Below the threshold, skip the
+  LLM call entirely and answer "not in the documents" directly.
 
-```powershell
-cd C:\Users\User\Pictures\RAG
-$env:RAG_INDEX_DIR = "C:\Users\User\Pictures\RAG\index_naano_website"
-$env:RAG_GENERATION_BACKEND = "openai"    # reliable; needs OPENAI_API_KEY in that project's .env
-./.venv/Scripts/python.exe -m uvicorn app.server:app --host 0.0.0.0 --port 8000
+### Setup
+
+```
+# .env (gitignored) — see .env.example
+OPENAI_API_KEY=sk-...
 ```
 
-Then, with this repo's own dev server also running (`npm run dev`, port
-5173), index this site's public pages once (repeat any time the marketing
-copy changes materially — it's not automatic):
+That's it — no separate server, no venv, no GPU. `npm run dev` (or a Vercel
+deploy) picks it up automatically; `server/serve.mjs` loads `.env` the same
+way it already does for `APIFY_TOKEN`/`STRIPE_SECRET_KEY`, and routes
+`POST /api/ask` to the same `api/_lib/rag.mjs` code Vercel's `api/ask.mjs`
+uses — local behaves like deployed, same pattern as every other endpoint in
+this repo.
 
-```powershell
-foreach ($p in "", "pages/creators.html", "pages/agencies.html", "pages/blog.html", "pages/register.html") {
-  curl.exe -s -X POST http://127.0.0.1:8000/api/documents -F "link=http://localhost:5173/$p" | Out-Null
-}
+### Rebuilding the index
+
+```
+node scripts/build-rag-index.mjs
 ```
 
-The widget defaults to `http://localhost:8000`. To point it elsewhere
-(a deployed RAG server), set `window.NAANO_CHAT_API = "https://..."` in an
-inline `<script>` **before** `naano-chat-widget.js` loads.
+Requires the local dev server running (re-fetches the 5 pages from it) and
+`OPENAI_API_KEY` set. Not automatic — run it again any time the marketing
+copy changes materially, same caveat the old setup had.
+
+The widget calls same-origin `/api/ask` by default. To point it at a
+different deployment instead, set `window.NAANO_CHAT_API = "https://..."`
+in an inline `<script>` **before** `naano-chat-widget.js` loads.
 
 ## Why answers get refused so often in testing
 
-`MIN_RELEVANCE_SCORE` (that project's `app/config.py`, default `0.3`) skips
-the LLM call entirely when nothing retrieved is actually relevant — this
-site's indexed content is currently just 5 marketing pages (~23 chunks), so
-anything not covered by the homepage FAQ / creators / agencies / blog /
-register pages will correctly come back as "The provided documents don't
+This site's indexed content is currently just 5 marketing pages (~53
+chunks), so anything not covered by the homepage / creators / agencies /
+blog / register pages correctly comes back as "The provided documents don't
 contain information about this." That's the guardrail working, not a bug.
-Add more pages (the app's onboarding/billing flow, docs, etc.) via the same
-`/api/documents` call to widen what it can answer.
+Widen the corpus by adding more pages to `PAGES` in
+`scripts/build-rag-index.mjs` and re-running it.
 
 ## Not done here
 
@@ -73,6 +83,8 @@ Add more pages (the app's onboarding/billing flow, docs, etc.) via the same
   workspace) — only the public marketing pages, matching where the
   reference screenshots showed it.
 - No conversation memory across questions — each query is answered
-  independently (no chat history sent back to the RAG server).
-- The RAG server needs to be started by hand; nothing in this repo
-  auto-starts it (it's a separate project, on a separate stack).
+  independently (no chat history sent back to `/api/ask`).
+- The standalone Python/FAISS project this superseded still exists
+  (`github.com/BeaconBandhu/faiss-rag-dashboard`, mirrored to
+  `github.com/Vanshhikaa04/faiss-rag-dashboard`) as a separate, more
+  general-purpose RAG tool — it's just no longer what this widget calls.

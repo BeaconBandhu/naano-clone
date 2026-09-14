@@ -1,23 +1,27 @@
 /* Naano website chat widget - drop-in, no build step, no framework.
  *   <script src="naano-chat-widget.js" defer></script>
  *
- * Talks to a locally-run RAG server (see C:\Users\User\Pictures\RAG):
- * FAISS + Sentence-Transformers retrieval, OpenAI-generated answers
+ * Talks to this repo's own POST /api/ask (api/ask.mjs -> api/_lib/rag.mjs):
+ * a small precomputed-embeddings index + OpenAI REST calls, answers
  * STRICTLY grounded in whatever's indexed - which, for this widget, is
- * only this site's own public pages (a separate index from that project's
- * own demo corpus; see RAG_INDEX_DIR in app/config.py). A query that isn't
- * covered by the site's content is refused, not guessed at - that's the
- * whole point: the reference product's own assistant answers arbitrary
- * coding/math questions with no relation to the product (verified against
- * the live naano.com widget), which is exactly the failure mode this is
- * built to avoid.
+ * only this site's own public pages (api/_lib/rag-index.json, rebuilt via
+ * scripts/build-rag-index.mjs). A query that isn't covered by the site's
+ * content is refused, not guessed at - that's the whole point: the
+ * reference product's own assistant answers arbitrary coding/math
+ * questions with no relation to the product (verified against the live
+ * naano.com widget), which is exactly the failure mode this is built to
+ * avoid.
+ *
+ * (This used to call out to a separate Python/FAISS project on localhost -
+ * see docs/naano-notes.md's chatbot changelog entries for that history and
+ * why it moved in-repo: that stack doesn't fit a Vercel deploy.)
  *
  * Backend override: set window.NAANO_CHAT_API before this script loads to
- * point at a deployed RAG server instead of localhost.
+ * point at a different deployment's /api/ask instead of this same origin.
  */
 (function () {
   "use strict";
-  var API = window.NAANO_CHAT_API || "http://localhost:8000";
+  var API = window.NAANO_CHAT_API || "";
 
   var CSS = ""
     + ".naano-chat{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);"

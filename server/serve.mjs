@@ -14,6 +14,7 @@ import { runEvaluate } from "../api/_lib/scrape.mjs";
 import { scrapeCompanyWebsite } from "../api/_lib/scrape-company.mjs";
 import { createCheckoutSession, retrieveCheckoutSession } from "../api/_lib/stripe.mjs";
 import { SignatureVerificationError, verifyStripeSignature } from "../api/_lib/stripe-webhook.mjs";
+import { ask as askRag } from "../api/_lib/rag.mjs";
 
 const ROOT = normalize(join(fileURLToPath(new URL(".", import.meta.url)), ".."));
 const PORT = +(process.env.PORT || 5173);
@@ -103,6 +104,14 @@ async function handleCheckoutSessionStatus(req, res) {
   } catch (e) { return json(res, e?.status || 500, { error: String(e?.message || e) }); }
 }
 
+async function handleAsk(req, res) {
+  let raw = ""; for await (const c of req) raw += c;
+  let body; try { body = JSON.parse(raw || "{}"); } catch { return json(res, 400, { error: "bad JSON" }); }
+  if (!body?.query || typeof body.query !== "string") return json(res, 400, { error: "body.query (string) is required." });
+  try { return json(res, 200, await askRag(body.query, body.top_k ? Number(body.top_k) : undefined)); }
+  catch (e) { return json(res, e?.status || 500, { error: String(e?.message || e) }); }
+}
+
 async function serveStatic(req, res) {
   let path = decodeURIComponent(new URL(req.url, "http://x").pathname);
   if (path === "/") path = "/index.html";
@@ -126,11 +135,14 @@ createServer((req, res) => {
   if (path === "/api/create-checkout-session") return json(res, 200, { ok: true, hasKey: !!process.env.STRIPE_SECRET_KEY });
   if (path === "/api/checkout-session" && req.method === "GET") return handleCheckoutSessionStatus(req, res).catch((e) => json(res, 500, { error: String(e) }));
   if (path === "/api/webhooks/stripe" && req.method === "POST") return handleStripeWebhook(req, res).catch((e) => json(res, 500, { error: String(e) }));
+  if (path === "/api/ask" && req.method === "POST") return handleAsk(req, res).catch((e) => json(res, 500, { error: String(e) }));
+  if (path === "/api/ask") return json(res, 200, { ok: true, hasKey: !!process.env.OPENAI_API_KEY, hint: "POST { query: '...' }" });
   return serveStatic(req, res);
 }).listen(PORT, () => {
   console.log(`\n  Naano clone  →  http://localhost:${PORT}   (app: /app/signin.html)`);
   console.log(`  Apify token:  ${process.env.APIFY_TOKEN ? "set" : "not set (sample fallback for /in/aranyabandhu/)"}`);
   console.log(`  Stripe key:   ${process.env.STRIPE_SECRET_KEY ? "set" + (process.env.STRIPE_SECRET_KEY.startsWith("sk_test_") ? " (test)" : " (⚠ not sk_test_ — check it's a sandbox key)") : "NOT SET — Billing → Add budget and any fixed-price checkout will fail until you add one"}`);
   console.log(`  Stripe prices: ${["STRIPE_PRICE_TOPUP_100","STRIPE_PRICE_TOPUP_200","STRIPE_PRICE_TOPUP_300","STRIPE_PRICE_STARTER","STRIPE_PRICE_PRO","STRIPE_PRICE_BUSINESS"].filter((k) => process.env[k]).length}/6 set`);
-  console.log(`  Webhook secret: ${process.env.STRIPE_WEBHOOK_SECRET ? "set" : "not set — /api/webhooks/stripe will reject everything"}\n`);
+  console.log(`  Webhook secret: ${process.env.STRIPE_WEBHOOK_SECRET ? "set" : "not set — /api/webhooks/stripe will reject everything"}`);
+  console.log(`  OpenAI key:   ${process.env.OPENAI_API_KEY ? "set" : "NOT SET — the chat widget (/api/ask) will return 503"}\n`);
 });
