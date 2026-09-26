@@ -8,6 +8,7 @@
  */
 import { randomUUID } from "node:crypto";
 import { all, get, run } from "./db.mjs";
+import { logActivity } from "./activity.mjs";
 
 export function getBalanceCents(brandId) {
   const row = get("SELECT COALESCE(SUM(amount_cents), 0) AS balance FROM wallet_ledger WHERE brand_id = ?", [
@@ -36,6 +37,7 @@ export function creditTopup({ brandId, amountCents, stripeSessionId, description
       "INSERT INTO wallet_ledger (id, brand_id, type, amount_cents, stripe_session_id, description) VALUES (?, ?, 'topup', ?, ?, ?)",
       [randomUUID(), brandId, amountCents, stripeSessionId, description || null]
     );
+    logActivity({ type: "wallet_topup", actorRole: "brand", summary: `A brand added ${(amountCents / 100).toFixed(2)}€ to their wallet.`, meta: { amountCents } }).catch(() => {});
     return true;
   } catch (e) {
     if (String(e?.message || "").includes("UNIQUE")) return false; // already credited

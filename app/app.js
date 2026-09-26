@@ -314,7 +314,7 @@
       `<div class="row"><span class="sp"></span>Evaluating against the card…</div>`,
     ].filter(Boolean).join("");
     try {
-      const r = await fetch("/api/evaluate", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ linkedinUrl, xUrl, xPosts, apifyToken }) });
+      const r = await fetch("/api/tools/evaluate", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ linkedinUrl, xUrl, xPosts, apifyToken }) });
       if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || `server ${r.status}`);
       const data = await r.json();
       try { localStorage.setItem(STORE, JSON.stringify(data.card)); } catch {}
@@ -330,7 +330,7 @@
       const offline = /Failed to fetch|NetworkError|server 404|ECONNREFUSED/i.test(String(err));
       cmStatus.hidden = false; cmStatus.className = "cm__status is-err";
       cmStatus.innerHTML = offline
-        ? "Card analyzer unavailable — locally run <code>node server/serve.mjs</code>; on Vercel the <code>/api/evaluate</code> function must be deployed. Continuing with demo data…"
+        ? "Card analyzer unavailable — locally run <code>node server/serve.mjs</code>; on Vercel the <code>/api/tools/evaluate</code> function must be deployed. Continuing with demo data…"
         : `Couldn't build the card: ${err.message}. Continuing with demo data…`;
       go.classList.remove("is-disabled");
       setTimeout(cmDone, offline ? 3000 : 2400);

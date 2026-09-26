@@ -133,14 +133,14 @@
 
     let data, error;
     try {
-      const res = await fetch("/api/scrape-company", {
+      const res = await fetch("/api/tools/scrape-company", {
         method: "POST", headers: { "content-type": "application/json" },
         body: JSON.stringify({ url: urlField.value }),
       });
       data = await res.json();
       if (!res.ok || data.error) error = data.error || "Could not read that site.";
     } catch {
-      error = "Card analyzer unavailable — locally run `node server/serve.mjs`; on Vercel the /api/scrape-company function must be deployed.";
+      error = "Card analyzer unavailable — locally run `node server/serve.mjs`; on Vercel the /api/tools/scrape-company function must be deployed.";
     }
 
     await pacing;

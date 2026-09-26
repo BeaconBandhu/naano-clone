@@ -110,7 +110,14 @@
     </div>
   </div>
 
-  <div class="card reveal" style="--d:.2s;margin-top:18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+  <div class="card reveal" style="--d:.2s;margin-top:18px">
+    <div class="card__head">
+      <div><div class="section-title">Platform activity</div><div class="section-sub">What's happening across Naano right now, live from the database.</div></div>
+    </div>
+    <div id="activity-feed"><div class="table__empty">Loading…</div></div>
+  </div>
+
+  <div class="card reveal" style="--d:.24s;margin-top:18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap">
     <span class="pill pill--ok pill--dot">Naano experts available</span>
     <div style="flex:1;min-width:240px">
       <b style="display:block;font-size:15px;color:var(--ink)">Need an expert eye? Book a free call.</b>
@@ -122,4 +129,5 @@
 </main>
 <script src="brand.js"></script>
 <script src="app.js"></script>
+<script src="activity.js" defer></script>
 </body></html>

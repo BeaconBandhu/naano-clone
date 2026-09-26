@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { all, get, run } from "./db.mjs";
+import { logActivity } from "./activity.mjs";
 
 export function listCampaignsForBrand(brandId) {
   return all("SELECT * FROM campaigns WHERE brand_id = ? ORDER BY created_at DESC", [brandId]);
@@ -16,6 +17,7 @@ export function createCampaign(brandId, { title, brief, budgetCents }) {
     brief || null,
     Number.isFinite(budgetCents) ? budgetCents : 0,
   ]);
+  logActivity({ type: "campaign_created", actorRole: "brand", summary: `A new campaign, "${title}", went live.`, meta: { campaignId: id } }).catch(() => {});
   return get("SELECT * FROM campaigns WHERE id = ?", [id]);
 }
 

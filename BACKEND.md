@@ -97,10 +97,47 @@ crediting the real wallet, a retry of that same event not double-crediting,
 and logout actually invalidating the session server-side (`/api/wallet`
 returns 401 immediately after).
 
+## Platform activity feed — real MongoDB Atlas, not SQLite
+
+The one hosted, genuinely-durable-on-Vercel database in this repo.
+[`api/_lib/mongo.mjs`](api/_lib/mongo.mjs) connects to a real MongoDB Atlas
+cluster via the official `mongodb` driver — the one npm dependency this repo
+has, because unlike Stripe/OpenAI/Apify there's no REST API underneath to
+hand-roll with `fetch`. The connection is cached on `global` so a warm
+Vercel instance reuses it instead of reconnecting per request.
+
+- **What it stores**: [`api/_lib/activity.mjs`](api/_lib/activity.mjs) — one
+  append-only document per real event (a signup, a campaign going live, a
+  creator invited, a wallet topup). This is additive to SQLite, not a
+  replacement — SQLite stays the system of record for accounts, campaigns,
+  collaborations and the wallet; Mongo just logs that those things happened,
+  which is a natural fit for a schema-less store (every event type has a
+  different `meta` shape) that a relational table would fight.
+- **Wired in for real**, not seeded once and left static: `signup()`
+  (accounts.mjs), `createCampaign()` (campaigns.mjs), `inviteCreator()` /
+  `setCollaborationStatus()` (collaborations.mjs), and `creditTopup()`
+  (wallet.mjs) each call `logActivity(...)` — fire-and-forget, so a Mongo
+  hiccup can never fail the real operation.
+- `GET /api/activity` — public, returns the most recent events. Rendered by
+  [`app/activity.js`](app/activity.js) into a "Platform activity" card on
+  both `app/overview.html` (creator) and `app/brand-overview.html` (brand) —
+  live data, not a mock widget.
+- Without `MONGODB_URI` set, `/api/activity` returns `{ activity: [], mongo:
+  false }` rather than erroring — the rest of the site is unaffected.
+- **A real gotcha worth knowing**: some networks (this dev sandbox included)
+  block raw DNS SRV/TXT queries, which breaks `mongodb+srv://` with
+  `querySrv ECONNREFUSED` even though normal hostname resolution and TCP
+  still work. The fix is Atlas's plain `mongodb://host1,host2,host3/...&
+  replicaSet=...` connection string instead of the srv shorthand — see the
+  note in `.env.example`.
+
 ## Not done here
 
 - Frontend for campaigns/collaborations (list/detail UI) — the API exists,
   the pages weren't rebuilt to call it yet.
 - Real OAuth (LinkedIn/Google sign-in) — needs registering apps with each
   provider.
-- A hosted database for the Vercel deployment specifically (see above).
+- Moving the system-of-record (accounts, campaigns, collaborations, wallet)
+  off SQLite onto a hosted store for durable Vercel persistence — the
+  activity feed above is genuinely hosted and durable, but it's an
+  additive event log, not that migration.

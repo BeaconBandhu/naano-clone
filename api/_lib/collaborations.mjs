@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { all, get, run } from "./db.mjs";
+import { logActivity } from "./activity.mjs";
 
 export function listCollaborationsForBrand(brandId) {
   return all(
@@ -38,6 +39,7 @@ export function inviteCreator(brandId, { campaignId, creatorId, priceCents }) {
     creatorId,
     Number.isFinite(priceCents) ? priceCents : null,
   ]);
+  logActivity({ type: "collaboration_invited", actorRole: "brand", summary: `A creator was invited into "${campaign.title}".`, meta: { collaborationId: id, campaignId } }).catch(() => {});
   return get("SELECT * FROM collaborations WHERE id = ?", [id]);
 }
 
@@ -64,5 +66,8 @@ export function setCollaborationStatus(user, collabId, { status, postUrl }) {
     postUrl || null,
     collabId,
   ]);
+  if (status) {
+    logActivity({ type: "collaboration_status", actorRole: user.role, summary: `A collaboration was marked "${status}".`, meta: { collaborationId: collabId, status } }).catch(() => {});
+  }
   return get("SELECT * FROM collaborations WHERE id = ?", [collabId]);
 }

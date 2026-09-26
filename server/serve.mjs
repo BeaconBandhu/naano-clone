@@ -1,7 +1,7 @@
 /* Naano clone — local dev server.
  *   node server/serve.mjs            → http://localhost:5173
- * Serves the repo statically and runs POST /api/evaluate through the SAME code
- * the Vercel function uses (api/_lib/scrape.mjs), so local behaves like deployed.
+ * Serves the repo statically and runs every /api/* route through the SAME
+ * handler modules Vercel deploys, so local behaves like deployed.
  *
  * Env: PORT (5173), APIFY_TOKEN (optional — else /in/aranyabandhu/ uses the
  * bundled sample; other profiles need a token, pasted in the modal or set here).
@@ -10,10 +10,9 @@ import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import { extname, join, normalize, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-import { runEvaluate } from "../api/_lib/scrape.mjs";
-import { scrapeCompanyWebsite } from "../api/_lib/scrape-company.mjs";
 import { retrieveCheckoutSession } from "../api/_lib/stripe.mjs";
 import { ask as askRag } from "../api/_lib/rag.mjs";
+import { hasMongo } from "../api/_lib/mongo.mjs";
 
 // These new endpoints are real business logic (auth, wallet, campaigns...),
 // not thin wrappers - imported directly and run as-is (rather than
@@ -30,6 +29,8 @@ import campaignsHandler from "../api/campaigns.mjs";
 import collaborationsHandler from "../api/collaborations.mjs";
 import walletHandler from "../api/wallet.mjs";
 import createCheckoutSessionHandler from "../api/create-checkout-session.mjs";
+import activityHandler from "../api/activity.mjs";
+import toolsHandler from "../api/tools/[action].mjs";
 
 function decorateResponse(res) {
   res.status = (code) => {
@@ -56,6 +57,9 @@ const VERCEL_STYLE_ROUTES = {
   "/api/campaigns": campaignsHandler,
   "/api/collaborations": collaborationsHandler,
   "/api/wallet": walletHandler,
+  "/api/activity": activityHandler,
+  "/api/tools/evaluate": toolsHandler,
+  "/api/tools/scrape-company": toolsHandler,
 };
 
 const ROOT = normalize(join(fileURLToPath(new URL(".", import.meta.url)), ".."));
@@ -81,20 +85,6 @@ const MIME = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=u
 
 const json = (res, code, obj) =>
   res.writeHead(code, { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" }).end(JSON.stringify(obj, null, 2));
-
-async function handleEvaluate(req, res) {
-  let raw = ""; for await (const c of req) raw += c;
-  let body; try { body = JSON.parse(raw || "{}"); } catch { return json(res, 400, { error: "bad JSON" }); }
-  try { return json(res, 200, await runEvaluate(body)); }
-  catch (e) { return json(res, e?.status || 500, { error: String(e?.message || e) }); }
-}
-
-async function handleScrapeCompany(req, res) {
-  let raw = ""; for await (const c of req) raw += c;
-  let body; try { body = JSON.parse(raw || "{}"); } catch { return json(res, 400, { error: "bad JSON" }); }
-  try { return json(res, 200, await scrapeCompanyWebsite(body?.url)); }
-  catch (e) { return json(res, e?.status || 500, { error: String(e?.message || e) }); }
-}
 
 // create-checkout-session and the stripe webhook are both real business
 // logic now (auth + client_reference_id attribution; wallet crediting) -
@@ -136,10 +126,6 @@ async function serveStatic(req, res) {
 
 createServer((req, res) => {
   const path = req.url.split("?")[0];
-  if (path === "/api/evaluate" && req.method === "POST") return handleEvaluate(req, res).catch((e) => json(res, 500, { error: String(e) }));
-  if (path === "/api/evaluate") return json(res, 200, { ok: true, hasToken: !!process.env.APIFY_TOKEN });
-  if (path === "/api/scrape-company" && req.method === "POST") return handleScrapeCompany(req, res).catch((e) => json(res, 500, { error: String(e) }));
-  if (path === "/api/scrape-company") return json(res, 200, { ok: true, hint: "POST { url }" });
   if (path === "/api/checkout-session" && req.method === "GET") return handleCheckoutSessionStatus(req, res).catch((e) => json(res, 500, { error: String(e) }));
   if (path === "/api/ask" && req.method === "POST") return handleAsk(req, res).catch((e) => json(res, 500, { error: String(e) }));
   if (path === "/api/ask") return json(res, 200, { ok: true, hasKey: !!process.env.OPENAI_API_KEY, hint: "POST { query: '...' }" });
@@ -153,5 +139,6 @@ createServer((req, res) => {
   console.log(`  Stripe prices: ${["STRIPE_PRICE_TOPUP_100","STRIPE_PRICE_TOPUP_200","STRIPE_PRICE_TOPUP_300","STRIPE_PRICE_STARTER","STRIPE_PRICE_PRO","STRIPE_PRICE_BUSINESS"].filter((k) => process.env[k]).length}/6 set`);
   console.log(`  Webhook secret: ${process.env.STRIPE_WEBHOOK_SECRET ? "set" : "not set — /api/webhooks/stripe will reject everything"}`);
   console.log(`  OpenAI key:   ${process.env.OPENAI_API_KEY ? "set" : "NOT SET — the chat widget (/api/ask) will return 503"}`);
-  console.log(`  Database:     SQLite at data/naano.db (auto-created on first request; see api/_lib/db.mjs)\n`);
+  console.log(`  Database:     SQLite at data/naano.db (auto-created on first request; see api/_lib/db.mjs)`);
+  console.log(`  MongoDB:      ${hasMongo() ? "connected (activity feed live, see api/_lib/mongo.mjs)" : "not set — MONGODB_URI missing, /api/activity returns an empty feed"}\n`);
 });

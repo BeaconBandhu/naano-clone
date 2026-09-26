@@ -5,6 +5,7 @@
 import { randomUUID } from "node:crypto";
 import { get, run, transaction } from "./db.mjs";
 import { createSession, hashPassword, verifyPassword } from "./auth.mjs";
+import { logActivity } from "./activity.mjs";
 
 function publicUser(row) {
   return { id: row.id, email: row.email, role: row.role, name: row.name };
@@ -42,6 +43,7 @@ export function signup({ email, password, role, name }) {
   });
 
   const user = { id, email, role, name };
+  logActivity({ type: "signup", actorRole: role, summary: `A new ${role} joined Naano.` }).catch(() => {});
   return { user, sessionToken: createSession(id) };
 }
 
