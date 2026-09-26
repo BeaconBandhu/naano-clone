@@ -194,6 +194,54 @@ img{max-width:100%;height:auto}
   .naano-trust-track [aria-hidden="true"]{display:none!important}
   .tb-slot{padding:14px 20px}
 }
+</style>
+<style id="motion-everything">
+:root{--m-blue:#4f7cff;--m-dark:#090b10;--m-ease:cubic-bezier(.16,1,.3,1)}
+html{scroll-behavior:smooth}
+body{background:#f7f9fc}
+body:before{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.nav{transition:height .45s var(--m-ease),background .45s ease,box-shadow .45s ease,transform .45s var(--m-ease)}
+.nav.scrolled{height:64px;background:rgba(255,255,255,.72);backdrop-filter:blur(24px) saturate(160%);box-shadow:0 12px 40px rgba(20,30,50,.08)}
+.hero{isolation:isolate}
+.hero:after{background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.45),transparent 38%),linear-gradient(180deg,transparent 50%,rgba(255,255,255,.6))}
+.hero:before{height:60%;background:linear-gradient(180deg,transparent,rgba(255,255,255,.85))}
+.m-orb{position:absolute;z-index:0;border-radius:50%;pointer-events:none;filter:blur(2px);will-change:transform}
+.m-orb.one{width:420px;height:420px;left:-130px;top:12%;background:radial-gradient(circle,rgba(77,124,255,.28),transparent 68%);animation:mOrb1 12s ease-in-out infinite}
+.m-orb.two{width:380px;height:380px;right:-120px;top:25%;background:radial-gradient(circle,rgba(100,190,255,.25),transparent 68%);animation:mOrb2 15s ease-in-out infinite}
+.m-orb.three{width:220px;height:220px;left:42%;bottom:4%;background:radial-gradient(circle,rgba(255,255,255,.8),transparent 65%);animation:mOrb3 9s ease-in-out infinite}
+@keyframes mOrb1{50%{transform:translate3d(120px,70px,0) scale(1.2)}}@keyframes mOrb2{50%{transform:translate3d(-100px,-60px,0) scale(.8)}}@keyframes mOrb3{50%{transform:translate3d(0,-45px,0) scale(1.15)}}
+.hero .inner,.hero-trust{z-index:2}
+.hero h1 .m-word{display:inline-block;opacity:0;transform:translateY(110%);animation:mWord .9s var(--m-ease) forwards}
+@keyframes mWord{to{opacity:1;transform:none}}
+.hero .eyebrow-pill{animation:mIn .8s var(--m-ease) .05s both}.hero p{animation:mIn .8s var(--m-ease) .42s both}.hero-actions{animation:mIn .8s var(--m-ease) .52s both}.hero-trust{animation:mIn .8s var(--m-ease) .62s both}
+@keyframes mIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.btn,.hero-link{transition:transform .25s var(--m-ease),box-shadow .25s ease,color .2s ease,background .2s ease}
+.magnetic{will-change:transform}
+.feature,.journey,.video,.case,.results,.posts,.pricing,.faq,.cta{position:relative;isolation:isolate}
+.feature:before,.video:before,.case:before,.results:before,.posts:before,.pricing:before,.faq:before,.cta:before{content:"";position:absolute;z-index:-1;width:38vw;height:38vw;border-radius:50%;pointer-events:none;filter:blur(50px);opacity:.3;background:radial-gradient(circle,rgba(91,143,255,.12),transparent 68%);animation:mSectionOrb 18s ease-in-out infinite}
+.feature:before,.posts:before,.faq:before{left:-18vw;top:18%}.journey:before,.results:before,.pricing:before{right:-18vw;top:12%}.video:before,.case:before,.cta:before{left:35%;top:5%}
+@keyframes mSectionOrb{50%{transform:translate(8vw,5vw) scale(1.25)}}
+.feature-head h2,.journey-head h2,.quote,.case h3,.cta h2{animation:mTextGlow 6s ease-in-out infinite}
+@keyframes mTextGlow{50%{text-shadow:0 0 34px rgba(77,124,255,.08)}}
+.fade{opacity:0;transform:translateY(45px) scale(.97);filter:blur(5px);transition:opacity .9s var(--m-ease),transform .9s var(--m-ease),filter .9s ease}
+.fade.in{opacity:1;transform:none;filter:none}
+.fade:nth-child(2){transition-delay:.08s}.fade:nth-child(3){transition-delay:.16s}.fade:nth-child(4){transition-delay:.24s}.fade:nth-child(5){transition-delay:.32s}
+.market-wrap,.case-card,.video-panel,.journey-card,.price-card,.post,.result,.stat,.metric{transform-style:preserve-3d;will-change:transform}
+.market-wrap{transition:transform .2s ease-out,box-shadow .5s ease}.market-wrap:hover{box-shadow:0 55px 110px rgba(35,65,120,.22)}
+.jstep-card{transition:transform .55s var(--m-ease),box-shadow .55s ease,border-color .35s ease}.jstep-card:hover{transform:translateY(-12px) scale(1.02);box-shadow:0 35px 75px rgba(30,50,90,.16);border-color:rgba(77,124,255,.4)}
+.jstep-num{transition:transform .45s var(--m-ease),background .3s}.jstep:hover .jstep-num{transform:translateY(-5px) scale(1.12);background:#edf3ff}
+.jmock{position:relative;overflow:hidden}.jmock:after{content:"";position:absolute;inset:-80%;background:linear-gradient(105deg,transparent 43%,rgba(77,124,255,.12) 50%,transparent 57%);transform:translateX(-30%) rotate(8deg);transition:transform 1s ease}.jstep:hover .jmock:after{transform:translateX(30%) rotate(8deg)}
+.result,.stat,.metric,.post,.price-card{transition:transform .45s var(--m-ease),box-shadow .45s ease,border-color .3s ease}.result:hover,.stat:hover,.metric:hover,.post:hover,.price-card:hover{transform:translateY(-9px) scale(1.015);box-shadow:0 30px 70px rgba(30,50,90,.14)}
+.post img{transition:transform .7s var(--m-ease),filter .7s ease}.post:hover img{transform:scale(1.06);filter:saturate(1.12)}
+.play button{animation:mPulse 2.4s ease-in-out infinite;transition:transform .3s var(--m-ease),box-shadow .3s}.play button:hover{animation:none;transform:scale(1.13);box-shadow:0 18px 45px rgba(0,0,0,.25)}
+@keyframes mPulse{50%{box-shadow:0 0 0 13px rgba(255,255,255,0),0 10px 30px rgba(0,0,0,.18)}}
+.result b,.stat strong,.metric b{font-variant-numeric:tabular-nums}
+.cta-box{overflow:hidden;isolation:isolate}.cta-box:before{content:"";position:absolute;inset:-100%;z-index:-2;background:conic-gradient(from 0deg,transparent 0 30%,rgba(80,125,255,.22),transparent 48%,rgba(130,200,255,.14),transparent 70%);animation:mSpin 14s linear infinite}.cta-box:after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 50% 20%,rgba(80,125,255,.18),transparent 48%)}
+@keyframes mSpin{to{transform:rotate(360deg)}}
+.faq-item{transition:background .3s ease,padding .3s ease;border-radius:12px}.faq-item:hover{background:rgba(77,124,255,.025);padding-inline:12px}.faq-q .plus{transition:transform .4s var(--m-ease)}.faq-item.open .plus{transform:rotate(45deg)}
+.naano-trust-track{animation-duration:22s}
+@media(max-width:700px){.m-orb{opacity:.35}.feature:before,.video:before,.case:before,.results:before,.posts:before,.pricing:before,.faq:before,.cta:before{width:65vw;height:65vw}.jstep-card:hover{transform:translateY(-6px)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}.hero h1 .m-word{opacity:1!important;transform:none!important}}
 </style></head><body>
 <header class="nav"><div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:20px"><a href="index.html"><img src="https://naano.com/lp/naano-logo-nav.png" alt="naano"></a><nav class="navlinks"><a href="#companies">For companies</a><a href="pages/creators.html">For creators</a><a href="pages/agencies.html">For agencies</a><a href="#how">How it works</a><a href="pages/blog.html">Resources</a></nav><div class="navright"><a class="btn btn-ghost" href="app/signin.html">Sign in</a><a class="btn btn-primary" href="app/create-account.html">Sign up</a></div></div></header>
 <section class="hero"><div class="container inner fade"><div class="eyebrow"><span class="eyebrow-pill"><svg class="ico-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><svg class="ico-in" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0zM7.27 20.1H3.65V9.24h3.62V20.1zM5.46 7.76a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zM20.34 20.1h-3.63v-5.3c0-1.35-.03-3.08-1.88-3.08-1.88 0-2.17 1.47-2.17 2.99v5.39H9.03V9.24h3.48v1.49h.05c.48-.92 1.67-1.88 3.43-1.88 3.67 0 4.35 2.42 4.35 5.56v5.69z"/></svg>Where B2B brands work with creators</span></div><h1 class="hero-title">The B2B LinkedIn<br>Creator Marketplace.</h1><p>Find the creators your buyers already trust, launch campaigns in days, and track the clicks, leads and pipeline generated by every post.</p><div class="hero-actions"><a class="btn btn-primary hero-cta" href="app/create-account.html">Launch a campaign <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a><a class="hero-link" href="#how">See how Naano works <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div></div><div class="hero-trust"><div class="trusted-label"><svg class="shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.6-3 8.6-7 10-4-1.4-7-5.4-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>Trusted by modern B2B teams</div><div class="marquee"><div class="naano-trust-track"><a class="cs-link" href="#case" aria-label="Read the BlogSEO case study"><span class="cs-chip"><img src="https://naano.com/lp/logo-blogseo.png" alt="BlogSEO"><span class="cs-badge">CASE STUDY<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></span></a><div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-lemlist.png" alt="lemlist" style="max-height:42px"></div></div><div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-folk.png" alt="folk" style="max-height:30px"></div></div><div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-leadbay.png" alt="Leadbay" style="max-height:28px"></div></div><div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-ringover.png" alt="Ringover" style="max-height:42px"></div></div><div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-attio.jpg" alt="Attio" style="max-height:42px;mix-blend-mode:multiply"></div></div><div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-lagrowthmachine.png" alt="lagrowthmachine" style="max-height:34px"></div></div><div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-gojiberry.png" alt="gojiberry" style="max-height:32px"></div></div><div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-chatseo.png" alt="ChatSEO" style="max-height:40px"></div></div><div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-abyssale.png" alt="Abyssale" style="max-height:30px;mix-blend-mode:multiply"></div></div><span aria-hidden="true" style="display:contents"><span class="cs-link"><span class="cs-chip"><img src="https://naano.com/lp/logo-blogseo.png" alt=""><span class="cs-badge">CASE STUDY<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></span></span><div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-lemlist.png" alt="" style="max-height:42px"></div></div><div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-folk.png" alt="" style="max-height:30px"></div></div><div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-leadbay.png" alt="" style="max-height:28px"></div></div><div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-ringover.png" alt="" style="max-height:42px"></div></div><div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-attio.jpg" alt="" style="max-height:42px;mix-blend-mode:multiply"></div></div><div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-lagrowthmachine.png" alt="" style="max-height:34px"></div></div><div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-gojiberry.png" alt="" style="max-height:32px"></div></div><div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-chatseo.png" alt="" style="max-height:40px"></div></div><div class="tb-slot"><div class="tb-logo"><img src="https://naano.com/lp/logo-abyssale.png" alt="" style="max-height:30px;mix-blend-mode:multiply"></div></div></span></div></div></div></section>
@@ -215,4 +263,39 @@ $$('[data-step]').forEach(s=>s.addEventListener('mouseenter',()=>{$$('[data-step
 const play=$('.play button'); if(play) play.addEventListener('click',()=>alert('Video testimonial placeholder — connect your preferred video source here.'));
 $$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const h=a.getAttribute('href');if(!h||h.length<2)return;const t=document.querySelector(h);if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}}));
 const nav=$('.nav');if(nav){const sc=()=>nav.classList.toggle('scrolled',window.scrollY>8);sc();addEventListener('scroll',sc,{passive:true});}
-</script><script src="naano-chat-widget.js" defer></script></body></html>
+</script><script src="naano-chat-widget.js" defer></script>
+<script id="motion-everything-js">
+(()=> {
+ const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
+ const hero=document.querySelector('.hero');
+ if(hero){hero.insertAdjacentHTML('afterbegin','<span class="m-orb one"></span><span class="m-orb two"></span><span class="m-orb three"></span>')}
+ const title=document.querySelector('.hero-title');
+ if(title && !title.dataset.motionReady){
+   title.dataset.motionReady='1';
+   const html=title.innerHTML.replace(/<br\s*\/?>/gi,'__BR__');
+   title.innerHTML=html.split(/(\s+)/).map((p,i)=>p==='__BR__'?'<br>':/^\s+$/.test(p)?p:'<span class="m-word" style="animation-delay:'+(.08+i*.055)+'s">'+p+'</span>').join('');
+ }
+ document.querySelectorAll('.btn,.hero-link,.cs-link').forEach(el=>el.classList.add('magnetic'));
+ if(!reduced){
+   document.querySelectorAll('.magnetic').forEach(el=>{
+     el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect();const x=(e.clientX-r.left-r.width/2)/r.width*16,y=(e.clientY-r.top-r.height/2)/r.height*12;el.style.transform='translate3d('+x+'px,'+y+'px,0)'});
+     el.addEventListener('pointerleave',()=>el.style.transform='');
+   });
+   document.querySelectorAll('.market-wrap,.case-card,.video-panel,.post,.price-card,.result,.stat,.metric').forEach(el=>{
+     el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;el.style.transform='perspective(1100px) rotateX('+(-y*3.5)+'deg) rotateY('+(x*4)+'deg) translateY(-5px)'});
+     el.addEventListener('pointerleave',()=>el.style.transform='');
+   });
+ }
+ const nav=document.querySelector('.nav');
+ let last=scrollY;
+ addEventListener('scroll',()=>{if(nav){nav.classList.toggle('scrolled',scrollY>12);nav.style.transform=scrollY>last&&scrollY>500?'translateY(-100%)':'';if(scrollY<last)nav.style.transform=''}last=scrollY},{passive:true});
+ const counters=[...document.querySelectorAll('.result b,.stat strong,.metric b')];
+ const parse=s=>{const m=s.trim().match(/^([\d,.]+)(.*)$/);return m?{n:parseFloat(m[1].replace(/,/g,'')),tail:m[2]}:null};
+ const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');io.unobserve(e.target)}),{threshold:.12});
+ document.querySelectorAll('.fade').forEach(e=>io.observe(e));
+ const co=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting||e.target.dataset.counted)return;const p=parse(e.target.textContent);if(!p)return;e.target.dataset.counted='1';const start=performance.now(),dur=1200,original=e.target.textContent;const tick=t=>{const q=Math.min(1,(t-start)/dur),v=1-Math.pow(1-q,4);e.target.textContent=Math.round(p.n*v).toLocaleString('en-US')+p.tail;if(q<1)requestAnimationFrame(tick);else e.target.textContent=original};requestAnimationFrame(tick);co.unobserve(e.target)}),{threshold:.7});
+ counters.forEach(e=>co.observe(e));
+ const steps=[...document.querySelectorAll('.jstep')];
+ if(steps.length&&!reduced){const so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('motion-active')}),{threshold:.45});steps.forEach(e=>so.observe(e))}
+})();
+</script></body></html>
