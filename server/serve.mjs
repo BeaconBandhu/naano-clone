@@ -23,10 +23,7 @@ import { ask as askRag } from "../api/_lib/rag.mjs";
 // and ServerResponse already has setHeader() - only status()/json() need
 // adding, see decorateResponse() below.
 import stripeWebhookHandler from "../api/webhooks/stripe.mjs";
-import authSignupHandler from "../api/auth/signup.mjs";
-import authLoginHandler from "../api/auth/login.mjs";
-import authLogoutHandler from "../api/auth/logout.mjs";
-import authSessionHandler from "../api/auth/session.mjs";
+import authHandler from "../api/auth/[action].mjs";
 import profileHandler from "../api/profile.mjs";
 import creatorsHandler from "../api/creators.mjs";
 import campaignsHandler from "../api/campaigns.mjs";
@@ -50,10 +47,10 @@ function decorateResponse(res) {
 const VERCEL_STYLE_ROUTES = {
   "/api/webhooks/stripe": stripeWebhookHandler,
   "/api/create-checkout-session": createCheckoutSessionHandler,
-  "/api/auth/signup": authSignupHandler,
-  "/api/auth/login": authLoginHandler,
-  "/api/auth/logout": authLogoutHandler,
-  "/api/auth/session": authSessionHandler,
+  "/api/auth/signup": authHandler,
+  "/api/auth/login": authHandler,
+  "/api/auth/logout": authHandler,
+  "/api/auth/session": authHandler,
   "/api/profile": profileHandler,
   "/api/creators": creatorsHandler,
   "/api/campaigns": campaignsHandler,
