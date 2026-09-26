@@ -11,7 +11,7 @@ function publicUser(row) {
   return { id: row.id, email: row.email, role: row.role, name: row.name };
 }
 
-export function signup({ email, password, role, name }) {
+export async function signup({ email, password, role, name }) {
   email = String(email || "").trim().toLowerCase();
   password = String(password || "");
   name = name ? String(name).trim() : null;
@@ -43,7 +43,12 @@ export function signup({ email, password, role, name }) {
   });
 
   const user = { id, email, role, name };
-  logActivity({ type: "signup", actorRole: role, summary: `A new ${role} joined Naano.` }).catch(() => {});
+  // Awaited (not fire-and-forget): on Vercel a serverless function can
+  // freeze the instant the response is sent, which would silently drop an
+  // un-awaited write. Still can't fail the signup itself - errors are
+  // swallowed by logActivity's own try/catch-free "if (!hasMongo()) return"
+  // plus this .catch, never thrown.
+  await logActivity({ type: "signup", actorRole: role, summary: `A new ${role} joined Naano.` }).catch(() => {});
   return { user, sessionToken: createSession(id) };
 }
 

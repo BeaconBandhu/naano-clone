@@ -50,7 +50,7 @@ export default async function handler(req, res) {
           `customer_email=${s.customer_details?.email || "n/a"} brand=${s.client_reference_id || "n/a"}`
       );
       if (s.mode === "payment" && s.payment_status === "paid" && s.client_reference_id) {
-        const credited = creditTopup({
+        const credited = await creditTopup({
           brandId: s.client_reference_id,
           amountCents: s.amount_total,
           stripeSessionId: s.id,

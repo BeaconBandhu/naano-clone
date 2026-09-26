@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       case "signup": {
         if (req.method !== "POST") { res.setHeader("Allow", "POST"); return res.status(405).json({ error: "Method not allowed" }); }
         const body = await readJsonBody(req);
-        const { user, sessionToken } = signup(body);
+        const { user, sessionToken } = await signup(body);
         res.setHeader("Set-Cookie", sessionCookieHeader(sessionToken));
         return res.status(200).json({ user });
       }

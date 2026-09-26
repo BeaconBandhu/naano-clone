@@ -31,13 +31,13 @@ export function listLedger(brandId, limit = 50) {
  * Returns true if a new row was written, false if this session was already
  * credited.
  */
-export function creditTopup({ brandId, amountCents, stripeSessionId, description }) {
+export async function creditTopup({ brandId, amountCents, stripeSessionId, description }) {
   try {
     run(
       "INSERT INTO wallet_ledger (id, brand_id, type, amount_cents, stripe_session_id, description) VALUES (?, ?, 'topup', ?, ?, ?)",
       [randomUUID(), brandId, amountCents, stripeSessionId, description || null]
     );
-    logActivity({ type: "wallet_topup", actorRole: "brand", summary: `A brand added ${(amountCents / 100).toFixed(2)}€ to their wallet.`, meta: { amountCents } }).catch(() => {});
+    await logActivity({ type: "wallet_topup", actorRole: "brand", summary: `A brand added ${(amountCents / 100).toFixed(2)}€ to their wallet.`, meta: { amountCents } }).catch(() => {});
     return true;
   } catch (e) {
     if (String(e?.message || "").includes("UNIQUE")) return false; // already credited

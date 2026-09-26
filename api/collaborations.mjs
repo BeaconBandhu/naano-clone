@@ -30,14 +30,14 @@ export default async function handler(req, res) {
     if (req.method === "POST") {
       if (user.role !== "brand") return res.status(403).json({ error: "Only brands invite creators." });
       const body = await readJsonBody(req);
-      const collaboration = inviteCreator(user.id, body);
+      const collaboration = await inviteCreator(user.id, body);
       return res.status(200).json({ collaboration });
     }
 
     // PATCH
     const body = await readJsonBody(req);
     if (!body.id) return res.status(400).json({ error: "id is required." });
-    const collaboration = setCollaborationStatus(user, body.id, body);
+    const collaboration = await setCollaborationStatus(user, body.id, body);
     return res.status(200).json({ collaboration });
   } catch (e) {
     return res.status(e?.status || 500).json({ error: String(e?.message || e) });

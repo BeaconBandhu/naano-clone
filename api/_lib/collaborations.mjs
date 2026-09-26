@@ -26,7 +26,7 @@ export function listCollaborationsForCreator(creatorId) {
   );
 }
 
-export function inviteCreator(brandId, { campaignId, creatorId, priceCents }) {
+export async function inviteCreator(brandId, { campaignId, creatorId, priceCents }) {
   const campaign = get("SELECT * FROM campaigns WHERE id = ? AND brand_id = ?", [campaignId, brandId]);
   if (!campaign) throw Object.assign(new Error("Campaign not found."), { status: 404 });
   const creator = get("SELECT id FROM profiles WHERE id = ? AND role = 'creator'", [creatorId]);
@@ -39,14 +39,14 @@ export function inviteCreator(brandId, { campaignId, creatorId, priceCents }) {
     creatorId,
     Number.isFinite(priceCents) ? priceCents : null,
   ]);
-  logActivity({ type: "collaboration_invited", actorRole: "brand", summary: `A creator was invited into "${campaign.title}".`, meta: { collaborationId: id, campaignId } }).catch(() => {});
+  await logActivity({ type: "collaboration_invited", actorRole: "brand", summary: `A creator was invited into "${campaign.title}".`, meta: { collaborationId: id, campaignId } }).catch(() => {});
   return get("SELECT * FROM collaborations WHERE id = ?", [id]);
 }
 
 /** Either side can move a collaboration through its status - creators
  * accept/decline/deliver, brands mark paid. Ownership is checked either way
  * so one side can't edit the other's collaboration. */
-export function setCollaborationStatus(user, collabId, { status, postUrl }) {
+export async function setCollaborationStatus(user, collabId, { status, postUrl }) {
   const row = get(
     `SELECT co.*, ca.brand_id FROM collaborations co
      JOIN campaigns ca ON ca.id = co.campaign_id
@@ -67,7 +67,7 @@ export function setCollaborationStatus(user, collabId, { status, postUrl }) {
     collabId,
   ]);
   if (status) {
-    logActivity({ type: "collaboration_status", actorRole: user.role, summary: `A collaboration was marked "${status}".`, meta: { collaborationId: collabId, status } }).catch(() => {});
+    await logActivity({ type: "collaboration_status", actorRole: user.role, summary: `A collaboration was marked "${status}".`, meta: { collaborationId: collabId, status } }).catch(() => {});
   }
   return get("SELECT * FROM collaborations WHERE id = ?", [collabId]);
 }

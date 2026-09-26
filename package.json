@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "description": "High-fidelity Naano clone — marketing site + creator app + LinkedIn/X scrape → Marketplace card.",
-  "engines": { "node": ">=18" },
+  "engines": { "node": ">=22.5" },
   "scripts": {
     "dev": "node server/serve.mjs",
     "serve": "node server/serve.mjs"

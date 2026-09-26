@@ -6,7 +6,7 @@ export function listCampaignsForBrand(brandId) {
   return all("SELECT * FROM campaigns WHERE brand_id = ? ORDER BY created_at DESC", [brandId]);
 }
 
-export function createCampaign(brandId, { title, brief, budgetCents }) {
+export async function createCampaign(brandId, { title, brief, budgetCents }) {
   title = String(title || "").trim();
   if (!title) throw Object.assign(new Error("title is required."), { status: 400 });
   const id = randomUUID();
@@ -17,7 +17,7 @@ export function createCampaign(brandId, { title, brief, budgetCents }) {
     brief || null,
     Number.isFinite(budgetCents) ? budgetCents : 0,
   ]);
-  logActivity({ type: "campaign_created", actorRole: "brand", summary: `A new campaign, "${title}", went live.`, meta: { campaignId: id } }).catch(() => {});
+  await logActivity({ type: "campaign_created", actorRole: "brand", summary: `A new campaign, "${title}", went live.`, meta: { campaignId: id } }).catch(() => {});
   return get("SELECT * FROM campaigns WHERE id = ?", [id]);
 }
 

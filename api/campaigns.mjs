@@ -22,7 +22,7 @@ export default async function handler(req, res) {
       return res.status(200).json({ campaigns: listCampaignsForBrand(user.id) });
     }
     const body = await readJsonBody(req);
-    const campaign = createCampaign(user.id, body);
+    const campaign = await createCampaign(user.id, body);
     return res.status(200).json({ campaign });
   } catch (e) {
     return res.status(e?.status || 500).json({ error: String(e?.message || e) });
