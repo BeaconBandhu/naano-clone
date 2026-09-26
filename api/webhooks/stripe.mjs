@@ -4,17 +4,16 @@
  * via pure HMAC (api/_lib/stripe-webhook.mjs) — no Stripe API call, so this
  * endpoint works even without STRIPE_SECRET_KEY set.
  *
- * IMPORTANT — this repo has no database (see docs/naano-notes.md). This
- * handler does the real, production-shaped thing: verify the signature,
- * then act on the event. But "act on" currently just logs, because there is
- * nowhere server-side yet to persist "this got paid" or "this idempotency
- * key was already processed". The wallet balance in billing.html is still
- * credited via the client polling /api/checkout-session on redirect-back —
- * that is a demo stand-in, not this webhook. Once a real datastore exists,
- * replace the console.log below with a write (keyed on event.id for
- * idempotency, since Stripe retries webhooks and can send duplicates).
+ * This now does the real write it could previously only log about: on
+ * checkout.session.completed, credits wallet_ledger for the brand named in
+ * client_reference_id (set at checkout-session creation in
+ * api/create-checkout-session.mjs from the server-verified session, never
+ * from client input). Idempotent on stripe_session_id (UNIQUE in the
+ * schema) — a Stripe retry of the same event just no-ops on the second
+ * delivery instead of double-crediting.
  */
 import { SignatureVerificationError, verifyStripeSignature } from "../_lib/stripe-webhook.mjs";
+import { creditTopup } from "../_lib/wallet.mjs";
 
 // Signature verification needs the exact raw bytes Stripe sent — must not
 // let Vercel's default body parser touch this request first.
@@ -48,11 +47,26 @@ export default async function handler(req, res) {
       console.log(
         `[stripe-webhook] checkout.session.completed id=${s.id} mode=${s.mode} ` +
           `amount_total=${s.amount_total} ${s.currency} payment_status=${s.payment_status} ` +
-          `customer_email=${s.customer_details?.email || "n/a"}`
+          `customer_email=${s.customer_details?.email || "n/a"} brand=${s.client_reference_id || "n/a"}`
       );
-      // TODO once a datastore exists: idempotently credit the wallet /
-      // activate the plan for s.customer_email (or s.client_reference_id),
-      // keyed on event.id so a Stripe retry doesn't double-credit.
+      if (s.mode === "payment" && s.payment_status === "paid" && s.client_reference_id) {
+        const credited = creditTopup({
+          brandId: s.client_reference_id,
+          amountCents: s.amount_total,
+          stripeSessionId: s.id,
+          description: `Stripe top-up (${s.currency?.toUpperCase()})`,
+        });
+        console.log(
+          credited
+            ? `[stripe-webhook] credited ${s.amount_total} to brand ${s.client_reference_id}`
+            : `[stripe-webhook] session ${s.id} already credited (retry) - no-op`
+        );
+      } else if (s.mode === "payment" && !s.client_reference_id) {
+        // Shouldn't happen via create-checkout-session.mjs (it always sets
+        // this from the authenticated session), but don't silently drop
+        // real money if it ever does - it's visible in the Vercel logs.
+        console.warn(`[stripe-webhook] paid session ${s.id} has no client_reference_id - cannot credit any wallet`);
+      }
       break;
     }
     case "customer.subscription.created":

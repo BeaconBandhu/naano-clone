@@ -59,10 +59,14 @@
         <a href="#">${svg('<path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1.5-1.5"/>', 15)}Integrations</a>
         <a href="#">${svg('<circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.4l2-1.6-2-3.4-2.4 1a7 7 0 0 0-2.4-1.4L13.5 2h-3l-.4 2.8a7 7 0 0 0-2.4 1.4l-2.4-1-2 3.4 2 1.6A7 7 0 0 0 5 12a7 7 0 0 0 .1 1.4l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 2.4 1.4l.4 2.8h3l.4-2.8a7 7 0 0 0 2.4-1.4l2.4 1 2-3.4-2-1.6c.1-.5.1-.9.1-1.4z"/>', 15)}Settings</a>
         <hr>
-        <a href="../pages/agencies.html">${svg('<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>', 15)}Sign out</a>
+        <a href="../app/signin.html" data-signout>${svg('<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>', 15)}Sign out</a>
       </div>
     </span>
   </header>`);
+  topbar.querySelector("[data-signout]").addEventListener("click", (e) => {
+    e.preventDefault();
+    fetch("/api/auth/logout", { method: "POST" }).finally(() => { location.href = "../app/signin.html"; });
+  });
 
   const shell = h('<div class="shell"></div>');
   const main = h('<div class="main"></div>');

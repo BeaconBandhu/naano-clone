@@ -32,32 +32,50 @@
 </div>
 <script src="app.js"></script>
 <script>
-  var CR=[
-    ["1","Aymane Junior","AI · SaaS","Germany","🇩🇪","Building intelligent systems that turn data into impact. Turning complex problems into smart…",97,"14.1K","18.7K","€360",0],
-    ["2","Emma Guetta","AI · Media / Content","France","🇫🇷","",96,"7.8K","25.6K","€480",0],
-    ["3","Augustin Rudigoz","Productivity · Fintech","France","🇫🇷","Entrepreneurs, opérateurs investisseurs. Reprise de PME françaises aux côtés de leur…",92,"14K","11.2K","€960",0],
-    ["4","Raghav Jerath","Growth / GTM · Software","France","🇫🇷","International Business School graduate, experience working at a YC company, AI/…",90,"2.4K","2.1K","€84",0],
-    ["5","Daniel Meisen","Growth / GTM · Agencies / Consulting","Germany","🇩🇪","",89,"5.9K","2.8K","€120",0],
-    ["6","Pierre Davadan","SaaS · AI","France","🇫🇷","VC Analyst Open CNP",89,"4.2K","2.2K","€84",1]
-  ];
-  var C=["#2d61f5","#ec1e63","#1f8f5f","#7a4dd6","#e8951f","#0a66c2"];
-  document.getElementById("grid").innerHTML=CR.map(function(c,i){var ini=c[1].split(" ").map(function(w){return w[0]}).join("");
-  return '<article class="mp-card reveal-scroll">'+
-    '<div class="mp-card__top">'+
-      '<span class="mp-card__num">'+c[0]+'</span>'+
-      '<span class="mp-card__pick"></span>'+
-      '<span class="mp-card__book"><span class="btn btn--ghost">Book</span>'+
-        '<span class="mp-card__star '+(c[10]?'on':'')+'"><svg viewBox="0 0 24 24" width="14" fill="currentColor"><path d="m12 3 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 18l-5.9 3 1.2-6.5L2.5 9.9 9 9z"/></svg></span>'+
-      '</span>'+
-    '</div>'+
-    '<div class="mp-card__body">'+
-      '<span class="mp-av ai" style="background:'+C[i%C.length]+';color:#fff;font-weight:800">'+ini+'</span>'+
-      '<div class="mp-card__name">'+c[1]+'</div>'+
-      '<div class="mp-card__cat">'+c[2]+'</div>'+
-      '<span class="flag-chip">'+c[4]+' '+c[3]+'</span>'+
-      '<p class="mp-card__bio">'+(c[5]||'&nbsp;')+'</p>'+
-      '<div class="mp-match"><span>MATCHING</span><span class="bar"><i style="width:'+c[6]+'%"></i></span><b>'+c[6]+'/100</b></div>'+
-      '<div class="mp-card__stats"><div><b>'+c[7]+'</b><span>Followers</span></div><div><b>'+c[8]+'</b><span>Median views</span></div><div><b>'+c[9]+'</b><span>Post cost</span></div></div>'+
-    '</div></article>'}).join("");
+  // Real creators from the database (GET /api/creators) — replaces the old
+  // hardcoded CR=[...] demo array. Fields that array made up and this API
+  // doesn't track (a 0-100 "match score", median views, a starred flag) are
+  // left out rather than faked; an empty result (fresh database, nobody has
+  // signed up yet) renders an honest empty state instead of demo cards.
+  var COLORS = ["#2d61f5","#ec1e63","#1f8f5f","#7a4dd6","#e8951f","#0a66c2"];
+  var nice = function (n) {
+    if (n == null) return "—";
+    if (n >= 1000) return (n / 1000).toFixed(n % 1000 ? 1 : 0) + "K";
+    return String(n);
+  };
+  var esc = function (s) {
+    return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  };
+
+  fetch("/api/creators").then(function (r) { return r.json(); }).then(function (data) {
+    var creators = data.creators || [];
+    var grid = document.getElementById("grid");
+    if (!creators.length) {
+      grid.innerHTML = '<p class="u-muted" style="padding:24px">No creators have signed up yet — real signups appear here automatically.</p>';
+      return;
+    }
+    grid.innerHTML = creators.map(function (c, i) {
+      var initials = (c.name || "?").split(" ").map(function (w) { return w[0]; }).join("").slice(0, 2);
+      var category = (c.industries || []).join(" · ") || "—";
+      return '<article class="mp-card reveal-scroll">' +
+        '<div class="mp-card__top">' +
+          '<span class="mp-card__num">' + (i + 1) + '</span>' +
+          '<span class="mp-card__pick"></span>' +
+          '<span class="mp-card__book"><span class="btn btn--ghost">Book</span></span>' +
+        '</div>' +
+        '<div class="mp-card__body">' +
+          '<span class="mp-av ai" style="background:' + COLORS[i % COLORS.length] + ';color:#fff;font-weight:800">' + esc(initials) + '</span>' +
+          '<div class="mp-card__name">' + esc(c.name) + '</div>' +
+          '<div class="mp-card__cat">' + esc(category) + '</div>' +
+          (c.country ? '<span class="flag-chip">' + esc(c.country) + '</span>' : '') +
+          '<p class="mp-card__bio">' + (esc(c.headline) || '&nbsp;') + '</p>' +
+          '<div class="mp-card__stats"><div><b>' + nice(c.followers) + '</b><span>Followers</span></div><div><b>€' + (c.pricePerPostCents / 100).toLocaleString() + '</b><span>Post cost</span></div></div>' +
+        '</div></article>';
+    }).join("");
+  }).catch(function (e) {
+    document.getElementById("grid").innerHTML = '<p class="u-muted" style="padding:24px">Could not load creators: ' + esc(e.message) + '</p>';
+  });
 </script>
 </body></html>

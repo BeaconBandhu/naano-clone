@@ -113,6 +113,7 @@ export async function createCheckoutSession({
   successUrl,
   cancelUrl,
   customerEmail,
+  clientReferenceId,
 }) {
   if (!successUrl || !cancelUrl) {
     throw Object.assign(new Error("successUrl and cancelUrl are required."), { status: 400 });
@@ -146,6 +147,7 @@ export async function createCheckoutSession({
       success_url: successUrl,
       cancel_url: cancelUrl,
       customer_email: customerEmail,
+      client_reference_id: clientReferenceId, // -> event.data.object.client_reference_id in the webhook
       line_items: [lineItem],
     },
   });

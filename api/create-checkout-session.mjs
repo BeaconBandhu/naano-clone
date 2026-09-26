@@ -3,6 +3,8 @@
  *   → { id, url }   (redirect the browser to `url` — Stripe's hosted Checkout)
  * TEST MODE ONLY: needs STRIPE_SECRET_KEY (sk_test_...) — see api/_lib/stripe.mjs.
  */
+import { requireSessionUser } from "./_lib/auth.mjs";
+import { readJsonBody } from "./_lib/http.mjs";
 import { createCheckoutSession } from "./_lib/stripe.mjs";
 
 export const config = { maxDuration: 20 };
@@ -15,15 +17,17 @@ export default async function handler(req, res) {
     res.setHeader("Allow", "POST, GET");
     return res.status(405).json({ error: "Method not allowed" });
   }
-  let body = req.body;
-  if (body == null || typeof body === "string") {
-    try {
-      let raw = typeof body === "string" ? body : "";
-      if (!raw) { for await (const c of req) raw += c; }
-      body = raw ? JSON.parse(raw) : {};
-    } catch { return res.status(400).json({ error: "Invalid JSON body." }); }
+  let body;
+  try {
+    body = await readJsonBody(req);
+  } catch {
+    return res.status(400).json({ error: "Invalid JSON body." });
   }
   try {
+    // Who this wallet top-up belongs to has to come from the server-verified
+    // session, never from the request body - otherwise anyone could credit
+    // anyone else's wallet by passing a different id.
+    const user = requireSessionUser(req);
     const session = await createCheckoutSession({
       plan: body?.plan,
       priceId: body?.priceId,
@@ -31,7 +35,8 @@ export default async function handler(req, res) {
       amountCents: body?.amountCents != null ? Number(body.amountCents) : undefined,
       currency: body?.currency || "eur",
       description: body?.description,
-      customerEmail: body?.customerEmail,
+      customerEmail: body?.customerEmail || user.email,
+      clientReferenceId: user.id,
       successUrl: body?.successUrl,
       cancelUrl: body?.cancelUrl,
     });

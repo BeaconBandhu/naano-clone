@@ -49,9 +49,15 @@
         <a href="settings.html">${svg('<circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.4l2-1.6-2-3.4-2.4 1a7 7 0 0 0-2.4-1.4L13.5 2h-3l-.4 2.8a7 7 0 0 0-2.4 1.4l-2.4-1-2 3.4 2 1.6A7 7 0 0 0 5 12a7 7 0 0 0 .1 1.4l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 2.4 1.4l.4 2.8h3l.4-2.8a7 7 0 0 0 2.4-1.4l2.4 1 2-3.4-2-1.6c.1-.5.1-.9.1-1.4z"/>', 15)}Settings</a>
         <a href="overview.html?tour=1">${svg(I.overview, 15)}Guided tour</a>
         <hr>
-        <a href="signin.html">${svg('<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>', 15)}Sign out</a>
+        <a href="signin.html" data-signout>${svg('<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>', 15)}Sign out</a>
       </div>
     </header>`);
+    // Real sign-out: destroys the session row server-side (not just a
+    // client-side redirect), so the cookie can't be replayed even if kept.
+    topbar.querySelector("[data-signout]").addEventListener("click", (e) => {
+      e.preventDefault();
+      fetch("/api/auth/logout", { method: "POST" }).finally(() => { location.href = "signin.html"; });
+    });
     const shell = h('<div class="shell"></div>');
     const main = h('<div class="main"></div>');
     page.replaceWith(shell);

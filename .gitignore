@@ -13,3 +13,8 @@ docs/frames/
 # agent-capture hook internals — NOT the logs themselves (.agent-logs/ ships with the repo)
 .claude/hooks/.model-cache.json
 .claude/hooks/.debug-last-payload.json
+
+# local SQLite database (api/_lib/db.mjs) — runtime data, not source. The
+# schema that creates it lives in db/schema.sql and ships with the repo.
+data/*.db
+data/*.db-journal

@@ -30,20 +30,22 @@
 
       <div class="divider">OR CONTINUE WITH EMAIL</div>
 
+      <div class="banner banner--info" id="signin-error" hidden></div>
+
       <label class="field">
         <span class="field__label">Email</span>
-        <input class="input" type="email" placeholder="john@company.com" autocomplete="email">
+        <input class="input" id="si-email" type="email" placeholder="john@company.com" autocomplete="email">
       </label>
 
       <label class="field">
         <span class="field__row"><span class="field__label">Password</span><a class="link" href="#">Forgot password?</a></span>
         <span class="pw">
-          <input class="input" type="password" placeholder="••••••••" autocomplete="current-password">
+          <input class="input" id="si-password" type="password" placeholder="••••••••" autocomplete="current-password">
           <button type="button" class="pw__toggle" aria-label="Show password"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.9 17.9A10.4 10.4 0 0 1 12 19c-6.5 0-10-7-10-7a18 18 0 0 1 5.1-5.9M9.9 4.2A10.4 10.4 0 0 1 12 4c6.5 0 10 7 10 7a18 18 0 0 1-2.3 3.3M1 1l22 22"/></svg></button>
         </span>
       </label>
 
-      <button class="btn btn--primary btn--block" type="button" data-connect data-next="overview.html">Sign in</button>
+      <button class="btn btn--primary btn--block" type="button" id="si-submit">Sign in</button>
       <p class="auth__foot">Don't have an account? <a class="link" href="create-account.html">Sign up</a></p>
     </form>
   </section>
@@ -57,4 +59,28 @@
 </main>
 <script src="app.js"></script>
 <script src="connect.js"></script>
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const errBox = $("#signin-error");
+  $("#si-submit").addEventListener("click", async () => {
+    errBox.hidden = true;
+    const email = $("#si-email").value.trim();
+    const password = $("#si-password").value;
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Sign in failed.");
+      location.href = data.user.role === "brand" ? "brand-overview.html" : "overview.html";
+    } catch (e) {
+      errBox.textContent = e.message;
+      errBox.hidden = false;
+    }
+  });
+})();
+</script>
 </body></html>

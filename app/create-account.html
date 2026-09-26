@@ -15,17 +15,33 @@
 
     <div class="auth__form">
       <h1>Create your account</h1>
-      <p>First, who are you here as?</p>
+      <p>Real signup — creates an account in the database (POST /api/auth/signup), not a click-through.</p>
 
+      <div class="banner banner--info" id="signup-error" hidden></div>
+
+      <label class="field">
+        <span class="field__label">Full name</span>
+        <input class="input" id="su-name" placeholder="Jane Doe" autocomplete="name">
+      </label>
+      <label class="field">
+        <span class="field__label">Email</span>
+        <input class="input" id="su-email" type="email" placeholder="jane@company.com" autocomplete="email">
+      </label>
+      <label class="field">
+        <span class="field__label">Password</span>
+        <input class="input" id="su-password" type="password" placeholder="8+ characters" autocomplete="new-password">
+      </label>
+
+      <p class="field__label" style="margin-top:18px">Then, who are you here as?</p>
       <div class="auth__stack" data-radio-group>
-        <a class="radio-card" data-radio="creator" href="join.html" data-connect>
+        <button class="radio-card" type="button" id="su-creator" style="text-align:left;width:100%;border:1px solid var(--line-2);cursor:pointer;background:#fff">
           <b>I'm a creator</b>
           <span>Get paid to create LinkedIn content for B2B brands you actually use.</span>
-        </a>
-        <a class="radio-card" data-radio="brand" href="onboarding-company-website.html">
+        </button>
+        <button class="radio-card" type="button" id="su-brand" style="text-align:left;width:100%;border:1px solid var(--line-2);cursor:pointer;background:#fff">
           <b>I'm a brand</b>
           <span>Find creators, launch campaigns, and trace real pipeline back to each post.</span>
-        </a>
+        </button>
       </div>
 
       <p class="auth__foot">Already have an account? <a class="link" href="signin.html">Sign in</a></p>
@@ -41,4 +57,41 @@
 </main>
 <script src="app.js"></script>
 <script src="connect.js"></script>
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const errBox = $("#signup-error");
+
+  async function signup(role) {
+    errBox.hidden = true;
+    const name = $("#su-name").value.trim();
+    const email = $("#su-email").value.trim();
+    const password = $("#su-password").value;
+    if (!email || !password) {
+      errBox.textContent = "Enter an email and password first.";
+      errBox.hidden = false;
+      return;
+    }
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ name, email, password, role }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Signup failed.");
+      // Account is real and the session cookie is set; hand off to the
+      // existing role-specific onboarding (unchanged - this page only adds
+      // the real account-creation step in front of it).
+      location.href = role === "creator" ? "onboarding-linkedin.html" : "onboarding-company-website.html";
+    } catch (e) {
+      errBox.textContent = e.message;
+      errBox.hidden = false;
+    }
+  }
+
+  $("#su-creator").addEventListener("click", () => signup("creator"));
+  $("#su-brand").addEventListener("click", () => signup("brand"));
+})();
+</script>
 </body></html>

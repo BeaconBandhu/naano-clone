@@ -74,30 +74,39 @@
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const fmt = (cents) => "€" + (cents / 100).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-  // Demo-only persistence: this repo has no backend database, so the wallet
-  // balance lives in localStorage per browser. A real deployment would credit
-  // the balance server-side from a verified Stripe webhook, not the client.
-  const STORE_KEY = "naano.wallet.v1";
-  function loadWallet() {
-    try { return JSON.parse(localStorage.getItem(STORE_KEY)) || { balanceCents: 0, activity: [] }; }
-    catch { return { balanceCents: 0, activity: [] }; }
+  // Real wallet: GET /api/wallet, backed by wallet_ledger in the database.
+  // The balance is credited server-side by api/webhooks/stripe.mjs when a
+  // genuinely signed Stripe event arrives - this page only ever reads it,
+  // never writes a balance itself (that's the whole fix over the old
+  // localStorage version, which trusted the browser's own redirect).
+  let wallet = { balanceCents: 0, ledger: [] };
+
+  async function loadWallet() {
+    const res = await fetch("/api/wallet");
+    if (res.status === 401) {
+      location.href = "signin.html";
+      return wallet;
+    }
+    const data = await res.json();
+    if (res.ok) wallet = { balanceCents: data.balanceCents, ledger: data.ledger };
+    return wallet;
   }
-  function saveWallet(w) { localStorage.setItem(STORE_KEY, JSON.stringify(w)); }
 
   function render() {
-    const w = loadWallet();
-    $("#balance").textContent = fmt(w.balanceCents);
-    $("#balance-sub").textContent = w.balanceCents ? `${w.activity.length} top-up${w.activity.length === 1 ? "" : "s"} so far.` : "No budget added yet.";
+    $("#balance").textContent = fmt(wallet.balanceCents);
+    $("#balance-sub").textContent = wallet.ledger.length
+      ? `${wallet.ledger.length} movement${wallet.ledger.length === 1 ? "" : "s"} so far.`
+      : "No budget added yet.";
     const body = $("#activity-body");
-    if (!w.activity.length) {
+    if (!wallet.ledger.length) {
       body.innerHTML = '<tr><td colspan="4" class="u-muted" style="padding:14px 0">No movements yet.</td></tr>';
     } else {
-      body.innerHTML = w.activity.slice().reverse().map((a) => `
+      body.innerHTML = wallet.ledger.map((a) => `
         <tr style="border-top:1px solid var(--line)">
-          <td style="padding:8px 0">${new Date(a.at).toLocaleDateString()}</td>
-          <td>${a.description}</td>
-          <td style="text-align:right">${fmt(a.amountCents)}</td>
-          <td style="text-align:right;color:var(--ok,#1a9c63)">Paid</td>
+          <td style="padding:8px 0">${new Date(a.created_at + "Z").toLocaleDateString()}</td>
+          <td>${a.description || (a.type === "topup" ? "Wallet top-up" : "Spend")}</td>
+          <td style="text-align:right">${a.amount_cents >= 0 ? "+" : ""}${fmt(a.amount_cents)}</td>
+          <td style="text-align:right;color:var(--ok,#1a9c63)">${a.type === "topup" ? "Paid" : "Spent"}</td>
         </tr>`).join("");
     }
   }
@@ -114,7 +123,7 @@
 
   function refreshSummary() {
     $("#will-credit").textContent = fmt(selectedCents);
-    $("#current-balance").textContent = fmt(loadWallet().balanceCents);
+    $("#current-balance").textContent = fmt(wallet.balanceCents);
     $("#go-checkout").textContent = `Add ${fmt(selectedCents)}`;
   }
 
@@ -172,6 +181,11 @@
   });
 
   // ---- return from Stripe -------------------------------------------------
+  // The wallet is credited by api/webhooks/stripe.mjs, server-side, from a
+  // genuinely verified Stripe event - not by this page. Stripe delivers that
+  // webhook out-of-band from this redirect, so it can (rarely) arrive a
+  // moment after the browser gets here; this polls a few times rather than
+  // assuming either "already credited" or "never will be".
   async function handleReturn() {
     const params = new URLSearchParams(location.search);
     const status = params.get("checkout");
@@ -179,17 +193,23 @@
       banner("info", "Checkout cancelled — no charge was made.");
     } else if (status === "success") {
       const sessionId = params.get("session_id");
+      const before = wallet.balanceCents;
       try {
         const res = await fetch(`/api/checkout-session?id=${encodeURIComponent(sessionId)}`);
         const data = await res.json();
-        if (res.ok && data.paid) {
-          const w = loadWallet();
-          w.balanceCents += data.amount_total;
-          w.activity.push({ at: Date.now(), description: "Wallet top-up (Stripe test mode)", amountCents: data.amount_total });
-          saveWallet(w);
-          banner("info", `<b>Payment received.</b> ${fmt(data.amount_total)} added to your wallet (test mode).`);
-        } else {
+        if (!res.ok || !data.paid) {
           banner("warn", "Stripe says this session was not paid — no balance was added.");
+        } else {
+          banner("info", `<b>Payment confirmed by Stripe.</b> Crediting your wallet…`);
+          for (let i = 0; i < 5; i++) {
+            await new Promise((r) => setTimeout(r, 1000));
+            await loadWallet();
+            render();
+            if (wallet.balanceCents > before) {
+              banner("info", `<b>Payment received.</b> Your wallet is now ${fmt(wallet.balanceCents)}.`);
+              break;
+            }
+          }
         }
       } catch (e) {
         banner("warn", "Could not confirm the payment with Stripe: " + e.message);
@@ -198,8 +218,7 @@
     history.replaceState(null, "", location.pathname);
   }
 
-  render();
-  handleReturn().then(render);
+  loadWallet().then(render).then(handleReturn).then(render);
 })();
 </script>
 </body></html>

@@ -12,9 +12,54 @@ import { extname, join, normalize, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { runEvaluate } from "../api/_lib/scrape.mjs";
 import { scrapeCompanyWebsite } from "../api/_lib/scrape-company.mjs";
-import { createCheckoutSession, retrieveCheckoutSession } from "../api/_lib/stripe.mjs";
-import { SignatureVerificationError, verifyStripeSignature } from "../api/_lib/stripe-webhook.mjs";
+import { retrieveCheckoutSession } from "../api/_lib/stripe.mjs";
 import { ask as askRag } from "../api/_lib/rag.mjs";
+
+// These new endpoints are real business logic (auth, wallet, campaigns...),
+// not thin wrappers - imported directly and run as-is (rather than
+// reimplemented inline like the handlers above) so local dev can never drift
+// from what Vercel actually runs. Works because Node's raw IncomingMessage
+// is already the async-iterable-of-chunks these handlers read bodies from,
+// and ServerResponse already has setHeader() - only status()/json() need
+// adding, see decorateResponse() below.
+import stripeWebhookHandler from "../api/webhooks/stripe.mjs";
+import authSignupHandler from "../api/auth/signup.mjs";
+import authLoginHandler from "../api/auth/login.mjs";
+import authLogoutHandler from "../api/auth/logout.mjs";
+import authSessionHandler from "../api/auth/session.mjs";
+import profileHandler from "../api/profile.mjs";
+import creatorsHandler from "../api/creators.mjs";
+import campaignsHandler from "../api/campaigns.mjs";
+import collaborationsHandler from "../api/collaborations.mjs";
+import walletHandler from "../api/wallet.mjs";
+import createCheckoutSessionHandler from "../api/create-checkout-session.mjs";
+
+function decorateResponse(res) {
+  res.status = (code) => {
+    res.statusCode = code;
+    return res;
+  };
+  res.json = (obj) => {
+    if (!res.getHeader("content-type")) res.setHeader("content-type", "application/json; charset=utf-8");
+    res.setHeader("cache-control", res.getHeader("cache-control") || "no-store");
+    res.end(JSON.stringify(obj, null, 2));
+  };
+  return res;
+}
+
+const VERCEL_STYLE_ROUTES = {
+  "/api/webhooks/stripe": stripeWebhookHandler,
+  "/api/create-checkout-session": createCheckoutSessionHandler,
+  "/api/auth/signup": authSignupHandler,
+  "/api/auth/login": authLoginHandler,
+  "/api/auth/logout": authLogoutHandler,
+  "/api/auth/session": authSessionHandler,
+  "/api/profile": profileHandler,
+  "/api/creators": creatorsHandler,
+  "/api/campaigns": campaignsHandler,
+  "/api/collaborations": collaborationsHandler,
+  "/api/wallet": walletHandler,
+};
 
 const ROOT = normalize(join(fileURLToPath(new URL(".", import.meta.url)), ".."));
 const PORT = +(process.env.PORT || 5173);
@@ -54,42 +99,9 @@ async function handleScrapeCompany(req, res) {
   catch (e) { return json(res, e?.status || 500, { error: String(e?.message || e) }); }
 }
 
-async function handleCreateCheckoutSession(req, res) {
-  let raw = ""; for await (const c of req) raw += c;
-  let body; try { body = JSON.parse(raw || "{}"); } catch { return json(res, 400, { error: "bad JSON" }); }
-  try {
-    const session = await createCheckoutSession({
-      plan: body?.plan,
-      priceId: body?.priceId,
-      mode: body?.mode,
-      amountCents: body?.amountCents != null ? Number(body.amountCents) : undefined,
-      currency: body?.currency || "eur",
-      description: body?.description,
-      customerEmail: body?.customerEmail,
-      successUrl: body?.successUrl,
-      cancelUrl: body?.cancelUrl,
-    });
-    return json(res, 200, { id: session.id, url: session.url });
-  } catch (e) { return json(res, e?.status || 500, { error: String(e?.message || e) }); }
-}
-
-async function handleStripeWebhook(req, res) {
-  let raw = ""; for await (const c of req) raw += c;
-  try {
-    const event = verifyStripeSignature(raw, req.headers["stripe-signature"], process.env.STRIPE_WEBHOOK_SECRET);
-    if (event.type === "checkout.session.completed") {
-      const s = event.data.object;
-      console.log(`[stripe-webhook] checkout.session.completed id=${s.id} amount_total=${s.amount_total} ${s.currency}`);
-    } else {
-      console.log(`[stripe-webhook] event: ${event.type}`);
-    }
-    return json(res, 200, { received: true });
-  } catch (e) {
-    const status = e instanceof SignatureVerificationError ? 400 : 500;
-    console.warn("[stripe-webhook] rejected:", e.message);
-    return json(res, status, { error: e.message });
-  }
-}
+// create-checkout-session and the stripe webhook are both real business
+// logic now (auth + client_reference_id attribution; wallet crediting) -
+// run via VERCEL_STYLE_ROUTES below instead of being reimplemented here.
 
 async function handleCheckoutSessionStatus(req, res) {
   const id = new URL(req.url, "http://x").searchParams.get("id");
@@ -131,12 +143,11 @@ createServer((req, res) => {
   if (path === "/api/evaluate") return json(res, 200, { ok: true, hasToken: !!process.env.APIFY_TOKEN });
   if (path === "/api/scrape-company" && req.method === "POST") return handleScrapeCompany(req, res).catch((e) => json(res, 500, { error: String(e) }));
   if (path === "/api/scrape-company") return json(res, 200, { ok: true, hint: "POST { url }" });
-  if (path === "/api/create-checkout-session" && req.method === "POST") return handleCreateCheckoutSession(req, res).catch((e) => json(res, 500, { error: String(e) }));
-  if (path === "/api/create-checkout-session") return json(res, 200, { ok: true, hasKey: !!process.env.STRIPE_SECRET_KEY });
   if (path === "/api/checkout-session" && req.method === "GET") return handleCheckoutSessionStatus(req, res).catch((e) => json(res, 500, { error: String(e) }));
-  if (path === "/api/webhooks/stripe" && req.method === "POST") return handleStripeWebhook(req, res).catch((e) => json(res, 500, { error: String(e) }));
   if (path === "/api/ask" && req.method === "POST") return handleAsk(req, res).catch((e) => json(res, 500, { error: String(e) }));
   if (path === "/api/ask") return json(res, 200, { ok: true, hasKey: !!process.env.OPENAI_API_KEY, hint: "POST { query: '...' }" });
+  const vercelHandler = VERCEL_STYLE_ROUTES[path];
+  if (vercelHandler) return Promise.resolve(vercelHandler(req, decorateResponse(res))).catch((e) => json(res, 500, { error: String(e) }));
   return serveStatic(req, res);
 }).listen(PORT, () => {
   console.log(`\n  Naano clone  →  http://localhost:${PORT}   (app: /app/signin.html)`);
@@ -144,5 +155,6 @@ createServer((req, res) => {
   console.log(`  Stripe key:   ${process.env.STRIPE_SECRET_KEY ? "set" + (process.env.STRIPE_SECRET_KEY.startsWith("sk_test_") ? " (test)" : " (⚠ not sk_test_ — check it's a sandbox key)") : "NOT SET — Billing → Add budget and any fixed-price checkout will fail until you add one"}`);
   console.log(`  Stripe prices: ${["STRIPE_PRICE_TOPUP_100","STRIPE_PRICE_TOPUP_200","STRIPE_PRICE_TOPUP_300","STRIPE_PRICE_STARTER","STRIPE_PRICE_PRO","STRIPE_PRICE_BUSINESS"].filter((k) => process.env[k]).length}/6 set`);
   console.log(`  Webhook secret: ${process.env.STRIPE_WEBHOOK_SECRET ? "set" : "not set — /api/webhooks/stripe will reject everything"}`);
-  console.log(`  OpenAI key:   ${process.env.OPENAI_API_KEY ? "set" : "NOT SET — the chat widget (/api/ask) will return 503"}\n`);
+  console.log(`  OpenAI key:   ${process.env.OPENAI_API_KEY ? "set" : "NOT SET — the chat widget (/api/ask) will return 503"}`);
+  console.log(`  Database:     SQLite at data/naano.db (auto-created on first request; see api/_lib/db.mjs)\n`);
 });
